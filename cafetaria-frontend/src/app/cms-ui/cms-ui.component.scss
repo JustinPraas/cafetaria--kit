@@ -1,0 +1,14 @@
+.full-wrapper {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+
+.side-panel {
+    flex: 0 0 20%;
+}
+
+.mh-100vh {
+    max-height: 100vh;
+}

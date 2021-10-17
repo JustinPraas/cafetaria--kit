@@ -1,0 +1,115 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="product-create-update-modal"
+    tabindex="-1"
+    aria-labelledby="productCreateUpdateModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productCreateUpdateModalLabel">
+                    {{ getCreateUpdateModalTitle() }}
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    id="productCreateUpdateForm"
+                    [formGroup]="createUpdateFormGroup"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <legend>Product data</legend>
+
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label"
+                            >Naam:</label
+                        >
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                            placeholder="Grote patat..."
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="categorySelect" class="form-label"
+                            >Disabled select menu</label
+                        >
+                        <select id="categorySelect" class="form-select" formControlName="categoryId">
+                            <option *ngFor="let category of getCategories()" [value]="category.id">{{ category.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="priceType" id="fixedPriceRadio" value="FIXED" formControlName="priceType">
+                            <label class="form-check-label" for="inlineRadio1">Vaste prijs</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="priceType" id="variablePriceRadio" value="VARIABLE" formControlName="priceType">
+                            <label class="form-check-label" for="inlineRadio2">Variabele prijs</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="priceType" id="freePriceRadio" value="FREE" formControlName="priceType">
+                            <label class="form-check-label" for="inlineRadio3">Gratis</label>
+                          </div>
+                    </div>
+                    <div class="mb-3" *ngIf="showPriceBox()">
+                        <label for="disabledTextInput" class="form-label"
+                            >Prijs (€):</label
+                        >
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="price"
+                            class="form-control"
+                            placeholder="0,00"
+                        />
+                    </div>
+
+                    <div class="mb-3 ml-1">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                formControlName="active"
+                                id="activeCheckbox"
+                            />
+                            <label
+                                class="form-check-label"
+                                for="activeCheckbox"
+                            >
+                                Actief en zichtbaar
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    form="productCreateUpdateForm"
+                    class="btn btn-primary"
+                >
+                    Opslaan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

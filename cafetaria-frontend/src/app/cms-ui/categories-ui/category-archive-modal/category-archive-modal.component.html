@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="category-archive-modal"
+    tabindex="-1"
+    aria-labelledby="categoryArchiveModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryArchiveModalLabel">
+                    Archiveer deze categorie?
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                Weet je zeker dat je deze categorie wilt archiveren? Alle producten in de categorie zullen ook worden verwijderd. Deze actie kan je niet ongedaan maken.
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button type="submit" (click)="archiveCategory()" class="btn btn-danger">
+                    Archiveer categorie
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

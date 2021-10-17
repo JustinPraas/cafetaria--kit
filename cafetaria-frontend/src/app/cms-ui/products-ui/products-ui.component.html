@@ -1,0 +1,90 @@
+<div class="px-4">
+    <div class="mb-3">
+        <h1 class="mb-3">Categorieën en producten</h1>
+        <button
+            data-bs-toggle="modal"
+            data-bs-target="#product-create-update-modal"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-bookmark-plus"></i> Nieuw product toevoegen
+        </button>
+    </div>
+
+    <div *ngFor="let category of getCategories()" class="mt-3">
+        <div class="card shadow-sm">
+            <h5 class="card-header"><i class="bi bi-tag-fill" [style.color]="category.colorHex"></i> {{ category.name }}</h5>
+            <div class="card-body">
+                <span *ngIf="getNonArchivedProducts(category.id).length == 0"
+                    >Er zijn geen producten in deze categorie geplaatst</span
+                >
+                <table
+                    *ngIf="
+                        getNonArchivedProducts(category.id)
+                            ? getNonArchivedProducts(category.id)!.length > 0
+                            : false
+                    "
+                    class="table table-striped mb-3"
+                >
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Prijs</th>
+                            <th>Actief en zichtbaar</th>
+                            <th>Meer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="
+                                let product of getNonArchivedProducts(
+                                    category.id
+                                )
+                            "
+                        >
+                            <td>{{ product.name }}</td>
+                            <td>{{ getPriceString(product) }}</td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    [checked]="product.active"
+                                    disabled
+                                />
+                            </td>
+                            <td>
+                                <button
+                                    (click)="
+                                        productCreateUpdateModal?.setProductToEdit(
+                                            product
+                                        )
+                                    "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#product-create-update-modal"
+                                    class="btn btn-primary btn-sm mr-2"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button
+                                    (click)="
+                                        productArchiveModal?.setProductToArchive(
+                                            product
+                                        )
+                                    "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#product-archive-modal"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                    <i class="bi bi-archive-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-product-archive-modal></app-product-archive-modal>
+<app-product-create-update-modal></app-product-create-update-modal>
+<app-category-archive-modal></app-category-archive-modal>
+<app-category-create-update-modal></app-category-create-update-modal>

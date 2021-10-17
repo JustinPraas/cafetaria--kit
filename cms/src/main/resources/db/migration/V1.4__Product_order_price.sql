@@ -1,0 +1,2 @@
+ALTER TABLE PRODUCT_ORDER
+ADD COLUMN price decimal(12, 2);

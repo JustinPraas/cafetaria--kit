@@ -1,0 +1,17 @@
+.layout-content {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+.layout-content .header {
+    flex: 0 1 auto;
+    border: 1px dotted grey;
+}
+
+.layout-content .content {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    max-height: 100%;
+}

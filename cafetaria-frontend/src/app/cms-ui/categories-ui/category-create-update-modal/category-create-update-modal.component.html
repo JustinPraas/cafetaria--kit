@@ -1,0 +1,89 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="category-create-update-modal"
+    tabindex="-1"
+    aria-labelledby="categoryCreateUpdateModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryCreateUpdateModalLabel">
+                    {{ getCreateUpdateModalTitle() }}
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    id="categoryCreateUpdateForm"
+                    [formGroup]="createUpdateFormGroup"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <legend>Categorie data</legend>
+
+                    <div class="mb-3">
+                        <label class="form-label">Naam:</label>
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                            placeholder="Snacks..."
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Kleur:</label>
+                        <input
+                            class="form-control"
+                            [(colorPicker)]="selectedColor"
+                            [style.background]="selectedColor"
+                            [cpSaveClickOutside]="true"
+                            formControlName="color"
+                            name="color"
+                        />
+                    </div>
+
+                    <div class="mb-3 ml-1">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                formControlName="active"
+                                id="activeCheckbox"
+                            />
+                            <label
+                                class="form-check-label"
+                                for="activeCheckbox"
+                            >
+                                Actief en zichtbaar
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    form="categoryCreateUpdateForm"
+                    class="btn btn-primary"
+                >
+                    Opslaan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

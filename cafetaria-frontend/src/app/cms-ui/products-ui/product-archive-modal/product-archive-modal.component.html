@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="product-archive-modal"
+    tabindex="-1"
+    aria-labelledby="productArchiveModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productArchiveModalLabel">
+                    Archiveer dit product?
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                Weet je zeker dat je dit product wilt archiveren? Deze actie kan je niet ongedaan maken.
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button type="submit" (click)="archiveProduct()" class="btn btn-danger">
+                    Archiveer product
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

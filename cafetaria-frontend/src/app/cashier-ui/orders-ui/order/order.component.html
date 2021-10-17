@@ -1,0 +1,49 @@
+<div class="card my-3">
+    <h5 class="card-header">{{ this.orderFullDto?.customerName }}</h5>
+    <div class="card-body p-0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Aantal</th>
+                    <th>Prijs per stuk</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="
+                        let productOrder of orderFullDto?.productOrderShortDtos
+                    "
+                >
+                    <td>
+                        {{ getProductName(productOrder.productId) }}
+                        <br />
+                        {{ productOrder.adjustment }}
+                    </td>
+                    <td>
+                        {{ productOrder.quantity }}
+                    </td>
+                    <td>€{{ productOrder.price }}</td>
+                </tr>
+                <tr>
+                    <th colspan="2" class="text-right">Totaalprijs:</th>
+                    <th>€{{ getTotalOrderPrice() }}</th>
+                </tr>
+            </tbody>
+        </table>
+        <div class="px-2 pb-3">
+            <span *ngIf="orderFullDto && orderFullDto.createdOn"
+                class="text-muted fst-italic">
+                Aangemaakt op: {{ getParsedDateAndTime(orderFullDto.createdOn) }}
+            </span>
+            <span *ngIf="orderFullDto && orderFullDto.modifiedOn"
+                class="text-muted fst-italic">
+                <br/>Laatst bijgewerkt op: {{ getParsedDateAndTime(orderFullDto.modifiedOn) }}
+            </span>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+        <button class="btn btn-lg btn-outline-primary" [routerLink]="'./' + orderFullDto?.id">Bewerk</button>
+        <button class="btn btn-lg btn-outline-success">Afronden</button>
+    </div>
+</div>

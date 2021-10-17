@@ -1,0 +1,101 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="set-price-modal"
+    tabindex="-1"
+    aria-labelledby="setPriceModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setPriceModalLabel">
+                    Prijs vastleggen
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    id="setPriceForm"
+                    [formGroup]="setPriceFormGroup"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <div class="input-group mb-4 px-3">
+                        <span class="input-group-text" id="basic-addon1">€</span>
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="price"
+                            class="form-control form-control-lg"
+                            placeholder="0,00"
+                        />
+                    </div>
+                </form>
+                <div class="container-fluid">
+                    <div class="row gx-2 gy-3">
+                        <div class="col-4">
+                            <app-pad-button [char]="'7'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'8'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'9'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <!--  -->
+                        <div class="col-4">
+                            <app-pad-button [char]="'4'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'5'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'6'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <!--  -->
+                        <div class="col-4">
+                            <app-pad-button [char]="'1'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'2'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'3'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <!--  -->
+                        <div class="col-4">
+                            <app-pad-button [char]="'CE'" [onPadButtonClick]="removeChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="'0'" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                        <div class="col-4">
+                            <app-pad-button [char]="','" [onPadButtonClick]="addChar.bind(this)"></app-pad-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex flex-row justify-content-between">
+                <button
+                    type="button"
+                    class="btn btn-lg btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    form="setPriceForm"
+                    class="btn btn-lg btn-primary"
+                >
+                    Prijs vastleggen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

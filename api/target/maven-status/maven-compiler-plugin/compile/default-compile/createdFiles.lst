@@ -1,0 +1,11 @@
+nl\praas\cafetariasolution\api\dto\order\ProductOrderCreateUpdateDto.class
+nl\praas\cafetariasolution\api\dto\order\ProductOrderShortDto.class
+nl\praas\cafetariasolution\api\dto\order\PaymentType.class
+nl\praas\cafetariasolution\api\dto\category\CategoryFullDto.class
+nl\praas\cafetariasolution\api\dto\product\ProductShortDto.class
+nl\praas\cafetariasolution\api\dto\order\OrderCreateUpdateDto.class
+nl\praas\cafetariasolution\api\dto\category\CategoryCreateUpdateDto.class
+nl\praas\cafetariasolution\api\dto\product\PriceType.class
+nl\praas\cafetariasolution\api\dto\order\OrderFullDto.class
+nl\praas\cafetariasolution\api\dto\category\CategoryShortDto.class
+nl\praas\cafetariasolution\api\dto\product\ProductCreateUpdateDto.class

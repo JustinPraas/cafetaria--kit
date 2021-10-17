@@ -1,0 +1,91 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="confirm-order-modal"
+    tabindex="-1"
+    aria-labelledby="confirmOrderModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmOrderModalLabel">
+                    Bevestig de bestelling<span *ngIf="this.orderFullDtoToEdit"
+                        > van: {{ this.orderFullDtoToEdit.customerName }}</span
+                    >
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    id="setCustomerNameForm"
+                    [formGroup]="setCustomerNameFormGroup"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <div class="mb-3" *ngIf="!this.orderFullDtoToEdit">
+                        <label class="form-label">Klantnaam:</label>
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="customerName"
+                            class="form-control"
+                            placeholder="Praas"
+                        />
+                    </div>
+                </form>
+
+                <h2>Bestelling:</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Aantal</th>
+                            <th>Product</th>
+                            <th>Prijs per stuk</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="
+                                let productOrder of orderCreateDto?.productOrderCreateUpdateDtos
+                            "
+                        >
+                            <td>
+                                {{ productOrder.quantity }}
+                            </td>
+                            <td>
+                                {{ getProductName(productOrder.productId) }}
+                                <br />
+                                {{ productOrder.adjustment }}
+                            </td>
+                            <td>{{ getPriceString(productOrder) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3 class="text-dark mt-2 mb-2 text-center">
+                    Totaalprijs: €{{ getTotalOrderPrice() }}
+                </h3>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    form="setCustomerNameForm"
+                    class="btn btn-primary"
+                >
+                    Bevestigen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
