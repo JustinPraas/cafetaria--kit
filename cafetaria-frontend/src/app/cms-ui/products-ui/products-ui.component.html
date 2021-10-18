@@ -10,11 +10,11 @@
         </button>
     </div>
 
-    <div *ngFor="let category of getCategories()" class="mt-3">
+    <div *ngFor="let category of getCategories()" class="mt-4">
         <div class="card shadow-sm">
             <h5 class="card-header"><i class="bi bi-tag-fill" [style.color]="category.colorHex"></i> {{ category.name }}</h5>
-            <div class="card-body">
-                <span *ngIf="getNonArchivedProducts(category.id).length == 0"
+            <div class="card-body p-0">
+                <span *ngIf="getNonArchivedProducts(category.id).length == 0" class="m-3"
                     >Er zijn geen producten in deze categorie geplaatst</span
                 >
                 <table

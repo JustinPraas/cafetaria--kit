@@ -1,190 +1,181 @@
-<div class="full-wrapper">
-    <div class="header bg-dark p-3 text-white">
-        <a routerLink="../../../cms">cms</a>
-    </div>
-    <div class="content-wrapper">
-        <div class="content left-panel-wrapper border-right bg-light shadow">
-            <div class="order-wrapper text-center p-4">
-                <h2>Bestelling</h2>
-                <table class="table table-striped w-100">
-                    <thead>
-                        <tr>
-                            <th>Aantal</th>
-                            <th>Product</th>
-                            <th>Prijs</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            *ngFor="
-                                let productOrder of this.orderCreateDto
-                                    .productOrderCreateUpdateDtos
-                            "
-                        >
-                            <td>
-                                <div
-                                    class="btn-group w-100"
-                                    role="group"
-                                    aria-label="Quantity buttons"
-                                >
-                                    <button
-                                        class="btn btn-lg btn-primary"
-                                        (click)="
-                                            decreaseProductOrder(productOrder)
-                                        "
-                                    >
-                                        <i class="bi bi-dash-circle"></i>
-                                    </button>
-                                    <button
-                                        class="btn btn-lg btn-primary px-1"
-                                        disabled
-                                    >
-                                        {{ productOrder.quantity }}
-                                    </button>
-                                    <button
-                                        class="btn btn-lg btn-primary"
-                                        (click)="addProductOrder(productOrder)"
-                                    >
-                                        <i class="bi bi-plus-circle"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="text-left">
-                                {{ getProductName(productOrder.productId) }}
-                                <br />
-                                {{ productOrder.adjustment }}
-                            </td>
-                            <td>{{ getPriceString(productOrder) }}</td>
-                            <td>
+<div class="content-wrapper w-100">
+    <div class="content left-panel-wrapper border-right bg-light shadow">
+        <div class="order-wrapper text-center p-4">
+            <h2>Bestelling</h2>
+            <table class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th>Aantal</th>
+                        <th>Product</th>
+                        <th>Prijs</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="
+                            let productOrder of this.orderCreateDto
+                                .productOrderCreateUpdateDtos
+                        "
+                    >
+                        <td>
+                            <div
+                                class="btn-group w-100"
+                                role="group"
+                                aria-label="Quantity buttons"
+                            >
                                 <button
-                                    class="btn btn-lg btn-outline-primary"
-                                    (click)="
-                                        removeProductOrderAll(productOrder)
-                                    "
+                                    class="btn btn-lg btn-primary"
+                                    (click)="decreaseProductOrder(productOrder)"
                                 >
-                                    <i class="bi bi-trash-fill"></i>
+                                    <i class="bi bi-dash-circle"></i>
                                 </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="order-actions-wrapper shadow border-top">
-                <h3 class="text-dark my-2 text-center">
-                    Totaalprijs: €{{ getTotalOrderPrice() }}
-                </h3>
-                <div class="d-flex flex-row">
-                    <div class="w-50 d-grid p-2">
-                        <button class="btn btn-lg btn-outline-secondary">
-                            <i
-                                class="bi bi-slash-circle"
-                                [style.font-size]="'2em'"
-                            ></i>
-                        </button>
-                    </div>
-                    <div class="w-50 d-grid p-2">
-                        <button
-                            (click)="confirmOrder()"
-                            class="btn btn-lg btn-outline-success"
-                            [disabled]="
-                                this.orderCreateDto.productOrderCreateUpdateDtos
-                                    .length == 0
-                            "
-                        >
-                            <i
-                                class="bi bi-check2-circle"
-                                [style.font-size]="'2em'"
-                            ></i>
-                        </button>
-                    </div>
+                                <button
+                                    class="btn btn-lg btn-primary px-1"
+                                    disabled
+                                >
+                                    {{ productOrder.quantity }}
+                                </button>
+                                <button
+                                    class="btn btn-lg btn-primary"
+                                    (click)="addProductOrder(productOrder)"
+                                >
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td class="text-left">
+                            {{ getProductName(productOrder.productId) }}
+                            <br />
+                            {{ productOrder.adjustment }}
+                        </td>
+                        <td>{{ getPriceString(productOrder) }}</td>
+                        <td>
+                            <button
+                                class="btn btn-lg btn-outline-primary"
+                                (click)="removeProductOrderAll(productOrder)"
+                            >
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="order-actions-wrapper shadow border-top">
+            <h3 class="text-dark my-2 text-center">
+                Totaalprijs: €{{ getTotalOrderPrice() }}
+            </h3>
+            <div class="d-flex flex-row">
+                <div class="w-50 d-grid p-2">
+                    <button class="btn btn-lg btn-outline-secondary">
+                        <i
+                            class="bi bi-slash-circle"
+                            [style.font-size]="'2em'"
+                        ></i>
+                    </button>
+                </div>
+                <div class="w-50 d-grid p-2">
+                    <button
+                        (click)="confirmOrder()"
+                        class="btn btn-lg btn-outline-success"
+                        [disabled]="
+                            this.orderCreateDto.productOrderCreateUpdateDtos
+                                .length == 0
+                        "
+                    >
+                        <i
+                            class="bi bi-check2-circle"
+                            [style.font-size]="'2em'"
+                        ></i>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="content categories-wrapper p-3 px-4 bg-light shadow">
-            <div class="d-grid gap-3">
-                <div
-                    class="
-                        clickable-button
-                        unselectable
-                        cursor-pointer
-                        text-center
-                        px-1 py-3
-                    "
-                    matRipple
-                    matRippleColor="rgba(50, 50, 50, 0.6)"
-                    (click)="setSelectedCategory(null)"
-                    [style.background]="'rgba(50, 50, 50, 0.1)'"
-                    style.border-color="rgba(50, 50, 50, 1)"
-                >
-                    <span class="font-weight-bold text-dark">Alles</span>
-                </div>
-                <div
-                    *ngFor="let category of getCategories()"
-                    (click)="setSelectedCategory(category)"
-                    matRipple
-                    [matRippleColor]="getColor(category, 0.6)"
-                    class="
-                        clickable-button
-                        unselectable
-                        cursor-pointer
-                        text-center
-                        px-1 py-3
-                    "
-                    [style.color]="getColor(category, 1)"
-                    [style.background]="getColor(category, 0.1)"
-                    [style.border-color]="getColor(category)"
-                >
-                    <span class="font-weight-bold">{{ category.name }}</span>
-                </div>
+    </div>
+    <div class="content categories-wrapper p-3 px-4 bg-light shadow">
+        <div class="d-grid gap-3">
+            <div
+                class="
+                    clickable-button
+                    unselectable
+                    cursor-pointer
+                    text-center
+                    px-1
+                    py-3
+                "
+                matRipple
+                matRippleColor="rgba(50, 50, 50, 0.6)"
+                (click)="setSelectedCategory(null)"
+                [style.background]="'rgba(50, 50, 50, 0.1)'"
+                style.border-color="rgba(50, 50, 50, 1)"
+            >
+                <span class="font-weight-bold text-dark">Alles</span>
+            </div>
+            <div
+                *ngFor="let category of getCategories()"
+                (click)="setSelectedCategory(category)"
+                matRipple
+                [matRippleColor]="getColor(category, 0.6)"
+                class="
+                    clickable-button
+                    unselectable
+                    cursor-pointer
+                    text-center
+                    px-1
+                    py-3
+                "
+                [style.color]="getColor(category, 1)"
+                [style.background]="getColor(category, 0.1)"
+                [style.border-color]="getColor(category)"
+            >
+                <span class="font-weight-bold">{{ category.name }}</span>
             </div>
         </div>
-        <div class="content products-wrapper bg-light p-3">
-            <div>
-                <div
-                    *ngFor="let product of getProductsFromSelectedCategory()"
-                    matRipple
-                    [matRippleColor]="
-                        getColor(getCategoryById(product.categoryId), 0.6)
-                    "
-                    class="
-                        clickable-button
-                        product-button
-                        unselectable
-                        cursor-pointer
-                        text-center
-                        mr-3
-                        mb-3
-                        p-1
-                    "
-                    [style.color]="
-                        getColor(getCategoryById(product.categoryId), 1)
-                    "
-                    [style.background]="
-                        getColor(getCategoryById(product.categoryId), 0.1)
-                    "
-                    [style.border-color]="
-                        getColor(getCategoryById(product.categoryId))
-                    "
-                    (click)="
-                        product.price == ''
-                            ? openSetPriceModal(product.id)
-                            : addProductOrder({
-                                  id: 0,
-                                  productId: product.id,
-                                  price: product.price,
-                                  adjustment: '',
-                                  quantity: 1
-                              })
-                    "
-                >
-                    <div class="w-100 h-100 d-flex flex-column">
-                        <div class="font-weight-bold name-tag flex-fill">
-                            {{ product.name }}
-                        </div>
-                        <div class="flex-shrink">
-                            {{ getPriceStringProduct(product) }}
-                        </div>
+    </div>
+    <div class="content products-wrapper bg-light p-3">
+        <div>
+            <div
+                *ngFor="let product of getProductsFromSelectedCategory()"
+                matRipple
+                [matRippleColor]="
+                    getColor(getCategoryById(product.categoryId), 0.6)
+                "
+                class="
+                    clickable-button
+                    product-button
+                    unselectable
+                    cursor-pointer
+                    text-center
+                    mr-3
+                    mb-3
+                    p-1
+                "
+                [style.color]="getColor(getCategoryById(product.categoryId), 1)"
+                [style.background]="
+                    getColor(getCategoryById(product.categoryId), 0.1)
+                "
+                [style.border-color]="
+                    getColor(getCategoryById(product.categoryId))
+                "
+                (click)="
+                    product.price == ''
+                        ? openSetPriceModal(product.id)
+                        : addProductOrder({
+                              id: 0,
+                              productId: product.id,
+                              price: product.price,
+                              adjustment: '',
+                              quantity: 1
+                          })
+                "
+            >
+                <div class="w-100 h-100 d-flex flex-column">
+                    <div class="font-weight-bold name-tag flex-fill">
+                        {{ product.name }}
+                    </div>
+                    <div class="flex-shrink">
+                        {{ getPriceStringProduct(product) }}
                     </div>
                 </div>
             </div>

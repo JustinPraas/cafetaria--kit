@@ -1,14 +1,19 @@
-.full-wrapper {
+.content-wrapper {
+    height: 100%;
+    width: 100%;
+    flex: 1 0 auto;
+
     display: flex;
-    flex-flow: column;
-    height: 100vh;
+    flex-flow: row;
+    overflow: hidden;
 }
 
-
-.side-panel {
-    flex: 0 0 20%;
+.sidebar {
+    flex: 0 1 290px;
 }
 
-.mh-100vh {
-    max-height: 100vh;
+.cms-content {
+    max-height: 93vh;
+    flex: 1 0 auto;
+    overflow-y: auto;
 }

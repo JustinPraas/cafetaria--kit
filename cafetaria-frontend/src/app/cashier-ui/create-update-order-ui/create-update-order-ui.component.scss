@@ -1,16 +1,18 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .full-wrapper {
     display: flex;
     flex-flow: column;
     height: 100vh;
 }
 
-.header {
-    height: 7vh;
-    flex: 0 1 auto;
-}
-
 .content-wrapper {
-    height: 93vh;
+    height: 100%;
+    width: 100%;
     flex: 1 0 auto;
 
     display: flex;

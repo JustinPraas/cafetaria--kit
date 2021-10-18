@@ -6,6 +6,10 @@ import { getTotalOrderPrice } from '../utils';
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],
+    host : {
+        '[style.height]' : "'100%'",
+        '[style.display]' : 'block'
+    }
 })
 export class OrderComponent implements OnInit {
     @Input()

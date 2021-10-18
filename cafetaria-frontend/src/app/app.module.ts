@@ -33,6 +33,7 @@ import { SetPriceModalComponent } from './cashier-ui/create-update-order-ui/set-
 import { ConfirmOrderModalComponent } from './cashier-ui/create-update-order-ui/confirm-order-modal/confirm-order-modal.component';
 import { OrderComponent } from './cashier-ui/orders-ui/order/order.component';
 import { PadButtonComponent } from './cashier-ui/create-update-order-ui/set-price-modal/pad-button/pad-button.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 registerLocaleData(nl);
 
@@ -54,6 +55,7 @@ registerLocaleData(nl);
         ConfirmOrderModalComponent,
         OrderComponent,
         PadButtonComponent,
+        NavbarComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,107 +1,63 @@
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-            <div
+<div class="content-wrapper w-100">
+    <div class="sidebar bg-dark">
+        <div
+            class="
+                d-flex
+                flex-column
+                align-items-center align-items-sm-start
+                pt-2
+                text-white
+                min-vh-100
+            "
+        >
+            <a
+                href="/"
                 class="
                     d-flex
-                    flex-column
-                    align-items-center align-items-sm-start
-                    px-3
-                    pt-2
-                    text-white
-                    min-vh-100
+                    align-items-center
+                    text-white text-decoration-none
                 "
             >
-                <a
-                    href="/"
-                    class="
-                        d-flex
-                        align-items-center
-                        pb-3
-                        pt-4
-                        mb-md-0
-                        me-md-auto
-                        text-white text-decoration-none
-                    "
-                >
-                    <span class="fs-5 d-none d-sm-inline"
-                        >Content Management</span
-                    >
-                </a>
-                <ul
-                    class="
-                        nav nav-pills
-                        flex-column
-                        mb-sm-auto mb-0
-                        align-items-center align-items-sm-start
-                        w-100
-                    "
-                    id="menu"
-                >
-                    <li class="nav-item border-bottom w-100">
-                        <a
-                            routerLink="./categoriën"
-                            class="nav-link align-middle px-0 text-white"
-                        >
-                            <span class="ms-1 d-none d-sm-inline"
-                                >Categorieën</span
-                            >
-                        </a>
-                    </li>
-                    <li class="nav-item border-bottom w-100">
-                        <a
-                            routerLink="./producten"
-                            class="nav-link align-middle px-0 text-white"
-                        >
-                            <span class="ms-1 d-none d-sm-inline"
-                                >Producten</span
-                            >
-                        </a>
-                    </li>
-                    <li class="nav-item border-bottom w-100">
-                        <a
-                            routerLink="../kassa/bestellingen/nieuw"
-                            class="nav-link align-middle px-0 text-white"
-                        >
-                            <span class="ms-1 d-none d-sm-inline"
-                                >New order</span
-                            >
-                        </a>
-                    </li>
-                </ul>
-                <hr />
-                <div class="dropdown pb-4">
+                <span class="fs-5 px-3 d-none d-sm-inline">Content Management</span>
+            </a>
+            <ul
+                class="
+                    nav nav-pills
+                    flex-column
+                    pt-3
+                    align-items-center align-items-sm-start
+                    w-100
+                "
+                id="menu"
+            >
+                <li class="nav-item w-100">
                     <a
-                        href="#"
-                        class="
-                            d-flex
-                            align-items-center
-                            text-white text-decoration-none
-                            dropdown-toggle
-                        "
-                        id="dropdownUser1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
+                        routerLink="./categoriën"
+                        class="nav-link align-middle px-3 my-1 text-white"
                     >
-                        <span class="d-none d-sm-inline mx-1">More</span>
+                        <span class="ms-1 d-none d-sm-inline"><i class="bi bi-tags-fill mr-2"></i> Categorieën</span>
                     </a>
-                    <ul
-                        class="
-                            dropdown-menu dropdown-menu-dark
-                            text-small
-                            shadow
-                        "
+                </li>
+                <li class="nav-item w-100">
+                    <a
+                        routerLink="./producten"
+                        class="nav-link align-middle px-3 my-1  text-white"
                     >
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
-                    </ul>
-                </div>
-            </div>
+                        <span class="ms-1 d-none d-sm-inline"><i class="bi bi-diagram-3-fill mr-2"></i> Producten</span>
+                    </a>
+                </li>
+                <li class="nav-item w-100">
+                    <a
+                        routerLink="./aanpassingen"
+                        class="nav-link align-middle px-3 my-1 text-white"
+                    >
+                        <span class="ms-1 d-none d-sm-inline"><i class="bi bi-arrow-return-right mr-2"></i> Aanpassingen</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="col py-3 px-0 overflow-auto mh-100vh">
-            <router-outlet></router-outlet>
-        </div>
+    </div>
+    <div class="cms-content py-4">
+        <router-outlet></router-outlet>
     </div>
 </div>
