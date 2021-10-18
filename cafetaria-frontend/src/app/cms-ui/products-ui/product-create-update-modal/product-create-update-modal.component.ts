@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AdaptionService } from 'src/app/adaption.service';
 import { CategoryService } from 'src/app/category.service';
 import { ProductService } from 'src/app/product.service';
 
@@ -81,6 +82,7 @@ export class ProductCreateUpdateModalComponent implements OnInit {
         const productCreateUpdateDto: ProductCreateUpdateDto = {
             name: controls.name.value,
             categoryId: controls.categoryId.value,
+            possibleAdaptionIds: [],
             price: controls.price.value,
             priceType: controls.priceType.value,
             active: controls.active.value,

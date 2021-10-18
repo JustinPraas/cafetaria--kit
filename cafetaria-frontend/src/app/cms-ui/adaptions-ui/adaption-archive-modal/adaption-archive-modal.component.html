@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="adaption-archive-modal"
+    tabindex="-1"
+    aria-labelledby="adaptionArchiveModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adaptionArchiveModalLabel">
+                    Archiveer deze aanpassing?
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                Weet je zeker dat je deze aanpassing wilt archiveren? Deze actie kan je niet ongedaan maken.
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button type="submit" (click)="archiveCategory()" class="btn btn-danger">
+                    Archiveer aanpassing
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

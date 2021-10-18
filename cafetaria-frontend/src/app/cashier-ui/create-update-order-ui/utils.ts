@@ -49,7 +49,7 @@ export function createOrderCreateDtoFromOrderFullDto(
             (posd) => ({
                 id: posd.id,
                 productId: posd.productId,
-                adjustment: posd.adjustment,
+                appliedAdaptionShortDtos: [], // TODO
                 price: posd.price,
                 quantity: posd.quantity,
             })
@@ -62,7 +62,6 @@ export function isProductOrderCreateUpdateEqual(
     p2: ProductOrderCreateUpdateDto
 ): boolean {
     return (
-        p1.adjustment == p2.adjustment &&
         p1.price == p2.price &&
         p1.productId == p2.productId
     );

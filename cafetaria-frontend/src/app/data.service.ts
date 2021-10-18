@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
     private categoryFullDtos: CategoryFullDto[] = [];
     private orderFullDtos: OrderFullDto[] = [];
+    private adaptionFullDtos: AdaptionFullDto[] = [];
 
     constructor() {}
 
@@ -17,12 +18,20 @@ export class DataService {
         this.orderFullDtos = orderFullDtos;
     }
 
+    setAdaptionFullDtos(adaptionFullDtos: AdaptionFullDto[]) {
+        this.adaptionFullDtos = adaptionFullDtos;
+    }
+
     getCategoryFullDtos() {
         return this.categoryFullDtos;
     }
 
     getOrderFullDtos() {
         return this.orderFullDtos;
+    }
+
+    getAdaptionFullDtos() {
+        return this.adaptionFullDtos;
     }
 
     getNonArchivedProductShortDtos(categoryId: number) {
@@ -95,6 +104,26 @@ export class DataService {
                         }
                     }
                 );
+            }
+        });
+    }
+
+    insertAdaptionIntoAdaptionFullDtos(adaptionFullDto: AdaptionFullDto) {
+        this.adaptionFullDtos.push(adaptionFullDto);
+    }
+
+    updateAdaption(adaptionFullDto: AdaptionFullDto) {
+        this.adaptionFullDtos.find((afd, index) => {
+            if (afd.id === adaptionFullDto.id) {
+                this.adaptionFullDtos[index] = adaptionFullDto;
+            }
+        });
+    }
+
+    archiveAdaption(adaptionToArchive: AdaptionFullDto) {
+        this.adaptionFullDtos.find((afd, index) => {
+            if (afd && afd.id === adaptionToArchive.id) {
+                this.adaptionFullDtos.splice(index, 1);
             }
         });
     }

@@ -22,7 +22,7 @@ export function isProductOrderCreateUpdateEqual(
     p2: ProductOrderShortDto
 ): boolean {
     return (
-        p1.adjustment === p2.adjustment &&
+        // p1.adjustment === p2.adjustment &&
         p1.price === p2.price &&
         p1.productId === p2.productId
     );

@@ -7,6 +7,7 @@ import { ProductsUiComponent } from './cms-ui/products-ui/products-ui.component'
 import { CreateUpdateOrderUiComponent } from './cashier-ui/create-update-order-ui/create-update-order-ui.component';
 import { OrdersUiComponent } from './cashier-ui/orders-ui/orders-ui.component';
 import { CashierDashboardUiComponent } from './cashier-ui/cashier-dashboard-ui/cashier-dashboard-ui.component';
+import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
 
 const routes: Routes = [
     { path: 'kassa', component: CashierUiComponent, children: [
@@ -23,7 +24,11 @@ const routes: Routes = [
         {
             path: 'producten',
             component: ProductsUiComponent,
-        }
+        },
+        {
+            path: 'aanpassingen',
+            component: AdaptionsUiComponent,
+        },
     ] },
 ];
 

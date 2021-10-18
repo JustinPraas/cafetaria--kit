@@ -1,5 +1,7 @@
 package nl.praas.cafetariasolution.api.dto.product;
 
+import java.util.List;
+
 public class ProductCreateUpdateDto {
 
     private String name;
@@ -8,19 +10,13 @@ public class ProductCreateUpdateDto {
 
     private PriceType priceType;
 
+    private List<Integer> possibleAdaptionIds;
+
     private String price;
 
     private boolean active;
 
     ProductCreateUpdateDto() { }
-
-    public ProductCreateUpdateDto(String name, int categoryId, PriceType priceType, String price, boolean active) {
-        this.name = name;
-        this.categoryId = categoryId;
-        this.priceType = priceType;
-        this.price = price;
-        this.active = active;
-    }
 
     public String getName() {
         return name;
@@ -40,5 +36,9 @@ public class ProductCreateUpdateDto {
 
     public PriceType getPriceType() {
         return priceType;
+    }
+
+    public List<Integer> getPossibleAdaptionIds() {
+        return possibleAdaptionIds;
     }
 }

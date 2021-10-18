@@ -1,11 +1,13 @@
 package nl.praas.cafetariasolution.fp.cms.services;
 
+import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
 import nl.praas.cafetariasolution.api.dto.order.OrderCreateUpdateDto;
-import nl.praas.cafetariasolution.api.dto.order.ProductOrderCreateUpdateDto;
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.order.Order;
 import nl.praas.cafetariasolution.fp.cms.entities.order.PaymentType;
 import nl.praas.cafetariasolution.fp.cms.entities.order.ProductOrder;
 import nl.praas.cafetariasolution.fp.cms.entities.product.Product;
+import nl.praas.cafetariasolution.fp.cms.repositories.AdaptionRepository;
 import nl.praas.cafetariasolution.fp.cms.repositories.OrderRepository;
 import nl.praas.cafetariasolution.fp.cms.repositories.ProductOrderRepository;
 import nl.praas.cafetariasolution.fp.cms.repositories.ProductRepository;
@@ -17,12 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -37,6 +37,9 @@ public class OrderService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private AdaptionRepository adaptionRepository;
 
     public Order createOrder(OrderCreateUpdateDto orderCreateUpdateDto) throws NoSuchElementException {
         Order order = new Order(
@@ -75,21 +78,18 @@ public class OrderService {
                     BigDecimal price;
 
                     if (product.getPrice() == null) {
-                        try {
-                            price = CurrencyUtils.parse(pocud.getPrice());
-                        } catch (ParseException e) {
-                            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "De prijs voor het product " + pocud.getProductId() + " is ongeldig.");
-                        }
+                        price = CurrencyUtils.parse(pocud.getPrice());
                     } else {
                         price = product.getPrice();
                     }
 
+                    List<Adaption> adaptions = getAllAdaptions(pocud.getAppliedAdaptionShortDtos());
+
                     ProductOrder po = new ProductOrder(
                             order,
                             product,
-                            price,
-                            pocud.getQuantity(),
-                            pocud.getAdjustment()
+                            adaptions, price,
+                            pocud.getQuantity()
                     );
 
                     if (pocud.getId() != null) {
@@ -101,9 +101,33 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteOrder(int id) throws NoSuchElementException {
+    private List<Adaption> getAllAdaptions(List<AdaptionShortDto> adaptionShortDtos) {
+        List<Adaption> result = new java.util.ArrayList<>();
+
+        adaptionShortDtos.forEach(asd -> {
+            if (asd.getId().isPresent()) {
+                Adaption adaption = adaptionRepository.findById(asd.getId().get()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Een van de aanpassingen is niet geldig"));
+                result.add(adaption);
+            } else {
+
+                Adaption adaption = new Adaption(
+                        asd.getName(),
+                        new BigDecimal(0),
+                        Instant.now(),
+                        null,
+                        false,
+                        true);
+
+                result.add(adaption);
+            }
+        });
+
+        return result;
+    }
+
+    public void deleteOrder(int id) {
         if (!orderRepository.existsById(id)) {
-            throw new NoSuchElementException();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "De bestelling bestaat niet");
         }
         orderRepository.deleteById(id);
     }

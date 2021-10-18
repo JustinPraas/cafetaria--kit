@@ -34,6 +34,9 @@ import { ConfirmOrderModalComponent } from './cashier-ui/create-update-order-ui/
 import { OrderComponent } from './cashier-ui/orders-ui/order/order.component';
 import { PadButtonComponent } from './cashier-ui/create-update-order-ui/set-price-modal/pad-button/pad-button.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
+import { AdaptionCreateUpdateModalComponent } from './cms-ui/adaptions-ui/adaption-create-update-modal/adaption-create-update-modal.component';
+import { AdaptionArchiveModalComponent } from './cms-ui/adaptions-ui/adaption-archive-modal/adaption-archive-modal.component';
 
 registerLocaleData(nl);
 
@@ -56,6 +59,9 @@ registerLocaleData(nl);
         OrderComponent,
         PadButtonComponent,
         NavbarComponent,
+        AdaptionsUiComponent,
+        AdaptionCreateUpdateModalComponent,
+        AdaptionArchiveModalComponent,
     ],
     imports: [
         BrowserModule,

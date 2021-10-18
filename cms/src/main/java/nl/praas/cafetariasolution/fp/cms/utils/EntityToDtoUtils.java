@@ -1,21 +1,44 @@
 package nl.praas.cafetariasolution.fp.cms.utils;
 
+import nl.praas.cafetariasolution.api.dto.adaption.AdaptionFullDto;
+import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
 import nl.praas.cafetariasolution.api.dto.category.CategoryFullDto;
 import nl.praas.cafetariasolution.api.dto.order.OrderFullDto;
 import nl.praas.cafetariasolution.api.dto.order.PaymentType;
 import nl.praas.cafetariasolution.api.dto.order.ProductOrderShortDto;
 import nl.praas.cafetariasolution.api.dto.product.PriceType;
 import nl.praas.cafetariasolution.api.dto.product.ProductShortDto;
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 import nl.praas.cafetariasolution.fp.cms.entities.order.Order;
 import nl.praas.cafetariasolution.fp.cms.entities.order.ProductOrder;
 import nl.praas.cafetariasolution.fp.cms.entities.product.Product;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static nl.praas.cafetariasolution.fp.cms.utils.CurrencyUtils.priceToString;
 
 public final class EntityToDtoUtils {
+
+    public static AdaptionShortDto convertToAdaptionShortDto(Adaption adaption) {
+        return new AdaptionShortDto(
+                Optional.of(adaption.getId()),
+                adaption.getName(),
+                priceToString(adaption.getPrice())
+        );
+    }
+
+    public static AdaptionFullDto convertToAdaptionFullDto(Adaption adaption) {
+        return new AdaptionFullDto(
+                adaption.getId(),
+                adaption.getName(),
+                priceToString(adaption.getPrice()),
+                adaption.getCreatedOn(),
+                adaption.getModifiedOn(),
+                adaption.isRegistered(),
+                adaption.isArchived());
+    }
 
     public static ProductOrderShortDto convertToProductOrderShortDto(ProductOrder productOrder) {
         return new ProductOrderShortDto(
@@ -23,8 +46,8 @@ public final class EntityToDtoUtils {
                 productOrder.getOrder().getId(),
                 productOrder.getProduct().getId(),
                 priceToString(productOrder.getPrice()),
-                productOrder.getQuantity(),
-                productOrder.getAdjustment()
+                productOrder.getAppliedAdaptions().stream().map(EntityToDtoUtils::convertToAdaptionShortDto).collect(Collectors.toList()),
+                productOrder.getQuantity()
         );
     }
 
@@ -48,6 +71,7 @@ public final class EntityToDtoUtils {
                 product.getCategory().getId(),
                 PriceType.valueOf(product.getPriceType().name()),
                 priceToString(product.getPrice()),
+                product.getPossibleAdaptions().stream().map(EntityToDtoUtils::convertToAdaptionShortDto).collect(Collectors.toList()),
                 product.getCreatedOn(),
                 product.getModifiedOn(),
                 product.isActive(),

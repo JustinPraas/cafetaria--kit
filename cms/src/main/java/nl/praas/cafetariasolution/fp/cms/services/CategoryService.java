@@ -36,7 +36,6 @@ public class CategoryService {
     }
 
     private void validateColorHex(String colorHex) {
-        System.out.println(colorHex);
         if (!colorHex.matches("#[a-fA-F0-9]{6}")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "De kleurcode is niet geldig");
         }

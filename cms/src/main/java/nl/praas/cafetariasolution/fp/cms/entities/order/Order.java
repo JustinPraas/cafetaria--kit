@@ -34,7 +34,7 @@ public class Order {
 
     private PaymentType paymentType;
 
-    public Order() { }
+    Order() { }
 
     public Order(String customerName, Collection<ProductOrder> productOrders, Instant createdOn, Instant modifiedOn, Instant paidOn, PaymentType paymentType) {
         this.customerName = customerName;

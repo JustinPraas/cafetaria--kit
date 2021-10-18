@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdaptionService } from '../adaption.service';
 import { CategoryService } from '../category.service';
 
 @Component({
@@ -7,9 +8,13 @@ import { CategoryService } from '../category.service';
     styleUrls: ['./cms-ui.component.scss'],
 })
 export class CmsUiComponent implements OnInit {
-    constructor(private categoryService: CategoryService) {}
+    constructor(
+        private categoryService: CategoryService,
+        private adaptionService: AdaptionService
+    ) {}
 
     ngOnInit(): void {
         this.categoryService.fetchCategoryFullDtos();
+        this.adaptionService.fetchAdaptions();
     }
 }

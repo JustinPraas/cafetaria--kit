@@ -1,5 +1,9 @@
 package nl.praas.cafetariasolution.api.dto.order;
 
+import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
+
+import java.util.List;
+
 public class ProductOrderCreateUpdateDto {
 
     private Integer id;
@@ -8,27 +12,19 @@ public class ProductOrderCreateUpdateDto {
 
     private String price;
 
-    private int quantity;
+    private List<AdaptionShortDto> appliedAdaptionShortDtos;
 
-    private String adjustment;
+    private int quantity;
 
     public ProductOrderCreateUpdateDto() {
     }
 
-    public ProductOrderCreateUpdateDto(Integer id, int productId, String price, int quantity, String adjustment) {
-        this.id = id;
-        this.productId = productId;
-        this.price = price;
-        this.quantity = quantity;
-        this.adjustment = adjustment;
+    public Integer getId() {
+        return id;
     }
 
     public int getProductId() {
         return productId;
-    }
-
-    public String getAdjustment() {
-        return adjustment;
     }
 
     public String getPrice() {
@@ -39,7 +35,7 @@ public class ProductOrderCreateUpdateDto {
         return quantity;
     }
 
-    public Integer getId() {
-        return id;
+    public List<AdaptionShortDto> getAppliedAdaptionShortDtos() {
+        return appliedAdaptionShortDtos;
     }
 }

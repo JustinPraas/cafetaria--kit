@@ -1,16 +1,20 @@
 package nl.praas.cafetariasolution.fp.cms.entities.order;
 
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.product.Product;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
 @Table(name = "PRODUCT_ORDER")
@@ -28,20 +32,25 @@ public class ProductOrder {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "PRODUCT_ORDER_ADAPTION_MAPPINGS",
+            joinColumns = @JoinColumn(name = "product_order_id"),
+            inverseJoinColumns = @JoinColumn(name = "adaption_id"))
+    private Collection<Adaption> appliedAdaptions;
+
     private BigDecimal price;
 
     private int quantity;
 
-    private String adjustment;
+    ProductOrder() { }
 
-    private ProductOrder() { }
-
-    public ProductOrder(Order order, Product product, BigDecimal price, int quantity, String adjustment) {
+    public ProductOrder(Order order, Product product, Collection<Adaption> appliedAdaptions, BigDecimal price, int quantity) {
         this.order = order;
         this.product = product;
+        this.appliedAdaptions = appliedAdaptions;
         this.price = price;
         this.quantity = quantity;
-        this.adjustment = adjustment;
     }
 
     public int getId() {
@@ -64,43 +73,12 @@ public class ProductOrder {
         this.product = product;
     }
 
-    public String getAdjustment() {
-        return adjustment;
-    }
-
-    public void setAdjustment(String adjustment) {
-        this.adjustment = adjustment;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductOrder that = (ProductOrder) o;
-        return id == that.id && Objects.equals(order, that.order) && Objects.equals(product, that.product) && Objects.equals(adjustment, that.adjustment);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, order, product, adjustment);
-    }
-
-    @Override
-    public String toString() {
-        return "ProductOrder{" +
-                "id=" + id +
-                ", order=" + order +
-                ", product=" + product +
-                ", adjustment='" + adjustment + '\'' +
-                '}';
     }
 
     public int getQuantity() {
@@ -113,5 +91,13 @@ public class ProductOrder {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Collection<Adaption> getAppliedAdaptions() {
+        return appliedAdaptions;
+    }
+
+    public void setAppliedAdaptions(Collection<Adaption> appliedAdaptions) {
+        this.appliedAdaptions = appliedAdaptions;
     }
 }

@@ -1,9 +1,11 @@
 package nl.praas.cafetariasolution.fp.cms.services;
 
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 import nl.praas.cafetariasolution.fp.cms.entities.product.PriceType;
 import nl.praas.cafetariasolution.fp.cms.entities.product.Product;
 import nl.praas.cafetariasolution.api.dto.product.ProductCreateUpdateDto;
+import nl.praas.cafetariasolution.fp.cms.repositories.AdaptionRepository;
 import nl.praas.cafetariasolution.fp.cms.repositories.CategoryRepository;
 import nl.praas.cafetariasolution.fp.cms.repositories.ProductRepository;
 import nl.praas.cafetariasolution.fp.cms.utils.CurrencyUtils;
@@ -26,6 +28,9 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private AdaptionRepository adaptionRepository;
+
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
@@ -39,9 +44,11 @@ public class ProductService {
         PriceType priceType = PriceType.valueOf(productCreateUpdateDto.getPriceType().name());
         BigDecimal price = getPriceBigDecimal(productCreateUpdateDto, priceType);
 
+        List<Adaption> adaptions = adaptionRepository.findAllById(productCreateUpdateDto.getPossibleAdaptionIds());
+
         Product product = new Product(productCreateUpdateDto.getName(),
                 category,
-                priceType,
+                adaptions, priceType,
                 price,
                 Instant.now(),
                 null,
@@ -119,11 +126,6 @@ public class ProductService {
         if (productCreateUpdateDto.getPrice() == null) {
             return;
         }
-
-        try {
-            CurrencyUtils.parse(productCreateUpdateDto.getPrice());
-        } catch (ParseException | IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Het aangegeven bedrag voldoet niet aan de format eis");
-        }
+        CurrencyUtils.parse(productCreateUpdateDto.getPrice());
     }
 }

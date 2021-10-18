@@ -1,16 +1,21 @@
 package nl.praas.cafetariasolution.fp.cms.entities.product;
 
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +32,13 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "PRODUCTS_ADAPTION_MAPPINGS",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "adaption_id"))
+    private Collection<Adaption> possibleAdaptions;
+
     private PriceType priceType;
 
     private BigDecimal price;
@@ -39,11 +51,11 @@ public class Product {
 
     private boolean archived;
 
-    public Product() {
-    }
+    Product() { }
 
-    public Product(String name, Category category, PriceType priceType, BigDecimal price, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
+    public Product(String name, Category category, Collection<Adaption> possibleAdaptions, PriceType priceType, BigDecimal price, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
         this.name = name;
+        this.possibleAdaptions = possibleAdaptions;
         this.priceType = priceType;
         this.price = price;
         this.category = category;
@@ -141,5 +153,13 @@ public class Product {
 
     public void setPriceType(PriceType priceType) {
         this.priceType = priceType;
+    }
+
+    public Collection<Adaption> getPossibleAdaptions() {
+        return possibleAdaptions;
+    }
+
+    public void setPossibleAdaptions(Collection<Adaption> possibleAdaptions) {
+        this.possibleAdaptions = possibleAdaptions;
     }
 }

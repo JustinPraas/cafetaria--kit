@@ -36,8 +36,7 @@ public class Category {
 
     private boolean archived;
 
-    public Category() {
-    }
+    Category() { }
 
     public Category(String name, String colorHex, List<Product> products, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
         this.name = name;

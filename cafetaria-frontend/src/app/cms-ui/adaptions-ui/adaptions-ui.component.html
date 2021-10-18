@@ -1,0 +1,61 @@
+<div class="px-4">
+    <div class="mb-3">
+        <h1 class="mb-3">Aanpassingen</h1>
+        <button
+            data-bs-toggle="modal"
+            data-bs-target="#adaption-create-update-modal"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-bookmark-plus"></i> Nieuwe aanpassing toevoegen
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <span class="text-muted" *ngIf="getAdaptions().length == 0">Er zijn nog geen aanpassingen aangemaakt</span>
+            <table *ngIf="getAdaptions().length > 0" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Aanpassing</th>
+                        <th>Prijs</th>
+                        <th>Actie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let adaption of getAdaptions()">
+                        <td>{{ adaption.name }}</td>
+                        <td>{{ getPriceString(adaption) }}</td>
+                        <td>
+                            <button
+                                (click)="
+                                    adaptionCreateUpdateModal?.setAdaptionToEdit(
+                                        adaption
+                                    )
+                                "
+                                data-bs-toggle="modal"
+                                data-bs-target="#adaption-create-update-modal"
+                                class="btn btn-primary btn-sm mr-2"
+                            >
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button
+                                (click)="
+                                    adaptionArchiveModal?.setAdaptionToArchive(
+                                        adaption
+                                    )
+                                "
+                                data-bs-toggle="modal"
+                                data-bs-target="#adaption-archive-modal"
+                                class="btn btn-danger btn-sm"
+                            >
+                                <i class="bi bi-archive-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<app-adaption-archive-modal></app-adaption-archive-modal>
+<app-adaption-create-update-modal></app-adaption-create-update-modal>

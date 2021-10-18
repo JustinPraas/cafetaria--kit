@@ -47,7 +47,6 @@
                         <td class="text-left">
                             {{ getProductName(productOrder.productId) }}
                             <br />
-                            {{ productOrder.adjustment }}
                         </td>
                         <td>{{ getPriceString(productOrder) }}</td>
                         <td>
@@ -165,7 +164,7 @@
                               id: 0,
                               productId: product.id,
                               price: product.price,
-                              adjustment: '',
+                              appliedAdaptionShortDtos: [],
                               quantity: 1
                           })
                 "

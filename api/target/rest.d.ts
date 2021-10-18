@@ -1,5 +1,26 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2021-10-17 12:55:33.
+// Generated using typescript-generator version 2.9.456 on 2021-10-18 19:55:45.
+
+interface AdaptionCreateUpdateDto {
+    name: string;
+    price: string;
+}
+
+interface AdaptionFullDto {
+    id: number;
+    name: string;
+    price: string;
+    createdOn: Date;
+    modifiedOn: Date;
+    registered: boolean;
+    archived: boolean;
+}
+
+interface AdaptionShortDto {
+    id?: number;
+    name: string;
+    price: string;
+}
 
 interface CategoryCreateUpdateDto {
     name: string;
@@ -41,8 +62,8 @@ interface ProductOrderCreateUpdateDto {
     id: number;
     productId: number;
     price: string;
+    appliedAdaptionShortDtos: AdaptionShortDto[];
     quantity: number;
-    adjustment: string;
 }
 
 interface ProductOrderShortDto {
@@ -50,14 +71,15 @@ interface ProductOrderShortDto {
     orderId: number;
     productId: number;
     price: string;
+    appliedAdaptionShortDtos: AdaptionShortDto[];
     quantity: number;
-    adjustment: string;
 }
 
 interface ProductCreateUpdateDto {
     name: string;
     categoryId: number;
     priceType: PriceType;
+    possibleAdaptionIds: number[];
     price: string;
     active: boolean;
 }
@@ -68,6 +90,7 @@ interface ProductShortDto {
     categoryId: number;
     priceType: PriceType;
     price: string;
+    possibleAdaptionShortDtos: AdaptionShortDto[];
     createdOn: Date;
     modifiedOn: Date;
     active: boolean;

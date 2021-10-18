@@ -4,20 +4,24 @@ export function hexToRGB(hex: string, alpha: number) {
         b = parseInt(hex.slice(5, 7), 16);
 
     if (alpha) {
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+        return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
     } else {
-        return "rgb(" + r + ", " + g + ", " + b + ")";
+        return 'rgb(' + r + ', ' + g + ', ' + b + ')';
     }
 }
 
 export function getPriceString(price: string, priceType: PriceType) {
-    if (priceType == "FREE") {
-        return "Gratis"
-    } else if (priceType == "FIXED") {
-        return "€ " + price;
-    } else if (priceType == "VARIABLE") {
-        return price ? "€ " + price : "Variabel"
+    if (priceType == 'FREE') {
+        return 'Gratis';
+    } else if (priceType == 'FIXED') {
+        if (+price == 0) {
+            return 'Gratis';
+        } else {
+            return '€ ' + price;
+        }
+    } else if (priceType == 'VARIABLE') {
+        return price ? '€ ' + price : 'Variabel';
     } else {
-        return "???";
+        return '???';
     }
 }
