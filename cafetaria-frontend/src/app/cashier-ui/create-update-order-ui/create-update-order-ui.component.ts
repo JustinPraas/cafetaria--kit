@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Big from 'big.js';
 import { delay, retry, retryWhen, take } from 'rxjs/operators';
-import { CategoryService } from 'src/app/category.service';
-import { OrderService } from 'src/app/order.service';
-import { ProductService } from 'src/app/product.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { OrderService } from 'src/app/services/order.service';
+import { ProductService } from 'src/app/services/product.service';
 import { getPriceString, hexToRGB } from 'src/app/utils';
 import {
     createOrderCreateDtoFromOrderFullDto,

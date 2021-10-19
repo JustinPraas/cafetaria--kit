@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { API_CATEGORY_URL } from './constants';
+import { API_CATEGORY_URL } from '../constants';
 import { DataService } from './data.service';
 
 @Injectable({

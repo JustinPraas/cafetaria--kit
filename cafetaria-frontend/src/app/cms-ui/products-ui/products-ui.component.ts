@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CategoryService } from 'src/app/category.service';
 import { ProductCreateUpdateModalComponent } from './product-create-update-modal/product-create-update-modal.component';
 import { ProductArchiveModalComponent } from './product-archive-modal/product-archive-modal.component';
-import { DataService } from 'src/app/data.service';
 import { getPriceString } from 'src/app/utils';
+import { CategoryService } from 'src/app/services/category.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-products-ui',

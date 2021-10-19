@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CategoryService } from '../../../category.service';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
     selector: 'app-category-create-update-modal',

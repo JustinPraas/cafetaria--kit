@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../category.service';
-import { OrderService } from '../order.service';
+import { CategoryService } from '../services/category.service';
+import { OrderService } from '../services/order.service';
 
 @Component({
     selector: 'app-cashier-ui',

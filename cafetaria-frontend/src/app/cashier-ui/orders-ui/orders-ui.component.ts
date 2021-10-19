@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from 'src/app/category.service';
-import { DataService } from 'src/app/data.service';
-import { OrderService } from 'src/app/order.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { DataService } from 'src/app/services/data.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
     selector: 'app-orders-ui',

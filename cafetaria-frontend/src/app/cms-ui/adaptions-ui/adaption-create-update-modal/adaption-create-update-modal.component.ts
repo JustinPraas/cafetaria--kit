@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AdaptionService } from 'src/app/adaption.service';
+import { AdaptionService } from 'src/app/services/adaption.service';
 
 @Component({
     selector: 'app-adaption-create-update-modal',

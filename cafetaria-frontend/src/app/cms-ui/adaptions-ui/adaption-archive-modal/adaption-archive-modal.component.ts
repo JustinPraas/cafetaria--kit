@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdaptionService } from 'src/app/adaption.service';
+import { AdaptionService } from 'src/app/services/adaption.service';
 
 @Component({
     selector: 'app-adaption-archive-modal',

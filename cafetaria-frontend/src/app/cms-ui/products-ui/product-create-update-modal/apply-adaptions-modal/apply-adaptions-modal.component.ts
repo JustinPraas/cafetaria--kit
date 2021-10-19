@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AdaptionService } from 'src/app/adaption.service';
+import { AdaptionService } from 'src/app/services/adaption.service';
 import { getPriceString } from 'src/app/utils';
 
 @Component({

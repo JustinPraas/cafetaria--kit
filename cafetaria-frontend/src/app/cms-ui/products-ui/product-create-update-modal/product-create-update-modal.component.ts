@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CategoryService } from 'src/app/category.service';
-import { ProductService } from 'src/app/product.service';
-
+import { CategoryService } from 'src/app/services/category.service';
+import { ProductService } from 'src/app/services/product.service';
 @Component({
     selector: 'app-product-create-update-modal',
     templateUrl: './product-create-update-modal.component.html',

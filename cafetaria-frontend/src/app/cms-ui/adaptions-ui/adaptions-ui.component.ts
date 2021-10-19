@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AdaptionService } from 'src/app/adaption.service';
+import { AdaptionService } from 'src/app/services/adaption.service';
 import { getPriceString } from 'src/app/utils';
 import { AdaptionArchiveModalComponent } from './adaption-archive-modal/adaption-archive-modal.component';
 import { AdaptionCreateUpdateModalComponent } from './adaption-create-update-modal/adaption-create-update-modal.component';
