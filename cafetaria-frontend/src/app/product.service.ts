@@ -51,6 +51,7 @@ export class ProductService {
         productCreateUpdateDto: ProductCreateUpdateDto,
         callback?: () => void
     ) {
+        console.log(productCreateUpdateDto);
         this.httpClient
             .put<ProductShortDto>(
                 `${API_PRODUCT_URL}/${id}`,

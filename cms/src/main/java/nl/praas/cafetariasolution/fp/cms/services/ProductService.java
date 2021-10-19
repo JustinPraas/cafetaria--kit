@@ -67,14 +67,17 @@ public class ProductService {
 
         PriceType priceType = PriceType.valueOf(productCreateUpdateDto.getPriceType().name());
         BigDecimal price = getPriceBigDecimal(productCreateUpdateDto, priceType);
+        List<Adaption> adaptions = adaptionRepository.findAllById(productCreateUpdateDto.getPossibleAdaptionIds());
 
         Product product = productRepository.getById(id);
+        product.setPossibleAdaptions(adaptions);
         product.setName(productCreateUpdateDto.getName());
         product.setPriceType(priceType);
         product.setPrice(price);
         product.setModifiedOn(Instant.now());
         product.setCategory(category);
         product.setActive(productCreateUpdateDto.isActive());
+
 
         return productRepository.save(product);
     }

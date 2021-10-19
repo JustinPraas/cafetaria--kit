@@ -1,0 +1,70 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    data-bs-backdrop="static"
+    id="apply-adaptions-modal"
+    tabindex="-1"
+    aria-labelledby="applyAdaptionsModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyAdaptionsModalLabel">
+                    Selecteer de mogelijke aanpassingen
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <p>Selecteer de aanpassingen die mogelijk van toepassing zijn op dit product</p>
+                <div class="px-4 py-3 border overflow-auto" [style.height]="'250px'">
+                    <div
+                        *ngFor="let adaption of getNonArchivedAdaptionShortDtos()"
+                        class="form-check"
+                    >
+                        <input
+                            class="form-check-input"
+                            [id]="'cb'+adaption.id"
+                            type="checkbox"
+                            [checked]="isSelected(adaption.id)"
+                            (click)="
+                                isSelected(adaption.id)
+                                    ? deselect(adaption.id)
+                                    : select(adaption.id)
+                            "
+                        />
+                        <label class="form-check-label" [for]="'cb'+adaption.id">
+                            {{ adaption.name }} {{adaption.id}}
+                            <span class="text-muted"
+                                >({{ getPriceString(adaption) }})</span
+                            >
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    data-bs-target="#product-create-update-modal"
+                    data-bs-toggle="modal"
+                    data-bs-dismiss="modal"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="button"
+                    data-bs-target="#product-create-update-modal"
+                    data-bs-toggle="modal"
+                    data-bs-dismiss="modal"
+                    class="btn btn-primary"
+                    (click)="this.setPossibleAdaptionIds(this.selectedPossibleAdaptionIds)"
+                >
+                    Opslaan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

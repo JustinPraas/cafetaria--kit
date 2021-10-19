@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AdaptionService } from 'src/app/adaption.service';
 import { CategoryService } from 'src/app/category.service';
 import { ProductService } from 'src/app/product.service';
 
@@ -17,6 +16,8 @@ export class ProductCreateUpdateModalComponent implements OnInit {
         priceType: new FormControl('FIXED'),
         active: new FormControl(true),
     });
+
+    possibleAdaptionIds: number[] = [];
 
     productToEdit: ProductShortDto | null = null;
 
@@ -40,12 +41,15 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             categoryId: new FormControl(product.categoryId),
             price: new FormControl(product.price),
             priceType: new FormControl(product.priceType),
-            // fixedPrice: new FormControl(product.priceType == "FIXED"),
-            // variablePrice: new FormControl(product.priceType == "VARIABLE"),
-            // freePrice: new FormControl(product.priceType == "FREE"),
             active: new FormControl(product.active),
         });
         this.productToEdit = product;
+        console.log("edit", this.possibleAdaptionIds);
+        this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(pasd => pasd.id!)
+    }
+
+    setPossibleAdaptionIds(ids: number[]) {
+        this.possibleAdaptionIds = ids;
     }
 
     showPriceBox() {
@@ -72,6 +76,7 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             active: new FormControl(true),
         });
         this.productToEdit = null;
+        this.possibleAdaptionIds = []
     }
 
     ngOnInit(): void {}
@@ -82,7 +87,7 @@ export class ProductCreateUpdateModalComponent implements OnInit {
         const productCreateUpdateDto: ProductCreateUpdateDto = {
             name: controls.name.value,
             categoryId: controls.categoryId.value,
-            possibleAdaptionIds: [],
+            possibleAdaptionIds: this.possibleAdaptionIds,
             price: controls.price.value,
             priceType: controls.priceType.value,
             active: controls.active.value,
