@@ -37,7 +37,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
 import { AdaptionCreateUpdateModalComponent } from './cms-ui/adaptions-ui/adaption-create-update-modal/adaption-create-update-modal.component';
 import { AdaptionArchiveModalComponent } from './cms-ui/adaptions-ui/adaption-archive-modal/adaption-archive-modal.component';
-import { ApplyAdaptionsModalComponent } from './cms-ui/products-ui/product-create-update-modal/apply-adaptions-modal/apply-adaptions-modal.component';
+import { EnableAdaptionsModalComponent } from './cms-ui/products-ui/product-create-update-modal/enable-adaptions-modal/enable-adaptions-modal.component';
+import { HoldDivComponent } from './hold-div/hold-div.component';
+import { ApplyAdaptionsModalComponent } from './cashier-ui/create-update-order-ui/apply-adaptions-modal/apply-adaptions-modal.component';
 
 registerLocaleData(nl);
 
@@ -64,6 +66,8 @@ registerLocaleData(nl);
         AdaptionCreateUpdateModalComponent,
         AdaptionArchiveModalComponent,
         ApplyAdaptionsModalComponent,
+        EnableAdaptionsModalComponent,
+        HoldDivComponent,
     ],
     imports: [
         BrowserModule,

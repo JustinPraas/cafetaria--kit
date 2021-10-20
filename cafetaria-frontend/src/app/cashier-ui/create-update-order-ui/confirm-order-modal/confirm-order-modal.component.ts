@@ -69,6 +69,10 @@ export class ConfirmOrderModalComponent implements OnInit {
         }
     }
 
+    getPriceStringAdaption(adaption: AdaptionShortDto) {
+        return getPriceString(adaption.price, "FIXED");
+    }
+
     getQuantityOf(productOrder: ProductOrderCreateUpdateDto) {
         if (this.orderCreateDto) {
             return getQuantityOf(

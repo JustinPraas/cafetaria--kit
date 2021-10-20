@@ -62,7 +62,7 @@ export class SetPriceModalComponent implements OnInit {
                 this.addProductOrder({
                     id: 0,
                     productId: this.productId,
-                    appliedAdaptionShortDtos: [], // TODO
+                    appliedAdaptionShortDtos: [],
                     price,
                     quantity: 1,
                 });

@@ -10,8 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmOrderModalLabel">
-                    Bevestig de bestelling<span *ngIf="this.orderFullDtoToEdit"
-                        > van: {{ this.orderFullDtoToEdit.customerName }}</span
+                    Bevestig de bestelling<span *ngIf="this.orderFullDtoToEdit">
+                        van: {{ this.orderFullDtoToEdit.customerName }}</span
                     >
                 </h5>
                 <button
@@ -60,8 +60,26 @@
                             <td>
                                 {{ getProductName(productOrder.productId) }}
                                 <br />
+                                <span
+                                    class="text-muted text-italic"
+                                    *ngFor="
+                                        let adaption of productOrder.appliedAdaptionShortDtos
+                                    "
+                                    ><i class="bi bi-arrow-return-right"></i>
+                                    {{ adaption.name }} <br
+                                /></span>
                             </td>
-                            <td>{{ getPriceString(productOrder) }}</td>
+                            <td>
+                                {{ getPriceString(productOrder) }}<br/>
+                                <span
+                                    class="text-muted text-italic"
+                                    *ngFor="
+                                        let adaption of productOrder.appliedAdaptionShortDtos
+                                    "
+                                    >
+                                    {{ getPriceStringAdaption(adaption) }} <br
+                                /></span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

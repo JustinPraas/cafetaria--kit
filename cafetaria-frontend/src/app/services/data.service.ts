@@ -7,8 +7,13 @@ export class DataService {
     private categoryFullDtos: CategoryFullDto[] = [];
     private orderFullDtos: OrderFullDto[] = [];
     private adaptionFullDtos: AdaptionFullDto[] = [];
+    private productShortDtos: ProductShortDto[] = [];
 
     constructor() {}
+
+    setProductShortDtos(productShortDtos: ProductShortDto[]) {
+        this.productShortDtos = productShortDtos
+    }
 
     setCategoryFullDtos(categoryFullDtos: CategoryFullDto[]) {
         this.categoryFullDtos = categoryFullDtos;
@@ -32,6 +37,10 @@ export class DataService {
 
     getAdaptionFullDtos() {
         return this.adaptionFullDtos;
+    }
+
+    getProductShortDtos() {
+        return this.productShortDtos;
     }
 
     getNonArchivedProductShortDtos(categoryId: number) {

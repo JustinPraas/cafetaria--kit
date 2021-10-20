@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
+import { getPriceString } from 'src/app/utils';
 import { getTotalOrderPrice } from '../utils';
 
 @Component({
@@ -27,6 +28,10 @@ export class OrderComponent implements OnInit {
     getProductName(productId: number) {
         const product = this.getProductById(productId);
         return product ? product.name : '???';
+    }
+
+    getPriceStringAdaption(adaption: AdaptionShortDto) {
+        return getPriceString(adaption.price, "FIXED");
     }
 
     getTotalOrderPrice() {

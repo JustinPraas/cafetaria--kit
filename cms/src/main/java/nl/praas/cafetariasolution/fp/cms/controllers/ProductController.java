@@ -31,7 +31,6 @@ public class ProductController {
     @GetMapping
     public List<ProductShortDto> getProducts() {
         return productService.getProducts().stream()
-                .filter(p -> !p.isArchived())
                 .map(EntityToDtoUtils::convertToProductShortDto).collect(Collectors.toList());
     }
 

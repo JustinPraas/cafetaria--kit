@@ -17,3 +17,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cursor-pointer {
     cursor: pointer;
 }
+
+// Fixes an issue where there's a slight inset on border row table cells in striped rows
+.table > :not(caption) > * > * {
+    box-shadow: none;
+}

@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Big from 'big.js';
+import { ToastrService } from 'ngx-toastr';
 import { delay, retry, retryWhen, take } from 'rxjs/operators';
+import { AdaptionService } from 'src/app/services/adaption.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
 import { getPriceString, hexToRGB } from 'src/app/utils';
+import { ApplyAdaptionsModalComponent } from './apply-adaptions-modal/apply-adaptions-modal.component';
 import {
     createOrderCreateDtoFromOrderFullDto,
     getTotalOrderPrice,
@@ -18,6 +21,10 @@ import {
     styleUrls: ['./create-update-order-ui.component.scss'],
 })
 export class CreateUpdateOrderUiComponent implements OnInit {
+    @ViewChild(ApplyAdaptionsModalComponent) applyAdaptionsModal:
+        | ApplyAdaptionsModalComponent
+        | undefined;
+
     selectedCategory: CategoryFullDto | null = null;
 
     orderCreateDto: OrderCreateUpdateDto = {
@@ -34,7 +41,8 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         private categoryService: CategoryService,
         private productService: ProductService,
         private activatedRoute: ActivatedRoute,
-        private orderService: OrderService
+        private orderService: OrderService,
+        private toastr: ToastrService
     ) {}
 
     ngOnInit(): void {
@@ -111,8 +119,12 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         }
     }
 
+    getPriceStringAdaption(adaption: AdaptionShortDto) {
+        return getPriceString(adaption.price, 'FIXED');
+    }
+
     getPriceStringProduct(product: ProductShortDto) {
-        return getPriceString(product.price, product.priceType)
+        return getPriceString(product.price, product.priceType);
     }
 
     getTotalOrderPrice() {
@@ -181,5 +193,89 @@ export class CreateUpdateOrderUiComponent implements OnInit {
             productOrderCreateUpdateDtos: [],
             paymentType: 'UNKNOWN',
         };
+    }
+
+    getOnClickInvoke(host: any, product: ProductShortDto) {
+        return product.price == ''
+            ? function () {
+                  host.openSetPriceModal(product.id);
+              }
+            : function () {
+                  host.addProductOrder({
+                      id: 0,
+                      productId: product.id,
+                      price: product.price,
+                      appliedAdaptionShortDtos: [],
+                      quantity: 1,
+                  });
+              };
+    }
+
+    addProductWithAdaption(
+        product: ProductShortDto,
+        appliedAdaptionShortDtos: AdaptionShortDto[]
+    ) {
+        this.addProductOrder({
+            id: 0,
+            productId: product.id,
+            price: product.price,
+            appliedAdaptionShortDtos: appliedAdaptionShortDtos,
+            quantity: 1,
+        });
+    }
+
+    getOnHoldInvoke(
+        host: any,
+        product: ProductShortDto,
+        onApplyCallback: (
+            product: ProductShortDto,
+            appliedAdaptionShortDtos: AdaptionShortDto[]
+        ) => void
+    ) {
+        if (product.priceType != 'VARIABLE') {
+            return function () {
+                host.applyAdaptionsModal!.forProduct = product;
+                host.applyAdaptionsModal!.selectedAdaptionShortDtos = [];
+                host.applyAdaptionsModal!.onApplyAdaptionShortDtos =
+                    onApplyCallback;
+                //@ts-ignore
+                jQuery('#apply-adaptions-modal').modal('show');
+            };
+        } else {
+            return function() {return host.toastr.info("Voer eerst een prijs in", "Dit kan nu niet")}
+        }
+    }
+
+    getOnHoldProductOrderInvoke(
+        host: any,
+        product: ProductShortDto,
+        productOrderCreateUpdateDto: ProductOrderCreateUpdateDto,
+        onApplyCallback: (
+            product: ProductShortDto,
+            appliedAdaptionShortDtos: AdaptionShortDto[],
+            productOrderCreateUpdateDto: ProductOrderCreateUpdateDto
+        ) => void
+    ) {
+        return function () {
+            host.applyAdaptionsModal!.forProduct = product;
+            host.applyAdaptionsModal!.selectedAdaptionShortDtos =
+                productOrderCreateUpdateDto.appliedAdaptionShortDtos;
+            host.applyAdaptionsModal!.forProductOrderCreateUpdateDto =
+                productOrderCreateUpdateDto;
+            host.applyAdaptionsModal!.onApplyAdaptionShortDtos =
+                onApplyCallback;
+
+            //@ts-ignore
+            jQuery('#apply-adaptions-modal').modal('show');
+        };
+    }
+
+    updateProductWithAdaptionShortDtos(
+        product: ProductShortDto,
+        appliedAdaptionShortDtos: AdaptionShortDto[],
+        productOrderCreateUpdateDto: ProductOrderCreateUpdateDto
+    ) {
+        productOrderCreateUpdateDto.appliedAdaptionShortDtos =
+            appliedAdaptionShortDtos;
     }
 }

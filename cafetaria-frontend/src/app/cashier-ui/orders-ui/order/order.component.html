@@ -4,8 +4,8 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Product</th>
                     <th>Aantal</th>
+                    <th>Product</th>
                     <th>Prijs per stuk</th>
                 </tr>
             </thead>
@@ -16,13 +16,31 @@
                     "
                 >
                     <td>
-                        {{ getProductName(productOrder.productId) }}
-                        <br />
-                    </td>
-                    <td>
                         {{ productOrder.quantity }}
                     </td>
-                    <td>€{{ productOrder.price }}</td>
+                    <td>
+                        {{ getProductName(productOrder.productId) }}
+                        <br />
+                        <span
+                            class="text-muted text-italic"
+                            *ngFor="
+                                let adaption of productOrder.appliedAdaptionShortDtos
+                            "
+                            ><i class="bi bi-arrow-return-right"></i>
+                            {{ adaption.name }}<br
+                        /></span>
+                    </td>
+                    <td>
+                        €{{ productOrder.price }}<br />
+                        <span
+                            class="text-muted text-italic"
+                            *ngFor="
+                                let adaption of productOrder.appliedAdaptionShortDtos
+                            "
+                        >
+                            {{ getPriceStringAdaption(adaption) }} <br
+                        /></span>
+                    </td>
                 </tr>
                 <tr>
                     <th colspan="2" class="text-right">Totaalprijs:</th>
@@ -31,18 +49,29 @@
             </tbody>
         </table>
         <div class="px-2 pb-3">
-            <span *ngIf="orderFullDto && orderFullDto.createdOn"
-                class="text-muted fst-italic">
-                Aangemaakt op: {{ getParsedDateAndTime(orderFullDto.createdOn) }}
+            <span
+                *ngIf="orderFullDto && orderFullDto.createdOn"
+                class="text-muted fst-italic"
+            >
+                Aangemaakt op:
+                {{ getParsedDateAndTime(orderFullDto.createdOn) }}
             </span>
-            <span *ngIf="orderFullDto && orderFullDto.modifiedOn"
-                class="text-muted fst-italic">
-                <br/>Laatst bijgewerkt op: {{ getParsedDateAndTime(orderFullDto.modifiedOn) }}
+            <span
+                *ngIf="orderFullDto && orderFullDto.modifiedOn"
+                class="text-muted fst-italic"
+            >
+                <br />Laatst bijgewerkt op:
+                {{ getParsedDateAndTime(orderFullDto.modifiedOn) }}
             </span>
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between">
-        <button class="btn btn-lg btn-outline-primary" [routerLink]="'./' + orderFullDto?.id">Bewerk</button>
+        <button
+            class="btn btn-lg btn-outline-primary"
+            [routerLink]="'./' + orderFullDto?.id"
+        >
+            Bewerk
+        </button>
         <button class="btn btn-lg btn-outline-success">Afronden</button>
     </div>
 </div>

@@ -43,7 +43,6 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             active: new FormControl(product.active),
         });
         this.productToEdit = product;
-        console.log("edit", this.possibleAdaptionIds);
         this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(pasd => pasd.id!)
     }
 

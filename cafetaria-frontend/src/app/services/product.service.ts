@@ -22,8 +22,17 @@ export class ProductService {
         }
     }
 
+    fetchProductShortDtos() {
+        this.httpClient
+            .get<ProductShortDto[]>(
+                API_PRODUCT_URL
+            ).subscribe(psds => {
+                this.dataService.setProductShortDtos(psds);
+            })
+    }
+
     getAllProductShortDtos() {
-        return ([] as ProductShortDto[]).concat(...this.dataService.getCategoryFullDtos().map(c => c.productShortDtos));
+        return this.dataService.getProductShortDtos();
     }
 
     getProductById(productId: number) {
@@ -51,7 +60,6 @@ export class ProductService {
         productCreateUpdateDto: ProductCreateUpdateDto,
         callback?: () => void
     ) {
-        console.log(productCreateUpdateDto);
         this.httpClient
             .put<ProductShortDto>(
                 `${API_PRODUCT_URL}/${id}`,

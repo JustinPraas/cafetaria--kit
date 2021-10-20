@@ -46,7 +46,6 @@ export class OrderService {
             .post<ProductShortDto>(`${API_ORDER_URL}`, orderCreateDto)
             .subscribe((psd: ProductShortDto) => {
                 this.toastrService.success("Bestelling geplaatst", "Gelukt!");
-                // TODO this.dataService.insertProductIntoCategory(psd.categoryId, psd);
                 callback ? callback() : null;
             });
     }
@@ -60,7 +59,6 @@ export class OrderService {
             .put<ProductShortDto>(`${API_ORDER_URL}/${orderId}`, orderCreateDto)
             .subscribe((psd: ProductShortDto) => {
                 this.toastrService.success("Bestelling geüpdate", "Gelukt!");
-                // TODO this.dataService.insertProductIntoCategory(psd.categoryId, psd);
                 callback ? callback() : null;
             });
     }

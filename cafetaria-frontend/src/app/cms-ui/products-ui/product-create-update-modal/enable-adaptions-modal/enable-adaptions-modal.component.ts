@@ -3,11 +3,11 @@ import { AdaptionService } from 'src/app/services/adaption.service';
 import { getPriceString } from 'src/app/utils';
 
 @Component({
-    selector: 'app-apply-adaptions-modal',
-    templateUrl: './apply-adaptions-modal.component.html',
-    styleUrls: ['./apply-adaptions-modal.component.scss'],
+    selector: 'app-enable-adaptions-modal',
+    templateUrl: './enable-adaptions-modal.component.html',
+    styleUrls: ['./enable-adaptions-modal.component.scss'],
 })
-export class ApplyAdaptionsModalComponent implements OnInit {
+export class EnableAdaptionsModalComponent implements OnInit {
     selectedPossibleAdaptionIds: number[] = [];
 
     @Input()
@@ -23,10 +23,8 @@ export class ApplyAdaptionsModalComponent implements OnInit {
     ngOnInit(): void {}
 
     closeModal() {
-        this.selectedPossibleAdaptionIds = [];
-
         //@ts-ignore
-        jQuery('#apply-adaptions-modal').modal('hide');
+        jQuery('#enable-adaptions-modal').modal('hide');
     }
 
     getNonArchivedAdaptionShortDtos() {
