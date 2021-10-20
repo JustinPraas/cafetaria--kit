@@ -1,0 +1,51 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="pay-order-modal"
+    tabindex="-1"
+    aria-labelledby="payOrderModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="payOrderModalLabel">
+                    Bestelling betalen
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-2">
+                    <button
+                        (click)="this.payOrder('CASH')"
+                        class="btn btn-lg btn-success py-4 fs-2"
+                        type="button"
+                    >
+                        <i class="bi bi-cash-coin mr-3"></i> Contant
+                    </button>
+                    <button
+                        (click)="this.payOrder('CARD')"
+                        class="btn btn-lg btn-success py-4 fs-2"
+                        type="button"
+                    >
+                        <i class="bi bi-credit-card-2-back mr-3"></i>Pin
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

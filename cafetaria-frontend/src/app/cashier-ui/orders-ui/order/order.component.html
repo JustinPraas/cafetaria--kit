@@ -1,77 +1,92 @@
-<div class="card my-3 h-100">
-    <h5 class="card-header">{{ this.orderFullDto?.customerName }}</h5>
-    <div class="card-body p-0">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Aantal</th>
-                    <th>Product</th>
-                    <th>Prijs per stuk</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    *ngFor="
-                        let productOrder of orderFullDto?.productOrderShortDtos
-                    "
-                >
-                    <td>
-                        {{ productOrder.quantity }}
-                    </td>
-                    <td>
-                        {{ getProductName(productOrder.productId) }}
-                        <br />
-                        <span
-                            class="text-muted text-italic"
-                            *ngFor="
-                                let adaption of productOrder.appliedAdaptionShortDtos
-                            "
-                            ><i class="bi bi-arrow-return-right"></i>
-                            {{ adaption.name }}<br
-                        /></span>
-                    </td>
-                    <td>
-                        €{{ productOrder.price }}<br />
-                        <span
-                            class="text-muted text-italic"
-                            *ngFor="
-                                let adaption of productOrder.appliedAdaptionShortDtos
-                            "
-                        >
-                            {{ getPriceStringAdaption(adaption) }} <br
-                        /></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th colspan="2" class="text-right">Totaalprijs:</th>
-                    <th>€{{ getTotalOrderPrice() }}</th>
-                </tr>
-            </tbody>
-        </table>
-        <div class="px-2 pb-3">
-            <span
-                *ngIf="orderFullDto && orderFullDto.createdOn"
-                class="text-muted fst-italic"
-            >
-                Aangemaakt op:
-                {{ getParsedDateAndTime(orderFullDto.createdOn) }}
-            </span>
-            <span
-                *ngIf="orderFullDto && orderFullDto.modifiedOn"
-                class="text-muted fst-italic"
-            >
-                <br />Laatst bijgewerkt op:
-                {{ getParsedDateAndTime(orderFullDto.modifiedOn) }}
-            </span>
+<div class="card-header d-flex flex-row justify-content-between">
+    <div
+        class="
+            fs-4
+            text-uppercase
+            font-weight-bold
+            d-flex
+            flex-row
+            align-items-center
+        "
+    >
+        <div *ngIf="this.orderFullDto?.customerName">
+            {{ this.orderFullDto?.customerName }}
         </div>
+        <div *ngIf="!this.orderFullDto?.customerName">Naamloos</div>
     </div>
-    <div class="card-footer d-flex justify-content-between">
-        <button
-            class="btn btn-lg btn-outline-primary"
-            [routerLink]="'./' + orderFullDto?.id"
+    <div class="text-right">
+        <span class="text-muted fs-6">Bonnummer</span><br />
+        <span class="fs-6 text-uppercase font-weight-bold"
+            >#{{ this.orderFullDto?.id }}</span
         >
-            Bewerk
-        </button>
-        <button class="btn btn-lg btn-outline-success">Afronden</button>
     </div>
+</div>
+<div class="card-body p-0">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Aantal</th>
+                <th>Product</th>
+                <th>Prijs per stuk</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="let productOrder of orderFullDto?.productOrderShortDtos"
+            >
+                <td>
+                    {{ productOrder.quantity }}
+                </td>
+                <td>
+                    {{ getProductName(productOrder.productId) }}
+                    <br />
+                    <span
+                        class="text-muted text-italic"
+                        *ngFor="
+                            let adaption of productOrder.appliedAdaptionShortDtos
+                        "
+                        ><i class="bi bi-arrow-return-right"></i>
+                        {{ adaption.name }}<br
+                    /></span>
+                </td>
+                <td>
+                    €{{ productOrder.price }}<br />
+                    <span
+                        class="text-muted text-italic"
+                        *ngFor="
+                            let adaption of productOrder.appliedAdaptionShortDtos
+                        "
+                    >
+                        {{ getPriceStringAdaption(adaption) }} <br
+                    /></span>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2" class="text-right">Totaalprijs:</th>
+                <th>€{{ getTotalOrderPrice() }}</th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="px-2 pb-3">
+        <table class="w-100 text-muted fst-italic">
+            <tr *ngIf="orderFullDto && orderFullDto.createdOn">
+                <td class="text-nowrap pr-3 text-right">Aangemaakt op:</td>
+                <td class="w-100">{{ getParsedDateAndTime(orderFullDto.createdOn) }}</td>
+            </tr>
+            <tr *ngIf="orderFullDto && orderFullDto.modifiedOn">
+                <td class="text-nowrap pr-3 text-right">Laatst bijgewerkt op:</td>
+                <td class="w-100">{{ getParsedDateAndTime(orderFullDto.modifiedOn) }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="card-footer d-flex justify-content-between">
+    <button
+        class="btn btn-lg btn-outline-secondary py-3"
+        [routerLink]="'./' + orderFullDto?.id"
+    >
+        Bewerken
+    </button>
+    <button class="btn btn-lg btn-outline-primary py-3">Bon printen</button>
+    <button class="btn btn-lg btn-outline-success py-3" (click)="this.openPayOrderModal()">Betalen</button>
 </div>

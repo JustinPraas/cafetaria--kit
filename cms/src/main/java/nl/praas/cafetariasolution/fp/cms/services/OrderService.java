@@ -2,6 +2,7 @@ package nl.praas.cafetariasolution.fp.cms.services;
 
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
 import nl.praas.cafetariasolution.api.dto.order.OrderCreateUpdateDto;
+import nl.praas.cafetariasolution.api.dto.order.OrderFullDto;
 import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.order.Order;
 import nl.praas.cafetariasolution.fp.cms.entities.order.PaymentType;
@@ -140,5 +141,13 @@ public class OrderService {
         if (!orderRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "De bestelling bestaat niet");
         }
+    }
+
+    public Order payOrder(int id, String paymentType) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "De bestelling kon niet gevonden worden" ));
+        order.setPaidOn(Instant.now());
+        order.setPaymentType(PaymentType.valueOf(paymentType));
+
+        return orderRepository.save(order);
     }
 }

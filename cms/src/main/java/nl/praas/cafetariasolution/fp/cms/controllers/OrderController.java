@@ -3,6 +3,7 @@ package nl.praas.cafetariasolution.fp.cms.controllers;
 import nl.praas.cafetariasolution.api.dto.order.OrderCreateUpdateDto;
 import nl.praas.cafetariasolution.api.dto.order.OrderFullDto;
 import nl.praas.cafetariasolution.fp.cms.entities.order.Order;
+import nl.praas.cafetariasolution.fp.cms.entities.order.PaymentType;
 import nl.praas.cafetariasolution.fp.cms.services.OrderService;
 import nl.praas.cafetariasolution.fp.cms.utils.EntityToDtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -63,5 +65,10 @@ public class OrderController {
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "De bestelling bestaat niet");
         }
+    }
+
+    @PutMapping("/pay/{id}")
+    public OrderFullDto payorder(@PathVariable int id, @RequestParam String paymentType) {
+        return EntityToDtoUtils.convertToOrderFullDto(this.orderService.payOrder(id, paymentType));
     }
 }

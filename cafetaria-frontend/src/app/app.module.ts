@@ -40,6 +40,7 @@ import { AdaptionArchiveModalComponent } from './cms-ui/adaptions-ui/adaption-ar
 import { EnableAdaptionsModalComponent } from './cms-ui/products-ui/product-create-update-modal/enable-adaptions-modal/enable-adaptions-modal.component';
 import { HoldDivComponent } from './hold-div/hold-div.component';
 import { ApplyAdaptionsModalComponent } from './cashier-ui/create-update-order-ui/apply-adaptions-modal/apply-adaptions-modal.component';
+import { PayOrderModalComponent } from './cashier-ui/orders-ui/pay-order-modal/pay-order-modal.component';
 
 registerLocaleData(nl);
 
@@ -68,6 +69,7 @@ registerLocaleData(nl);
         ApplyAdaptionsModalComponent,
         EnableAdaptionsModalComponent,
         HoldDivComponent,
+        PayOrderModalComponent,
     ],
     imports: [
         BrowserModule,

@@ -58,9 +58,13 @@
                             [onHoldInvoke]="
                                 getOnHoldProductOrderInvoke(
                                     this,
-                                    this.getProductById(productOrder.productId)!,
+                                    this.getProductById(
+                                        productOrder.productId
+                                    )!,
                                     productOrder,
-                                    this.updateProductWithAdaptionShortDtos.bind(this)
+                                    this.updateProductWithAdaptionShortDtos.bind(
+                                        this
+                                    )
                                 )
                             "
                         >
@@ -82,8 +86,7 @@
                                 *ngFor="
                                     let adaption of productOrder.appliedAdaptionShortDtos
                                 "
-                            >
-                                {{ getPriceStringAdaption(adaption) }} <br
+                                >{{ getPriceStringAdaption(adaption) }} <br
                             /></span>
                         </td>
                         <td>
@@ -197,7 +200,13 @@
             >
                 <app-hold-div
                     [onClickInvoke]="getOnClickInvoke(this, product)"
-                    [onHoldInvoke]="getOnHoldInvoke(this, product, this.addProductWithAdaption.bind(this))"
+                    [onHoldInvoke]="
+                        getOnHoldInvoke(
+                            this,
+                            product,
+                            this.addProductWithAdaption.bind(this)
+                        )
+                    "
                 >
                     <div class="w-100 h-100 d-flex flex-column">
                         <div class="font-weight-bold name-tag flex-fill">

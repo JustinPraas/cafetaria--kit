@@ -1,20 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { getPriceString } from 'src/app/utils';
+import { getFriendlyLocaleString, getPriceString } from 'src/app/utils';
+import { PayOrderModalComponent } from '../pay-order-modal/pay-order-modal.component';
 import { getTotalOrderPrice } from '../utils';
 
 @Component({
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],
-    host : {
-        '[style.height]' : "'100%'",
-        '[style.display]' : 'block'
-    }
 })
 export class OrderComponent implements OnInit {
+    @HostBinding('class.card') card: boolean = true;
+    @HostBinding('class.my-3') my3: boolean = true;
+    @HostBinding('class.shadow') shadow: boolean = true;
+
     @Input()
     orderFullDto: OrderFullDto | null = null;
+
+    @Input()
+    payOrderModal?: PayOrderModalComponent;
+
 
     constructor(private productService: ProductService) {}
 
@@ -43,7 +48,12 @@ export class OrderComponent implements OnInit {
     }
 
     getParsedDateAndTime(dateAndTime: Date) {
-        const parsedDateAndTime = new Date(Date.parse(dateAndTime.toString()));
-        return parsedDateAndTime.toLocaleString("nl-NL")
+        return getFriendlyLocaleString(dateAndTime);
+    }
+
+    openPayOrderModal() {
+        this.payOrderModal?.setOrder(this.orderFullDto!);
+        //@ts-ignore
+        jQuery('#pay-order-modal').modal('show');
     }
 }

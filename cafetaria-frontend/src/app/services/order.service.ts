@@ -12,7 +12,7 @@ export class OrderService {
     constructor(
         private httpClient: HttpClient,
         private dataService: DataService,
-        private toastrService: ToastrService,
+        private toastrService: ToastrService
     ) {}
 
     fetchAllOrderFullDtos() {
@@ -21,6 +21,10 @@ export class OrderService {
             .subscribe((ofds) => {
                 this.dataService.setOrderFullDtos(ofds);
             });
+    }
+
+    getNonPaidOrders() {
+        return this.dataService.getOrderFullDtos().filter(ofd => ofd.paidOn == null);
     }
 
     getOrderFullDtoById(orderId: any): Observable<OrderFullDto> {
@@ -45,7 +49,7 @@ export class OrderService {
         this.httpClient
             .post<ProductShortDto>(`${API_ORDER_URL}`, orderCreateDto)
             .subscribe((psd: ProductShortDto) => {
-                this.toastrService.success("Bestelling geplaatst", "Gelukt!");
+                this.toastrService.success('Bestelling geplaatst', 'Gelukt!');
                 callback ? callback() : null;
             });
     }
@@ -58,7 +62,21 @@ export class OrderService {
         this.httpClient
             .put<ProductShortDto>(`${API_ORDER_URL}/${orderId}`, orderCreateDto)
             .subscribe((psd: ProductShortDto) => {
-                this.toastrService.success("Bestelling geüpdate", "Gelukt!");
+                this.toastrService.success('Bestelling geüpdate', 'Gelukt!');
+                callback ? callback() : null;
+            });
+    }
+
+    payOrder(
+        orderFullDto: OrderFullDto,
+        paymentType: string,
+        callback: () => void
+    ) {
+        this.httpClient
+            .put<OrderFullDto>(`${API_ORDER_URL}/pay/${orderFullDto.id}`, null, {params : {'paymentType': paymentType}})
+            .subscribe((ofd: OrderFullDto) => {
+                this.toastrService.success('Bestelling betaald', 'Gelukt!');
+                this.dataService.updateOrder(ofd);
                 callback ? callback() : null;
             });
     }

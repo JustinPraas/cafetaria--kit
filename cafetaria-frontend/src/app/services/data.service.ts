@@ -12,7 +12,7 @@ export class DataService {
     constructor() {}
 
     setProductShortDtos(productShortDtos: ProductShortDto[]) {
-        this.productShortDtos = productShortDtos
+        this.productShortDtos = productShortDtos;
     }
 
     setCategoryFullDtos(categoryFullDtos: CategoryFullDto[]) {
@@ -60,6 +60,14 @@ export class DataService {
         this.categoryFullDtos.find((cfd, index) => {
             if (cfd.id === categoryFullDto.id) {
                 this.categoryFullDtos[index] = categoryFullDto;
+            }
+        });
+    }
+
+    updateOrder(orderFullDto: OrderFullDto) {
+        this.orderFullDtos.find((ofd, index) => {
+            if (ofd.id === orderFullDto.id) {
+                this.orderFullDtos[index] = orderFullDto;
             }
         });
     }

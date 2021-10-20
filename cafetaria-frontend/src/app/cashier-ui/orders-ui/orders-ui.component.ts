@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { CategoryService } from 'src/app/services/category.service';
 import { DataService } from 'src/app/services/data.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -20,7 +21,16 @@ export class OrdersUiComponent implements OnInit {
         this.categoryService.fetchCategoryFullDtos();
     }
 
-    getOrderFullDtos(): OrderFullDto[] {
-        return this.dataService.getOrderFullDtos();
+    getSortedOrderFullDtos(): OrderFullDto[] {
+        return this.orderService.getNonPaidOrders().sort((b, a) => {
+            return (
+                (a.modifiedOn
+                    ? moment(a.modifiedOn).valueOf()
+                    : moment(a.createdOn).valueOf()) -
+                (b.modifiedOn
+                    ? moment(b.modifiedOn).valueOf()
+                    : moment(b.createdOn).valueOf())
+            );
+        });
     }
 }
