@@ -107,7 +107,10 @@
             </h3>
             <div class="d-flex flex-row">
                 <div class="w-50 d-grid p-2">
-                    <button class="btn btn-lg btn-outline-secondary" (click)="this.onCancelOrderAttempt()">
+                    <button
+                        class="btn btn-lg btn-outline-secondary"
+                        (click)="this.onCancelOrderAttempt()"
+                    >
                         <i
                             class="bi bi-slash-circle"
                             [style.font-size]="'2em'"
@@ -152,10 +155,10 @@
                 <span class="font-weight-bold text-dark">Alles</span>
             </div>
             <div
-                *ngFor="let category of getCategories()"
+                *ngFor="let category of getCategoryShortDtosSorted()"
                 (click)="setSelectedCategory(category)"
                 matRipple
-                [matRippleColor]="getColor(category, 0.6)"
+                [matRippleColor]="getColor(category.id, 0.6)"
                 class="
                     clickable-button
                     unselectable
@@ -164,9 +167,9 @@
                     px-1
                     py-3
                 "
-                [style.color]="getColor(category, 1)"
-                [style.background]="getColor(category, 0.1)"
-                [style.border-color]="getColor(category)"
+                [style.color]="getColor(category.id, 1)"
+                [style.background]="getColor(category.id, 0.1)"
+                [style.border-color]="getColor(category.id)"
             >
                 <span class="font-weight-bold">{{ category.name }}</span>
             </div>
@@ -177,9 +180,7 @@
             <div
                 *ngFor="let product of getProductsFromSelectedCategory()"
                 matRipple
-                [matRippleColor]="
-                    getColor(getCategoryById(product.categoryId), 0.6)
-                "
+                [matRippleColor]="getColor(product.categoryId, 0.6)"
                 class="
                     clickable-button
                     product-button
@@ -190,13 +191,9 @@
                     mb-3
                     p-1
                 "
-                [style.color]="getColor(getCategoryById(product.categoryId), 1)"
-                [style.background]="
-                    getColor(getCategoryById(product.categoryId), 0.1)
-                "
-                [style.border-color]="
-                    getColor(getCategoryById(product.categoryId))
-                "
+                [style.color]="getColor(product.categoryId, 1)"
+                [style.background]="getColor(product.categoryId, 0.1)"
+                [style.border-color]="getColor(product.categoryId)"
             >
                 <app-hold-div
                     [onClickInvoke]="getOnClickInvoke(this, product)"

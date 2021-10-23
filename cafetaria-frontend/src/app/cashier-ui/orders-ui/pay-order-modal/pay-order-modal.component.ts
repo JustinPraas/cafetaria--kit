@@ -15,13 +15,10 @@ export class PayOrderModalComponent implements OnInit {
     ngOnInit(): void {}
 
     setOrder(orda: OrderFullDto) {
-        console.log(this)
-        console.log(orda, "hello")
         this.order = orda;
     }
 
     payOrder(paymentType: PaymentType) {
-        console.log(this.order, "hello")
         if (this.order)
             this.orderService.payOrder(this.order, paymentType, this.closeModal.bind(this));
         else

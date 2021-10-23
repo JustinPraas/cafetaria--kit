@@ -58,6 +58,7 @@ public class AdaptionService {
         }
 
         Adaption adaption = adaptionRepository.getById(id);
+        adaption.getProductsWithAdaption().clear();
         adaption.setArchived(true);
         adaption.setName(adaption.getName() + " - archived");
         adaptionRepository.save(adaption);

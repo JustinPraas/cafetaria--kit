@@ -47,7 +47,6 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             priceType: new FormControl(product.priceType),
             active: new FormControl(product.active),
         });
-        console.log(product)
         this.productToEdit = product;
         this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(pasd => pasd.id!)
     }

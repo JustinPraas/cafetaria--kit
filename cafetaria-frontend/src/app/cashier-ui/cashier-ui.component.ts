@@ -19,7 +19,7 @@ export class CashierUiComponent implements OnInit {
 
     ngOnInit(): void {
         this.orderService.fetchAllOrderFullDtos();
-        this.categoryService.fetchCategoryFullDtos();
+        this.categoryService.fetchCategoryShortDtos();
         this.adaptionService.fetchAdaptions();
         this.productService.fetchProductFullDtos();
     }

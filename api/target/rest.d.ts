@@ -1,5 +1,5 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2021-10-23 14:17:28.
+// Generated using typescript-generator version 2.9.456 on 2021-10-23 16:51:02.
 
 interface ReorderEntitiesDto {
     idToSequenceOrderMap: { [index: string]: number };

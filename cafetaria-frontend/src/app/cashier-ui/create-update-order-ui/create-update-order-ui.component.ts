@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { delay, filter, retryWhen, take } from 'rxjs/operators';
 import { ConfirmationModalComponent } from 'src/app/confirmation-modal/confirmation-modal.component';
 import { CategoryService } from 'src/app/services/category.service';
+import { DataService } from 'src/app/services/data.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
 import { getPriceString, hexToRGB, sequenceOrder } from 'src/app/utils';
@@ -31,12 +32,12 @@ export class CreateUpdateOrderUiComponent implements OnInit {
 
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        return !this.changes
+        return !this.changes;
     }
 
     changes: boolean = false;
 
-    selectedCategory: CategoryFullDto | null = null;
+    selectedCategory: CategoryShortDto | null = null;
 
     orderCreateDto: OrderCreateUpdateDto = {
         customerName: '',
@@ -49,8 +50,8 @@ export class CreateUpdateOrderUiComponent implements OnInit {
     productIdForSetPrice: number | null = null;
 
     constructor(
-        private categoryService: CategoryService,
         private productService: ProductService,
+        private dataService: DataService,
         private activatedRoute: ActivatedRoute,
         private orderService: OrderService,
         private router: Router,
@@ -58,7 +59,6 @@ export class CreateUpdateOrderUiComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.categoryService.fetchCategoryFullDtos();
         this.checkForEditOrder();
 
         this.router.events
@@ -93,7 +93,8 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         });
     }
 
-    getColor(category: CategoryFullDto | null, alpha?: number) {
+    getColor(categoryId: number, alpha?: number) {
+        const category = this.getCategoryById(categoryId);
         if (!category) {
             return hexToRGB('#cccccc', alpha ? alpha : 1);
         } else {
@@ -101,19 +102,21 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         }
     }
 
-    getCategoryById(categoryId: number) {
-        return this.getCategories().filter((c) => c.id === categoryId)[0];
-    }
-
-    getCategories() {
-        return this.categoryService
-            .getCategoryFullDtos()
-            .filter((c) => !c.archived && c.active)
+    getCategoryShortDtosSorted() {
+        return this.dataService
+            .getCategoryShortDtos()
+            .filter((c) => c.active)
             .sort(sequenceOrder);
     }
 
+    getCategoryById(categoryId: number) {
+        return this.dataService
+            .getCategoryShortDtos()
+            .find(c => c.id == categoryId);
+    }
+
     getProductById(productId: number) {
-        return this.productService.getProductById(productId);
+        return this.dataService.getProductFullDtos().find(p => p.id == productId);
     }
 
     getProductName(productId: number) {
@@ -123,13 +126,26 @@ export class CreateUpdateOrderUiComponent implements OnInit {
 
     getProductsFromSelectedCategory() {
         if (this.selectedCategory) {
-            return this.selectedCategory.productShortDtos.filter(
-                (p) => !p.archived && p.active
-            ).sort(sequenceOrder);
+            return this.dataService
+                .getProductFullDtos()
+                .filter(
+                    (p) => p.categoryId == this.selectedCategory!.id && p.active
+                )
+                .sort(sequenceOrder);
         } else {
-            return ([] as ProductShortDto[])
-                .concat(...this.getCategories().sort(sequenceOrder).map((c) => c.productShortDtos))
-                .filter((p) => !p.archived && p.active);
+            const result: ProductFullDto[] = [];
+
+            this.dataService.getCategoryShortDtos().sort(sequenceOrder).forEach(c => {
+                let productsUnsorted: ProductFullDto[] = [];
+                c.productIds.forEach(pid => {
+                    const product = this.getProductById(pid);
+                    if (product)
+                        productsUnsorted.push(product)
+                })
+                result.push(...productsUnsorted.sort(sequenceOrder))
+            })
+
+            return result;
         }
     }
 
@@ -156,7 +172,7 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         );
     }
 
-    setSelectedCategory(category: CategoryFullDto | null) {
+    setSelectedCategory(category: CategoryShortDto | null) {
         this.selectedCategory = category;
     }
 
