@@ -66,7 +66,6 @@ public class CategoryService {
         validateExists(id);
 
         Category category = categoryRepository.getById(id);
-        category.setName(category.getName() + " - archived");
         category.setArchived(true);
         category.setSequenceOrder(null);
         category.getProducts().forEach(p -> p.setArchived(true));

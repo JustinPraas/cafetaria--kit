@@ -111,7 +111,6 @@ public class ProductService {
         Product product = productRepository.getById(id);
         product.setArchived(true);
         product.setSequenceOrder(null);
-        product.setName(product.getName() + " - archived");
         productRepository.save(product);
 
         return true;
