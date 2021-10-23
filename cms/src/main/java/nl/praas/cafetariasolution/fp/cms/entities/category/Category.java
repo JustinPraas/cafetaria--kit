@@ -28,6 +28,8 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
+    private Integer sequenceOrder;
+
     private Instant createdOn;
 
     private Instant modifiedOn;
@@ -38,10 +40,11 @@ public class Category {
 
     Category() { }
 
-    public Category(String name, String colorHex, List<Product> products, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
+    public Category(String name, String colorHex, List<Product> products, Integer sequenceOrder, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
         this.name = name;
         this.colorHex = colorHex;
         this.products = products;
+        this.sequenceOrder = sequenceOrder;
         this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
         this.active = active;
@@ -125,5 +128,13 @@ public class Category {
                 ", active=" + active +
                 ", archived=" + archived +
                 '}';
+    }
+
+    public Integer getSequenceOrder() {
+        return sequenceOrder;
+    }
+
+    public void setSequenceOrder(Integer sequenceOrder) {
+        this.sequenceOrder = sequenceOrder;
     }
 }

@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CategoryService } from 'src/app/services/category.service';
+import { DataService } from 'src/app/services/data.service';
 import { ProductService } from 'src/app/services/product.service';
+import { EnableAdaptionsModalComponent } from '../enable-adaptions-modal/enable-adaptions-modal.component';
 @Component({
     selector: 'app-product-create-update-modal',
     templateUrl: './product-create-update-modal.component.html',
     styleUrls: ['./product-create-update-modal.component.scss'],
 })
 export class ProductCreateUpdateModalComponent implements OnInit {
+
+    @ViewChild(EnableAdaptionsModalComponent) enableAdaptionsModal?: EnableAdaptionsModalComponent;
+
     createUpdateFormGroup = new FormGroup({
         name: new FormControl(''),
         categoryId: new FormControl(0),
@@ -18,9 +23,9 @@ export class ProductCreateUpdateModalComponent implements OnInit {
 
     possibleAdaptionIds: number[] = [];
 
-    productToEdit: ProductShortDto | null = null;
+    productToEdit: ProductFullDto | null = null;
 
-    constructor(private productService: ProductService, private categoryService: CategoryService) {}
+    constructor(private productService: ProductService, private dataService: DataService) {}
 
     getCreateUpdateModalTitle() {
         if (this.productToEdit) {
@@ -30,11 +35,11 @@ export class ProductCreateUpdateModalComponent implements OnInit {
         }
     }
 
-    getCategories() {
-        return this.categoryService.getCategoryFullDtos();
+    getCategoryShortDtos(): CategoryShortDto[] {
+        return this.dataService.getCategoryShortDtos();
     }
 
-    setProductToEdit(product: ProductShortDto) {
+    setProductToEdit(product: ProductFullDto) {
         this.createUpdateFormGroup = new FormGroup({
             name: new FormControl(product.name),
             categoryId: new FormControl(product.categoryId),
@@ -42,6 +47,7 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             priceType: new FormControl(product.priceType),
             active: new FormControl(product.active),
         });
+        console.log(product)
         this.productToEdit = product;
         this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(pasd => pasd.id!)
     }
@@ -77,7 +83,12 @@ export class ProductCreateUpdateModalComponent implements OnInit {
         this.possibleAdaptionIds = []
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#product-create-update-modal').on('shown.bs.modal', function () {
+            //@ts-ignore
+            jQuery('#productName').trigger('focus');
+        });}
 
     onSubmit() {
         const controls = this.createUpdateFormGroup.controls;

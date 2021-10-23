@@ -1,14 +1,14 @@
 package nl.praas.cafetariasolution.api.dto.adaption;
 
+import nl.praas.cafetariasolution.api.dto.product.ProductShortDto;
+
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 
-public class AdaptionFullDto {
+public class AdaptionFullDto extends AdaptionShortDto {
 
-    private Integer id;
-
-    private String name;
-
-    private String price;
+    private List<ProductShortDto> linkedProductShortDtos;
 
     private Instant createdOn;
 
@@ -18,28 +18,15 @@ public class AdaptionFullDto {
 
     private boolean archived;
 
-    public AdaptionFullDto() { }
+    public AdaptionFullDto() { super(); }
 
-    public AdaptionFullDto(Integer id, String name, String price, Instant createdOn, Instant modifiedOn, boolean registered, boolean archived) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
+    public AdaptionFullDto(Integer id, String name, String price, List<ProductShortDto> linkedProductShortDtos, Instant createdOn, Instant modifiedOn, boolean registered, boolean archived) {
+        super(Optional.of(id), name, price);
+        this.linkedProductShortDtos = linkedProductShortDtos;
         this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
         this.registered = registered;
         this.archived = archived;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPrice() {
-        return price;
     }
 
     public Instant getCreatedOn() {
@@ -56,5 +43,13 @@ public class AdaptionFullDto {
 
     public boolean isArchived() {
         return archived;
+    }
+
+    public List<ProductShortDto> getLinkedProductShortDtos() {
+        return linkedProductShortDtos;
+    }
+
+    public void setLinkedProductShortDtos(List<ProductShortDto> linkedProductShortDtos) {
+        this.linkedProductShortDtos = linkedProductShortDtos;
     }
 }

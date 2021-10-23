@@ -9,13 +9,23 @@ import { getPriceString } from 'src/app/utils';
 export class ApplyAdaptionsModalComponent implements OnInit {
     selectedAdaptionShortDtos: AdaptionShortDto[] = [];
 
-    forProduct: ProductShortDto | null = null;
+    forProduct: ProductFullDto | null = null;
 
     forProductOrderCreateUpdateDto?: ProductOrderCreateUpdateDto;
 
-    onApplyAdaptionShortDtos: (product: ProductShortDto, appliedAdaptionShortDtos: AdaptionShortDto[], productCreateUpdateOrderDto?: ProductOrderCreateUpdateDto) => void = () => null;
+    onApplyAdaptionShortDtos: (
+        product: ProductFullDto,
+        appliedAdaptionShortDtos: AdaptionShortDto[],
+        productCreateUpdateOrderDto?: ProductOrderCreateUpdateDto
+    ) => void = () => null;
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#confirm-order-modal').on('shown.bs.modal', function () {
+            //@ts-ignore
+            jQuery('#customerName').trigger('focus');
+        });
+    }
 
     closeModal() {
         this.forProduct = null;
@@ -29,12 +39,15 @@ export class ApplyAdaptionsModalComponent implements OnInit {
     }
 
     isSelected(adaptionShortDto: AdaptionShortDto) {
-        return this.selectedAdaptionShortDtos.map(asd => asd.name).includes(adaptionShortDto.name);
+        return this.selectedAdaptionShortDtos
+            .map((asd) => asd.name)
+            .includes(adaptionShortDto.name);
     }
 
     deselect(adaptionShortDto: AdaptionShortDto) {
-        this.selectedAdaptionShortDtos =
-            this.selectedAdaptionShortDtos.filter((asd) => asd.name != adaptionShortDto.name);
+        this.selectedAdaptionShortDtos = this.selectedAdaptionShortDtos.filter(
+            (asd) => asd.name != adaptionShortDto.name
+        );
     }
 
     select(adaptionShortDto: AdaptionShortDto) {

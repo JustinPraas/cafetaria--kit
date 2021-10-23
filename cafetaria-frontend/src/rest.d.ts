@@ -1,15 +1,17 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2021-10-18 19:55:45.
+// Generated using typescript-generator version 2.9.456 on 2021-10-23 14:17:28.
+
+interface ReorderEntitiesDto {
+    idToSequenceOrderMap: { [index: string]: number };
+}
 
 interface AdaptionCreateUpdateDto {
     name: string;
     price: string;
 }
 
-interface AdaptionFullDto {
-    id: number;
-    name: string;
-    price: string;
+interface AdaptionFullDto extends AdaptionShortDto {
+    linkedProductShortDtos: ProductShortDto[];
     createdOn: Date;
     modifiedOn: Date;
     registered: boolean;
@@ -36,6 +38,8 @@ interface CategoryShortDto {
     id: number;
     name: string;
     colorHex: string;
+    sequenceOrder?: number;
+    productIds: number[];
     createdOn: Date;
     modifiedOn: Date;
     active: boolean;
@@ -84,13 +88,17 @@ interface ProductCreateUpdateDto {
     active: boolean;
 }
 
+interface ProductFullDto extends ProductShortDto {
+    possibleAdaptionShortDtos: AdaptionShortDto[];
+}
+
 interface ProductShortDto {
     id: number;
     name: string;
     categoryId: number;
     priceType: PriceType;
     price: string;
-    possibleAdaptionShortDtos: AdaptionShortDto[];
+    sequenceOrder?: number;
     createdOn: Date;
     modifiedOn: Date;
     active: boolean;

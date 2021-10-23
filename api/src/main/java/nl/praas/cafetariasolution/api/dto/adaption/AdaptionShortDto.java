@@ -10,7 +10,7 @@ public class AdaptionShortDto {
 
     private String price;
 
-    private AdaptionShortDto() { }
+    AdaptionShortDto() { }
 
     public AdaptionShortDto(Optional<Integer> id, String name, String price) {
         this.id = id;

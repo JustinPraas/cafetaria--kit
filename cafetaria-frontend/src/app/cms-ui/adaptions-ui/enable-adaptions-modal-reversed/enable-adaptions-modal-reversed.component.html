@@ -1,0 +1,61 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    data-bs-backdrop="static"
+    id="enable-adaptions-modal-reversed"
+    tabindex="-1"
+    aria-labelledby="enableAdaptionsReversedModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="enableAdaptionsReversedModalLabel">
+                    Producten aan deze aanpassing koppelen
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <p>Selecteer de producten die mogelijk deze aanpassing kunnen krijgen</p>
+                <div class="px-4 py-3 border overflow-auto" [style.height]="'250px'">
+                    <div
+                        *ngFor="let product of getProductFullDtos()"
+                        class="form-check"
+                    >
+                        <input
+                            class="form-check-input"
+                            [id]="'cb'+product.id"
+                            type="checkbox"
+                            [checked]="isSelected(product.id)"
+                            (click)="
+                                isSelected(product.id)
+                                    ? deselect(product.id)
+                                    : select(product.id)
+                            "
+                        />
+                        <label class="form-check-label" [for]="'cb'+product.id">
+                            {{ product.name }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-lg"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary btn-lg"
+                    (click)="this.setPossibleProductIds()"
+                >
+                    Opslaan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

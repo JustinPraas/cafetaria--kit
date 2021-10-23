@@ -1,7 +1,9 @@
 package nl.praas.cafetariasolution.fp.cms.controllers;
 
+import nl.praas.cafetariasolution.api.dto.ReorderEntitiesDto;
 import nl.praas.cafetariasolution.api.dto.category.CategoryCreateUpdateDto;
 import nl.praas.cafetariasolution.api.dto.category.CategoryFullDto;
+import nl.praas.cafetariasolution.api.dto.category.CategoryShortDto;
 import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 import nl.praas.cafetariasolution.fp.cms.services.CategoryService;
 import nl.praas.cafetariasolution.fp.cms.utils.EntityToDtoUtils;
@@ -25,11 +27,18 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
-    public List<CategoryFullDto> getCategories() {
+    @GetMapping("/full")
+    public List<CategoryFullDto> getCategoriesFull() {
         return categoryService.getCategories().stream()
                 .filter(c -> !c.isArchived())
                 .map(EntityToDtoUtils::convertToCategoryFullDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/short")
+    public List<CategoryShortDto> getCategoriesShort() {
+        return categoryService.getCategories().stream()
+                .filter(c -> !c.isArchived())
+                .map(EntityToDtoUtils::convertToCategoryShortDto).collect(Collectors.toList());
     }
 
     @GetMapping("/archived")
@@ -51,6 +60,13 @@ public class CategoryController {
         Category category = categoryService.updateCategory(id, categoryCreateUpdateDto);
 
         return EntityToDtoUtils.convertToCategoryFullDto(category);
+    }
+
+    @PutMapping("/reorder")
+    public List<CategoryFullDto> reorderCategories(@RequestBody ReorderEntitiesDto reorderEntitiesDto) {
+        List<Category> reorderedCategories = categoryService.reorderCategories(reorderEntitiesDto);
+
+        return reorderedCategories.stream().map(EntityToDtoUtils::convertToCategoryFullDto).collect(Collectors.toList());
     }
 
     @DeleteMapping("/{id}")

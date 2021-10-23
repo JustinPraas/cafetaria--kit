@@ -1,5 +1,6 @@
 package nl.praas.cafetariasolution.fp.cms.services;
 
+import nl.praas.cafetariasolution.api.dto.ReorderEntitiesDto;
 import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 import nl.praas.cafetariasolution.fp.cms.entities.product.PriceType;
@@ -12,14 +13,17 @@ import nl.praas.cafetariasolution.fp.cms.utils.CurrencyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 @Component
+@Transactional
 public class ProductService {
 
     @Autowired
@@ -46,10 +50,13 @@ public class ProductService {
 
         List<Adaption> adaptions = adaptionRepository.findAllById(productCreateUpdateDto.getPossibleAdaptionIds());
 
+        Integer lastSequenceOrder = productRepository.findMaxSequenceOrderInCategory(category.getId()).orElse(0);
+
         Product product = new Product(productCreateUpdateDto.getName(),
                 category,
                 adaptions, priceType,
                 price,
+                lastSequenceOrder + 1,
                 Instant.now(),
                 null,
                 productCreateUpdateDto.isActive(),
@@ -103,6 +110,7 @@ public class ProductService {
 
         Product product = productRepository.getById(id);
         product.setArchived(true);
+        product.setSequenceOrder(null);
         product.setName(product.getName() + " - archived");
         productRepository.save(product);
 
@@ -130,5 +138,16 @@ public class ProductService {
             return;
         }
         CurrencyUtils.parse(productCreateUpdateDto.getPrice());
+    }
+
+    public List<Product> reorderProducts(ReorderEntitiesDto reorderEntitiesDto) {
+        Map<Integer, Integer> idToSequenceOrderMap = reorderEntitiesDto.getIdToSequenceOrderMap();
+        List<Product> products = productRepository.findAllById(reorderEntitiesDto.getIdToSequenceOrderMap().keySet());
+
+        products.forEach(product -> {
+            product.setSequenceOrder(idToSequenceOrderMap.get(product.getId()));
+        });
+
+        return productRepository.saveAll(products);
     }
 }

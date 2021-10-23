@@ -28,7 +28,7 @@
                     <div class="input-group mb-4 px-3">
                         <span class="input-group-text" id="basic-addon1">€</span>
                         <input
-                            id="name"
+                            id="priceInput"
                             type="text"
                             formControlName="price"
                             class="form-control form-control-lg"
@@ -83,7 +83,7 @@
             <div class="modal-footer d-flex flex-row justify-content-between">
                 <button
                     type="button"
-                    class="btn btn-lg btn-secondary"
+                    class="btn btn-lg py-3 fs-5 btn-secondary px-3"
                     (click)="closeModal()"
                 >
                     Sluiten
@@ -91,7 +91,7 @@
                 <button
                     type="submit"
                     form="setPriceForm"
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-lg py-3 fs-5 btn-primary px-3"
                 >
                     Prijs vastleggen
                 </button>

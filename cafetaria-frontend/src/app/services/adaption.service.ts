@@ -22,8 +22,10 @@ export class AdaptionService {
             });
     }
 
-    getAllNonArchivedAdaptions() {
-        return this.dataService.getAdaptionFullDtos().filter(afd => !afd.archived);
+    getAdaptions() {
+        return this.dataService
+            .getAdaptionFullDtos()
+            .filter((afd) => !afd.archived);
     }
 
     createAdaption(
@@ -34,8 +36,8 @@ export class AdaptionService {
             .post<AdaptionFullDto>(API_ADAPTION_URL, adaptionCreateUpdateDto)
             .subscribe((afd: AdaptionFullDto) => {
                 this.dataService.insertAdaptionIntoAdaptionFullDtos(afd);
-                callback()
-                this.toastr.success('Aanpassing aangemaakt', "Gelukt!");
+                callback();
+                this.toastr.success('Aanpassing aangemaakt', 'Gelukt!');
             });
     }
 
@@ -45,11 +47,14 @@ export class AdaptionService {
         callback: () => void
     ) {
         this.httpClient
-            .put<AdaptionFullDto>(API_ADAPTION_URL + `/${id}`, adaptionCreateUpdateDto)
+            .put<AdaptionFullDto>(
+                API_ADAPTION_URL + `/${id}`,
+                adaptionCreateUpdateDto
+            )
             .subscribe((afd: AdaptionFullDto) => {
                 this.dataService.updateAdaption(afd);
-                callback()
-                this.toastr.success('Aanpassing geüpdate', "Gelukt!");
+                callback();
+                this.toastr.success('Aanpassing geüpdate', 'Gelukt!');
             });
     }
 
@@ -60,7 +65,45 @@ export class AdaptionService {
                 if (result) {
                     this.dataService.archiveAdaption(adaptionToArchive);
                     callback();
-                    this.toastr.success('Aanpassing gearchiveerd', "Gelukt!");
+                    this.toastr.success('Aanpassing gearchiveerd', 'Gelukt!');
+                }
+            });
+    }
+
+    linkProductsToAdaption(
+        id: number,
+        selectedPossibleProductIds: number[],
+        callback: () => void
+    ) {
+        this.httpClient
+            .put<AdaptionFullDto>(
+                `${API_ADAPTION_URL}/${id}/linkProducts`,
+                selectedPossibleProductIds
+            )
+            .subscribe((adaption: AdaptionFullDto) => {
+                if (adaption) {
+                    this.dataService.updateAdaption(adaption);
+                    callback();
+                    this.toastr.success('Producten gelinkt aan aanpassing!');
+                }
+            });
+    }
+
+    linkAdaptionsToProduct(
+        id: number,
+        selectedPossibleAdaptionIds: number[],
+        callback: () => void
+    ) {
+        this.httpClient
+            .put<AdaptionFullDto>(
+                `${API_ADAPTION_URL}/${id}/linkAdaptions`,
+                selectedPossibleAdaptionIds
+            )
+            .subscribe((adaption: AdaptionFullDto) => {
+                if (adaption) {
+                    this.dataService.updateAdaption(adaption);
+                    callback();
+                    this.toastr.success('Aanpassing gelinkt aan het product!');
                 }
             });
     }

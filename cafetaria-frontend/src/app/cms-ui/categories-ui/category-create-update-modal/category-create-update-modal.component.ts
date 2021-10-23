@@ -14,20 +14,20 @@ export class CategoryCreateUpdateModalComponent implements OnInit {
         active: new FormControl(true),
     });
 
-    categoryToEdit: CategoryFullDto | null = null;
-    selectedColor: string = "#ff33dd";
+    categoryToEdit: CategoryShortDto | null = null;
+    selectedColor: string = '#ff33dd';
 
     constructor(private categoryService: CategoryService) {}
 
     getCreateUpdateModalTitle() {
         if (this.categoryToEdit) {
-            return "Categorie bijwerken"
+            return 'Categorie bijwerken';
         } else {
-            return "Categorie maken"
+            return 'Categorie maken';
         }
     }
 
-    setCategoryToEdit(category: CategoryFullDto) {
+    setCategoryToEdit(category: CategoryShortDto) {
         this.createUpdateFormGroup = new FormGroup({
             name: new FormControl(category.name),
             active: new FormControl(category.active),
@@ -55,7 +55,16 @@ export class CategoryCreateUpdateModalComponent implements OnInit {
         this.categoryToEdit = null;
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#category-create-update-modal').on(
+            'shown.bs.modal',
+            function () {
+                //@ts-ignore
+                jQuery('#categoryName').trigger('focus');
+            }
+        );
+    }
 
     onSubmit() {
         const controls = this.createUpdateFormGroup.controls;
@@ -67,7 +76,10 @@ export class CategoryCreateUpdateModalComponent implements OnInit {
         };
 
         if (this.categoryToEdit == null) {
-            this.categoryService.createCategory(categoryCreateUpdateDto, this.onSuccess.bind(this));
+            this.categoryService.createCategory(
+                categoryCreateUpdateDto,
+                this.onSuccess.bind(this)
+            );
         } else {
             this.categoryService.updateCategory(
                 this.categoryToEdit.id,

@@ -22,21 +22,20 @@ export class ProductService {
         }
     }
 
-    fetchProductShortDtos() {
+    fetchProductFullDtos() {
         this.httpClient
-            .get<ProductShortDto[]>(
-                API_PRODUCT_URL
-            ).subscribe(psds => {
-                this.dataService.setProductShortDtos(psds);
-            })
+            .get<ProductFullDto[]>(`${API_PRODUCT_URL}/full`)
+            .subscribe((psds) => {
+                this.dataService.setProductFullDtos(psds);
+            });
     }
 
-    getAllProductShortDtos() {
-        return this.dataService.getProductShortDtos();
+    getAllProductFullDtos() {
+        return this.dataService.getProductFullDtos();
     }
 
     getProductById(productId: number) {
-        return this.getAllProductShortDtos().find(p => p.id == productId);
+        return this.getAllProductFullDtos().find((p) => p.id == productId);
     }
 
     createProduct(
@@ -44,12 +43,9 @@ export class ProductService {
         callback?: () => void
     ) {
         this.httpClient
-            .post<ProductShortDto>(
-                `${API_PRODUCT_URL}`,
-                productCreateUpdateDto
-            )
-            .subscribe((psd: ProductShortDto) => {
-                this.dataService.insertProductIntoCategory(psd.categoryId, psd);
+            .post<ProductFullDto>(`${API_PRODUCT_URL}`, productCreateUpdateDto)
+            .subscribe((psd: ProductFullDto) => {
+                this.dataService.insertProduct(psd);
                 callback ? callback() : null;
                 this.onSuccess('Product toegevoegd');
             });
@@ -61,28 +57,45 @@ export class ProductService {
         callback?: () => void
     ) {
         this.httpClient
-            .put<ProductShortDto>(
+            .put<ProductFullDto>(
                 `${API_PRODUCT_URL}/${id}`,
                 productCreateUpdateDto
             )
-            .subscribe((psd: ProductShortDto) => {
-                this.dataService.updateProductInCategory(psd.categoryId, psd);
+            .subscribe((psd: ProductFullDto) => {
+                this.dataService.updateProduct(psd);
                 callback ? callback() : null;
                 this.onSuccess('Product bijgewerkt');
             });
     }
 
-    archiveProduct(productToArchive: ProductShortDto, callback?: () => void) {
+    archiveProduct(productToArchive: ProductFullDto, callback?: () => void) {
         this.httpClient
             .delete<boolean>(`${API_PRODUCT_URL}/${productToArchive.id}`)
             .subscribe((result: boolean) => {
                 if (result) {
-                    this.dataService.spliceProductFromCategory(
-                        productToArchive.categoryId,
-                        productToArchive.id
-                    );
+                    this.dataService.archiveProduct(productToArchive.id);
                     callback ? callback() : null;
                     this.onSuccess('Product gearchiveerd');
+                }
+            });
+    }
+
+    reorderProducts(
+        idToSequenceOrderMap: ReorderEntitiesDto,
+        callback?: () => void
+    ) {
+        this.httpClient
+            .put<ProductFullDto[]>(
+                `${API_PRODUCT_URL}/reorder`,
+                idToSequenceOrderMap
+            )
+            .subscribe((result: ProductFullDto[]) => {
+                if (result) {
+                    result.forEach(p => {
+                        this.dataService.updateProduct(p);
+                    })
+                    callback ? callback() : null;
+                    this.onSuccess('Volgorde aangepast!');
                 }
             });
     }

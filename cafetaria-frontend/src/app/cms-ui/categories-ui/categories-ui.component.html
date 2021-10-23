@@ -4,9 +4,16 @@
         <button
             data-bs-toggle="modal"
             data-bs-target="#category-create-update-modal"
-            class="btn btn-primary"
+            class="btn btn-primary mr-3"
         >
             <i class="bi bi-bookmark-plus"></i> Nieuwe categorie toevoegen
+        </button>
+        <button
+            data-bs-toggle="modal"
+            data-bs-target="#reorder-modal"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-list-ol"></i> Categorie volgorde veranderen
         </button>
     </div>
 
@@ -22,9 +29,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let category of getCategories()">
+                    <tr *ngFor="let category of getCategoryShortDtosSorted()">
                         <td><span class="badge rounded-pill mr-2" [style.background]="category.colorHex">&nbsp;&nbsp;&nbsp;</span>{{ category.name }}</td>
-                        <td>{{ category.productShortDtos.length }}</td>
+                        <td>{{ category.productIds.length }}</td>
                         <td>
                             <input
                                 type="checkbox"
@@ -66,3 +73,4 @@
 </div>
 <app-category-archive-modal></app-category-archive-modal>
 <app-category-create-update-modal></app-category-create-update-modal>
+<app-reorder-modal [elements]="getCategoryShortDtosSorted()" [onApplySequenceInvoke]="this.onApplyReorderInvoke.bind(this)"></app-reorder-modal>

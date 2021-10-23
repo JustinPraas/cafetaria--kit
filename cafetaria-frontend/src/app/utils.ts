@@ -33,3 +33,5 @@ export function getPriceString(price: string, priceType: PriceType) {
 export function getFriendlyLocaleString(date: Date) {
     return moment(date).format('llll'); // wo. 20 okt. 2021 16:26
 }
+
+export const sequenceOrder: (e1: {sequenceOrder?: number}, e2: {sequenceOrder?: number}) => number = (e1, e2) => e1.sequenceOrder! - e2.sequenceOrder!;

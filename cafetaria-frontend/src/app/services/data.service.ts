@@ -4,15 +4,20 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class DataService {
+    private categoryShortDtos: CategoryShortDto[] = [];
     private categoryFullDtos: CategoryFullDto[] = [];
     private orderFullDtos: OrderFullDto[] = [];
     private adaptionFullDtos: AdaptionFullDto[] = [];
-    private productShortDtos: ProductShortDto[] = [];
+    private productFullDtos: ProductFullDto[] = [];
 
     constructor() {}
 
-    setProductShortDtos(productShortDtos: ProductShortDto[]) {
-        this.productShortDtos = productShortDtos;
+    setProductFullDtos(productFullDtos: ProductFullDto[]) {
+        this.productFullDtos = productFullDtos;
+    }
+
+    setCategoryShortDtos(categoryShortDtos: CategoryShortDto[]) {
+        this.categoryShortDtos = categoryShortDtos;
     }
 
     setCategoryFullDtos(categoryFullDtos: CategoryFullDto[]) {
@@ -27,6 +32,10 @@ export class DataService {
         this.adaptionFullDtos = adaptionFullDtos;
     }
 
+    getCategoryShortDtos() {
+        return this.categoryShortDtos;
+    }
+
     getCategoryFullDtos() {
         return this.categoryFullDtos;
     }
@@ -39,31 +48,43 @@ export class DataService {
         return this.adaptionFullDtos;
     }
 
-    getProductShortDtos() {
-        return this.productShortDtos;
+    getProductFullDtos() {
+        return this.productFullDtos;
     }
 
-    getNonArchivedProductShortDtos(categoryId: number) {
-        const productShortDtos = this.categoryFullDtos.find(
-            (c) => c.id === categoryId
-        );
-        return productShortDtos
-            ? productShortDtos.productShortDtos.filter((p) => !p.archived)
+    getNonArchivedProductFullDtos(categoryId: number) {
+        const category = this.categoryFullDtos.find((c) => c.id === categoryId);
+        return category
+            ? category.productShortDtos.filter((p) => !p.archived)
             : [];
     }
 
-    insertCategoryFullDto(categoryFullDto: CategoryFullDto) {
-        this.categoryFullDtos.push(categoryFullDto);
+    /**
+     * CRUD CATEGORIES
+     */
+    insertCategoryFullDto(categoryShortDto: CategoryShortDto) {
+        this.categoryShortDtos.push(categoryShortDto);
     }
 
-    updateCategory(categoryFullDto: CategoryFullDto) {
-        this.categoryFullDtos.find((cfd, index) => {
-            if (cfd.id === categoryFullDto.id) {
-                this.categoryFullDtos[index] = categoryFullDto;
+    updateCategory(categoryShortDto: CategoryShortDto) {
+        this.categoryShortDtos.find((cfd, index) => {
+            if (cfd.id === categoryShortDto.id) {
+                this.categoryShortDtos[index] = categoryShortDto;
             }
         });
     }
 
+    archiveCategory(categoryToArchive: CategoryShortDto) {
+        this.categoryShortDtos.find((cfd, index) => {
+            if (cfd && cfd.id === categoryToArchive.id) {
+                this.categoryShortDtos.splice(index, 1);
+            }
+        });
+    }
+
+    /**
+     * CRUD ORDER
+     */
     updateOrder(orderFullDto: OrderFullDto) {
         this.orderFullDtos.find((ofd, index) => {
             if (ofd.id === orderFullDto.id) {
@@ -72,55 +93,25 @@ export class DataService {
         });
     }
 
-    archiveCategory(categoryToArchive: CategoryFullDto) {
-        this.categoryFullDtos.find((cfd, index) => {
-            if (cfd && cfd.id === categoryToArchive.id) {
-                this.categoryFullDtos.splice(index, 1);
+    /**
+     * CRUD PRODUCTS
+     */
+    insertProduct(productFullDto: ProductFullDto) {
+        this.productFullDtos.push(productFullDto);
+    }
+
+    updateProduct(product: ProductFullDto) {
+        this.productFullDtos.find((psd, pindex) => {
+            if (psd.id === product.id) {
+                this.productFullDtos[pindex] = product;
             }
         });
     }
 
-    insertProductIntoCategory(
-        categoryId: number,
-        productShortDto: ProductShortDto
-    ) {
-        this.categoryFullDtos.find((cfd, cindex) => {
-            if (cfd.id === categoryId) {
-                this.categoryFullDtos[cindex].productShortDtos.push(
-                    productShortDto
-                );
-            }
-        });
-    }
-
-    updateProductInCategory(categoryId: number, product: ProductShortDto) {
-        this.categoryFullDtos.find((cfd, cindex) => {
-            if (cfd.id === categoryId) {
-                this.categoryFullDtos[cindex].productShortDtos.find(
-                    (psd, pindex) => {
-                        if (psd.id === product.id) {
-                            this.categoryFullDtos[cindex].productShortDtos[
-                                pindex
-                            ] = product;
-                        }
-                    }
-                );
-            }
-        });
-    }
-
-    spliceProductFromCategory(categoryId: number, productId: number) {
-        this.categoryFullDtos.find((cfd, cindex) => {
-            if (cfd.id === categoryId) {
-                this.categoryFullDtos[cindex].productShortDtos.find(
-                    (psd, pindex) => {
-                        if (psd && psd.id === productId) {
-                            this.categoryFullDtos[
-                                cindex
-                            ].productShortDtos.splice(pindex, 1);
-                        }
-                    }
-                );
+    archiveProduct(productId: number) {
+        this.productFullDtos.find((psd, pindex) => {
+            if (psd && psd.id === productId) {
+                this.productFullDtos.splice(pindex, 1);
             }
         });
     }

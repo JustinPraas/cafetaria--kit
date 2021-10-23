@@ -2,6 +2,8 @@ package nl.praas.cafetariasolution.fp.cms.controllers;
 
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionCreateUpdateDto;
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionFullDto;
+import nl.praas.cafetariasolution.api.dto.product.ProductFullDto;
+import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.services.AdaptionService;
 import nl.praas.cafetariasolution.fp.cms.utils.EntityToDtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ public class AdaptionController {
 
     @GetMapping
     public List<AdaptionFullDto> getAdaptions() {
-        return this.adaptionService.getAllAdaptions().stream().map(EntityToDtoUtils::convertToAdaptionFullDto).collect(Collectors.toList());
+        return this.adaptionService.getAllAdaptions().stream()
+                .filter(adaption -> !adaption.isArchived())
+                .map(EntityToDtoUtils::convertToAdaptionFullDto).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -42,5 +46,15 @@ public class AdaptionController {
     @DeleteMapping("/{id}")
     public boolean archiveAdaption(@PathVariable int id) {
         return this.adaptionService.archiveAdaption(id);
+    }
+
+    @PutMapping("/{id}/linkProducts")
+    public AdaptionFullDto linkProductsToAdaption(@PathVariable int id, @RequestBody List<Integer> productIds) {
+        return EntityToDtoUtils.convertToAdaptionFullDto(this.adaptionService.linkProductsToAdaption(id, productIds));
+    }
+
+    @PutMapping("/{id}/linkAdaptions")
+    public ProductFullDto linkAdaptionsToProduct(@PathVariable int id, @RequestBody List<Integer> adaptionIds) {
+        return EntityToDtoUtils.convertToProductFullDto(this.adaptionService.linkAdaptionsToProduct(id, adaptionIds));
     }
 }

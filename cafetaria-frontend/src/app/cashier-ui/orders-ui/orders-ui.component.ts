@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { CategoryService } from 'src/app/services/category.service';
-import { DataService } from 'src/app/services/data.service';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -12,8 +11,7 @@ import { OrderService } from 'src/app/services/order.service';
 export class OrdersUiComponent implements OnInit {
     constructor(
         private orderService: OrderService,
-        private categoryService: CategoryService,
-        private dataService: DataService
+        private categoryService: CategoryService
     ) {}
 
     ngOnInit(): void {

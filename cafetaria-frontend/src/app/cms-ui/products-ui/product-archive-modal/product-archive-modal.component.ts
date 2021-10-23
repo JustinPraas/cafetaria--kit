@@ -7,11 +7,11 @@ import { ProductService } from 'src/app/services/product.service';
     styleUrls: ['./product-archive-modal.component.scss'],
 })
 export class ProductArchiveModalComponent implements OnInit {
-    productToArchive: ProductShortDto | null = null;
+    productToArchive: ProductFullDto | null = null;
 
     constructor(private productService: ProductService) {}
 
-    setProductToArchive(produt: ProductShortDto) {
+    setProductToArchive(produt: ProductFullDto) {
         this.productToArchive = produt;
     }
 

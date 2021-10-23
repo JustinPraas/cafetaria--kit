@@ -3,9 +3,9 @@ import { isEmpty } from "rxjs/operators";
 
 export function getProductName(
     productId: number,
-    productShortDtos: ProductShortDto[]
+    productFullDtos: ProductFullDto[]
 ) {
-    return productShortDtos.find((psd) => psd.id === productId)?.name;
+    return productFullDtos.find((psd) => psd.id === productId)?.name;
 }
 
 export function getTotalOrderPrice(productOrderShortDtos: ProductOrderShortDto[]) {

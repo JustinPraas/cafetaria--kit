@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdaptionService } from 'src/app/services/adaption.service';
+import { DataService } from 'src/app/services/data.service';
 import { getPriceString } from 'src/app/utils';
 
 @Component({
@@ -10,25 +11,24 @@ import { getPriceString } from 'src/app/utils';
 export class EnableAdaptionsModalComponent implements OnInit {
     selectedPossibleAdaptionIds: number[] = [];
 
-    @Input()
-    setPossibleAdaptionIds: (ids: number[]) => void = () => null;
+    forProduct: ProductFullDto | null = null;
 
-    @Input()
-    set possibleAdaptionIds(ids: number[]) {
-        this.selectedPossibleAdaptionIds = ids;
-    }
-
-    constructor(private adaptionService: AdaptionService) {}
+    constructor(private adaptionService: AdaptionService, private dataService: DataService) {}
 
     ngOnInit(): void {}
+
+    setForProduct(product: ProductFullDto) {
+        this.forProduct = product;
+        this.selectedPossibleAdaptionIds = product.possibleAdaptionShortDtos.map(p => p.id!);
+    }
 
     closeModal() {
         //@ts-ignore
         jQuery('#enable-adaptions-modal').modal('hide');
     }
 
-    getNonArchivedAdaptionShortDtos() {
-        return this.adaptionService.getAllNonArchivedAdaptions();
+    getAdaptionFullDtos() {
+        return this.dataService.getAdaptionFullDtos();
     }
 
     getPriceString(adaption: AdaptionShortDto) {
@@ -49,5 +49,11 @@ export class EnableAdaptionsModalComponent implements OnInit {
         this.selectedPossibleAdaptionIds = [
             ...new Set(this.selectedPossibleAdaptionIds),
         ];
+    }
+
+    setPossibleProductIds() {
+        if (this.forProduct) {
+            this.adaptionService.linkAdaptionsToProduct(this.forProduct.id, this.selectedPossibleAdaptionIds, this.closeModal.bind(this))
+        }
     }
 }

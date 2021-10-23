@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { ColorPickerModule } from 'ngx-color-picker';
 import {MatRippleModule} from '@angular/material/core';
@@ -37,10 +38,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
 import { AdaptionCreateUpdateModalComponent } from './cms-ui/adaptions-ui/adaption-create-update-modal/adaption-create-update-modal.component';
 import { AdaptionArchiveModalComponent } from './cms-ui/adaptions-ui/adaption-archive-modal/adaption-archive-modal.component';
-import { EnableAdaptionsModalComponent } from './cms-ui/products-ui/product-create-update-modal/enable-adaptions-modal/enable-adaptions-modal.component';
 import { HoldDivComponent } from './hold-div/hold-div.component';
 import { ApplyAdaptionsModalComponent } from './cashier-ui/create-update-order-ui/apply-adaptions-modal/apply-adaptions-modal.component';
 import { PayOrderModalComponent } from './cashier-ui/orders-ui/pay-order-modal/pay-order-modal.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { EnableAdaptionsModalComponent } from './cms-ui/products-ui/enable-adaptions-modal/enable-adaptions-modal.component';
+import { PendingChangesGuard } from 'src/PendingChangesGuard';
+import { ReorderModalComponent } from './cms-ui/reorder-modal/reorder-modal.component';
+import { EnableAdaptionsModalReversedComponent } from './cms-ui/adaptions-ui/enable-adaptions-modal-reversed/enable-adaptions-modal-reversed.component';
 
 registerLocaleData(nl);
 
@@ -70,6 +75,9 @@ registerLocaleData(nl);
         EnableAdaptionsModalComponent,
         HoldDivComponent,
         PayOrderModalComponent,
+        ConfirmationModalComponent,
+        ReorderModalComponent,
+        EnableAdaptionsModalReversedComponent,
     ],
     imports: [
         BrowserModule,
@@ -79,6 +87,7 @@ registerLocaleData(nl);
         NzLayoutModule,
         AppRoutingModule,
         NzIconModule,
+        DragDropModule,
         ReactiveFormsModule,
         NgbModule,
         MatRippleModule,
@@ -86,6 +95,7 @@ registerLocaleData(nl);
         ToastrModule.forRoot(),
     ],
     providers: [
+        PendingChangesGuard,
         { provide: NZ_I18N, useValue: nl_NL },
         {
             provide: HTTP_INTERCEPTORS,

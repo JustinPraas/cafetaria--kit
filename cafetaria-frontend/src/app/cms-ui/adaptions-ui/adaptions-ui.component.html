@@ -27,6 +27,16 @@
                         <td>{{ getPriceString(adaption) }}</td>
                         <td>
                             <button
+                                type="button"
+                                data-bs-target="#enable-adaptions-modal-reversed"
+                                (click)="this.enableAdaptionReversedModal!.setForAdaption(adaption)"
+                                data-bs-toggle="modal"
+                                data-bs-dismiss="modal"
+                                class="btn btn-outline-primary mr-2"
+                            >
+                                Selecteer gekoppelde producten
+                            </button>
+                            <button
                                 (click)="
                                     adaptionCreateUpdateModal?.setAdaptionToEdit(
                                         adaption
@@ -34,7 +44,7 @@
                                 "
                                 data-bs-toggle="modal"
                                 data-bs-target="#adaption-create-update-modal"
-                                class="btn btn-primary btn-sm mr-2"
+                                class="btn btn-primary mr-2"
                             >
                                 <i class="bi bi-pencil"></i>
                             </button>
@@ -46,7 +56,7 @@
                                 "
                                 data-bs-toggle="modal"
                                 data-bs-target="#adaption-archive-modal"
-                                class="btn btn-danger btn-sm"
+                                class="btn btn-danger"
                             >
                                 <i class="bi bi-archive-fill"></i>
                             </button>
@@ -57,5 +67,6 @@
         </div>
     </div>
 </div>
+<app-enable-adaptions-modal-reversed></app-enable-adaptions-modal-reversed>
 <app-adaption-archive-modal></app-adaption-archive-modal>
 <app-adaption-create-update-modal></app-adaption-create-update-modal>

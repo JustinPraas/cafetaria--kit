@@ -8,6 +8,7 @@ import { AdaptionService } from 'src/app/services/adaption.service';
     styleUrls: ['./adaption-create-update-modal.component.scss'],
 })
 export class AdaptionCreateUpdateModalComponent implements OnInit {
+
     createUpdateFormGroup = new FormGroup({
         name: new FormControl(''),
         price: new FormControl(''),
@@ -17,13 +18,19 @@ export class AdaptionCreateUpdateModalComponent implements OnInit {
 
     constructor(private adaptionService: AdaptionService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#adaption-create-update-modal').on('shown.bs.modal', function () {
+            //@ts-ignore
+            jQuery('#adaptionName').trigger('focus');
+        });
+    }
 
     getCreateUpdateModalTitle() {
         if (this.adaptionToEdit) {
-            return "Aanpassing bijwerken"
+            return 'Aanpassing bijwerken';
         } else {
-            return "Aanpassing maken"
+            return 'Aanpassing maken';
         }
     }
 
@@ -59,10 +66,13 @@ export class AdaptionCreateUpdateModalComponent implements OnInit {
         };
 
         if (this.adaptionToEdit == null) {
-            this.adaptionService.createAdaption(categoryCreateUpdateDto, this.closeModal.bind(this));
+            this.adaptionService.createAdaption(
+                categoryCreateUpdateDto,
+                this.closeModal.bind(this)
+            );
         } else {
             this.adaptionService.updateAdaption(
-                this.adaptionToEdit.id,
+                this.adaptionToEdit.id!,
                 categoryCreateUpdateDto,
                 this.closeModal.bind(this)
             );

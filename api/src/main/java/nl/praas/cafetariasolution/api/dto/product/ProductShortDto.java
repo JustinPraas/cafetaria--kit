@@ -1,9 +1,7 @@
 package nl.praas.cafetariasolution.api.dto.product;
 
-import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
-
 import java.time.Instant;
-import java.util.List;
+import java.util.Optional;
 
 public class ProductShortDto {
 
@@ -17,7 +15,7 @@ public class ProductShortDto {
 
     private String price;
 
-    private List<AdaptionShortDto> possibleAdaptionShortDtos;
+    private Optional<Integer> sequenceOrder;
 
     private Instant createdOn;
 
@@ -29,13 +27,13 @@ public class ProductShortDto {
 
     ProductShortDto() { }
 
-    public ProductShortDto(int id, String name, int categoryId, PriceType priceType, String price, List<AdaptionShortDto> possibleAdaptionShortDtos, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
+    public ProductShortDto(int id, String name, int categoryId, PriceType priceType, String price, Optional<Integer> sequenceOrder, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
         this.priceType = priceType;
         this.price = price;
-        this.possibleAdaptionShortDtos = possibleAdaptionShortDtos;
+        this.sequenceOrder = sequenceOrder;
         this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
         this.active = active;
@@ -78,7 +76,7 @@ public class ProductShortDto {
         return priceType;
     }
 
-    public List<AdaptionShortDto> getPossibleAdaptionShortDtos() {
-        return possibleAdaptionShortDtos;
+    public Optional<Integer> getSequenceOrder() {
+        return sequenceOrder;
     }
 }

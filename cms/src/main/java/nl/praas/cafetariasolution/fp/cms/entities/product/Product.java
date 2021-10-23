@@ -43,6 +43,8 @@ public class Product {
 
     private BigDecimal price;
 
+    private Integer sequenceOrder;
+
     private Instant createdOn;
 
     private Instant modifiedOn;
@@ -53,12 +55,13 @@ public class Product {
 
     Product() { }
 
-    public Product(String name, Category category, Collection<Adaption> possibleAdaptions, PriceType priceType, BigDecimal price, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
+    public Product(String name, Category category, Collection<Adaption> possibleAdaptions, PriceType priceType, BigDecimal price, Integer sequenceOrder, Instant createdOn, Instant modifiedOn, boolean active, boolean archived) {
         this.name = name;
         this.possibleAdaptions = possibleAdaptions;
         this.priceType = priceType;
         this.price = price;
         this.category = category;
+        this.sequenceOrder = sequenceOrder;
         this.createdOn = createdOn;
         this.modifiedOn = modifiedOn;
         this.active = active;
@@ -161,5 +164,13 @@ public class Product {
 
     public void setPossibleAdaptions(Collection<Adaption> possibleAdaptions) {
         this.possibleAdaptions = possibleAdaptions;
+    }
+
+    public Integer getSequenceOrder() {
+        return sequenceOrder;
+    }
+
+    public void setSequenceOrder(Integer sequenceOrder) {
+        this.sequenceOrder = sequenceOrder;
     }
 }

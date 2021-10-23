@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="confirmation-modal"
+    tabindex="-1"
+    aria-labelledby="confirmationModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">
+                    Bevestig
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                {{ this.message }}
+            </div>
+            <div class="modal-footer d-flex flex-row justify-content-between">
+                <button
+                    type="button"
+                    class="btn btn-secondary px-4 fs-5 py-3"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    (click)="this.onConfirmation ? this.onConfirmation() : null"
+                    class="btn btn-primary px-4 fs-5 py-3"
+                >
+                    Ja
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

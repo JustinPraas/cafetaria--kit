@@ -1,7 +1,11 @@
 package nl.praas.cafetariasolution.fp.cms.controllers;
 
+import nl.praas.cafetariasolution.api.dto.ReorderEntitiesDto;
+import nl.praas.cafetariasolution.api.dto.category.CategoryFullDto;
 import nl.praas.cafetariasolution.api.dto.product.ProductCreateUpdateDto;
+import nl.praas.cafetariasolution.api.dto.product.ProductFullDto;
 import nl.praas.cafetariasolution.api.dto.product.ProductShortDto;
+import nl.praas.cafetariasolution.fp.cms.entities.category.Category;
 import nl.praas.cafetariasolution.fp.cms.entities.product.Product;
 import nl.praas.cafetariasolution.fp.cms.services.ProductService;
 import nl.praas.cafetariasolution.fp.cms.utils.EntityToDtoUtils;
@@ -28,10 +32,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping
+    @GetMapping("/short")
     public List<ProductShortDto> getProducts() {
         return productService.getProducts().stream()
+                .filter(product -> !product.isArchived())
                 .map(EntityToDtoUtils::convertToProductShortDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/full")
+    public List<ProductFullDto> getProductsFull() {
+        return productService.getProducts().stream()
+                .filter(product -> !product.isArchived())
+                .map(EntityToDtoUtils::convertToProductFullDto).collect(Collectors.toList());
     }
 
     @GetMapping("/archived")
@@ -64,5 +76,12 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public boolean archiveCategory(@PathVariable int id) {
         return productService.archiveProduct(id);
+    }
+
+    @PutMapping("/reorder")
+    public List<ProductShortDto> reorderProducts(@RequestBody ReorderEntitiesDto reorderEntitiesDto) {
+        List<Product> reorderedProducts = productService.reorderProducts(reorderEntitiesDto);
+
+        return reorderedProducts.stream().map(EntityToDtoUtils::convertToProductShortDto).collect(Collectors.toList());
     }
 }

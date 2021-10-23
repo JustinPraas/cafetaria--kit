@@ -30,10 +30,10 @@
                     <div class="mb-3" *ngIf="!this.orderFullDtoToEdit">
                         <label class="form-label">Klantnaam:</label>
                         <input
-                            id="name"
+                            id="customerName"
                             type="text"
                             formControlName="customerName"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             placeholder="Praas"
                         />
                     </div>
@@ -70,13 +70,13 @@
                                 /></span>
                             </td>
                             <td>
-                                {{ getPriceString(productOrder) }} <br/>
+                                {{ getPriceString(productOrder) }} <br />
                                 <span
                                     class="text-muted text-italic"
                                     *ngFor="
                                         let adaption of productOrder.appliedAdaptionShortDtos
                                     "
-                                    >
+                                >
                                     {{ getPriceStringAdaption(adaption) }} <br
                                 /></span>
                             </td>
@@ -90,7 +90,7 @@
             <div class="modal-footer">
                 <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-secondary py-3 fs-5 px-3"
                     (click)="closeModal()"
                 >
                     Sluiten
@@ -98,7 +98,7 @@
                 <button
                     type="submit"
                     form="setCustomerNameForm"
-                    class="btn btn-primary"
+                    class="btn btn-primary py-3 fs-5 px-3"
                 >
                     Bevestigen
                 </button>

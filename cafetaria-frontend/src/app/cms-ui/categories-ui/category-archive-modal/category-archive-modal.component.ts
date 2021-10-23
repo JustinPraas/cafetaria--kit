@@ -7,11 +7,11 @@ import { CategoryService } from 'src/app/services/category.service';
     styleUrls: ['./category-archive-modal.component.scss'],
 })
 export class CategoryArchiveModalComponent implements OnInit {
-    categoryToArchive: CategoryFullDto | null = null;
+    categoryToArchive: CategoryShortDto | null = null;
 
     constructor(private categoryService: CategoryService) {}
 
-    setCategoryToArchive(category: CategoryFullDto) {
+    setCategoryToArchive(category: CategoryShortDto) {
         this.categoryToArchive = category;
     }
 

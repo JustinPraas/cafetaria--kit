@@ -1,0 +1,74 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="reorder-modal"
+    tabindex="-1"
+    aria-labelledby="reorderModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reorderModalLabel">
+                    Verander de volgorde van de elementen
+                </h5>
+                <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Volgorde</td>
+                            <td>Naam</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody cdkDropList (cdkDropListDropped)="this.drop($event)">
+                        <tr *ngFor="let re of this.getSortedElements()" cdkDrag>
+                            <td
+                                colspan="3"
+                                class="placeholder"
+                                *cdkDragPlaceholder
+                            >
+                                <div class="cursor-pointer mr-0">
+                                    <i class="bi bi-grip-vertical fs-6"></i>
+                                </div>
+                            </td>
+                            <td class="align-middle">
+                                {{ re.sequenceOrder }}
+                            </td>
+                            <td class="align-middle">{{ re.name }}</td>
+                            <td>
+                                <div class="cursor-pointer">
+                                    <i class="bi bi-grip-vertical fs-4"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-lg"
+                    (click)="closeModal()"
+                >
+                    Sluiten
+                </button>
+                <button
+                    type="submit"
+                    [disabled]="!this.changed"
+                    (click)="onApplySequence()"
+                    class="btn btn-primary btn-lg"
+                >
+                    Pas volgorde toe
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

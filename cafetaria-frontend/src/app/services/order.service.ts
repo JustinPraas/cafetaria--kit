@@ -47,8 +47,8 @@ export class OrderService {
 
     createOrder(orderCreateDto: OrderCreateUpdateDto, callback?: () => void) {
         this.httpClient
-            .post<ProductShortDto>(`${API_ORDER_URL}`, orderCreateDto)
-            .subscribe((psd: ProductShortDto) => {
+            .post<ProductFullDto>(`${API_ORDER_URL}`, orderCreateDto)
+            .subscribe((psd: ProductFullDto) => {
                 this.toastrService.success('Bestelling geplaatst', 'Gelukt!');
                 callback ? callback() : null;
             });
@@ -60,8 +60,8 @@ export class OrderService {
         callback?: () => void
     ) {
         this.httpClient
-            .put<ProductShortDto>(`${API_ORDER_URL}/${orderId}`, orderCreateDto)
-            .subscribe((psd: ProductShortDto) => {
+            .put<ProductFullDto>(`${API_ORDER_URL}/${orderId}`, orderCreateDto)
+            .subscribe((psd: ProductFullDto) => {
                 this.toastrService.success('Bestelling geüpdate', 'Gelukt!');
                 callback ? callback() : null;
             });

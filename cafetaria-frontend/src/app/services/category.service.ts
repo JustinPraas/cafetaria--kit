@@ -26,9 +26,17 @@ export class CategoryService {
         return this.dataService.getCategoryFullDtos();
     }
 
+    fetchCategoryShortDtos() {
+        this.httpClient
+            .get<CategoryShortDto[]>(`${API_CATEGORY_URL}/short`)
+            .subscribe((csd: CategoryShortDto[]) => {
+                this.dataService.setCategoryShortDtos(csd);
+            });
+    }
+
     fetchCategoryFullDtos() {
         this.httpClient
-            .get<CategoryFullDto[]>(API_CATEGORY_URL)
+            .get<CategoryFullDto[]>(`${API_CATEGORY_URL}/full`)
             .subscribe((cfd: CategoryFullDto[]) => {
                 this.dataService.setCategoryFullDtos(cfd);
             });
@@ -67,7 +75,7 @@ export class CategoryService {
             });
     }
 
-    archiveCategory(categoryToArchive: CategoryFullDto, callback?: () => void) {
+    archiveCategory(categoryToArchive: CategoryShortDto, callback?: () => void) {
         this.httpClient
             .delete<boolean>(`${API_CATEGORY_URL}/${categoryToArchive.id}`)
             .subscribe((result: boolean) => {
@@ -75,6 +83,24 @@ export class CategoryService {
                     this.dataService.archiveCategory(categoryToArchive);
                     callback ? callback() : null;
                     this.onSuccess('Categorie gearchiveerd');
+                }
+            });
+    }
+
+    reorderCategories(
+        idToSequenceOrderMap: ReorderEntitiesDto,
+        callback?: () => void
+    ) {
+        this.httpClient
+            .put<CategoryFullDto[]>(
+                `${API_CATEGORY_URL}/reorder`,
+                idToSequenceOrderMap
+            )
+            .subscribe((result: CategoryFullDto[]) => {
+                if (result) {
+                    this.dataService.setCategoryFullDtos(result);
+                    callback ? callback() : null;
+                    this.onSuccess('Volgorde aangepast!');
                 }
             });
     }

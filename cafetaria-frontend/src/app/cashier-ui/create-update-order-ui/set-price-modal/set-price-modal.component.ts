@@ -22,7 +22,13 @@ export class SetPriceModalComponent implements OnInit {
 
     constructor(private toastr: ToastrService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#set-price-modal').on('shown.bs.modal', function () {
+            //@ts-ignore
+            jQuery('#priceInput').trigger('focus');
+        });
+    }
 
     closeModal() {
         this.setPriceFormGroup = new FormGroup({
@@ -39,6 +45,8 @@ export class SetPriceModalComponent implements OnInit {
             'price',
             new FormControl(currentValue + char)
         );
+        //@ts-ignore
+        jQuery('#priceInput').trigger('focus');
     }
 
     removeChar() {
@@ -51,6 +59,8 @@ export class SetPriceModalComponent implements OnInit {
             'price',
             new FormControl(currentValue.slice(0, currentValue.length - 1))
         );
+        //@ts-ignore
+        jQuery('#priceInput').trigger('focus');
     }
 
     onSubmit() {

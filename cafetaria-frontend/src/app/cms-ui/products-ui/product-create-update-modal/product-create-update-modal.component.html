@@ -26,17 +26,15 @@
                     [formGroup]="createUpdateFormGroup"
                     (ngSubmit)="onSubmit()"
                 >
-                    <legend>Product data</legend>
-
                     <div class="mb-3">
                         <label for="disabledTextInput" class="form-label"
                             >Naam:</label
                         >
                         <input
-                            id="name"
+                            id="productName"
                             type="text"
                             formControlName="name"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             placeholder="Grote patat..."
                         />
                     </div>
@@ -47,11 +45,11 @@
                         >
                         <select
                             id="categorySelect"
-                            class="form-select"
+                            class="form-select form-control-lg"
                             formControlName="categoryId"
                         >
                             <option
-                                *ngFor="let category of getCategories()"
+                                *ngFor="let category of getCategoryShortDtos()"
                                 [value]="category.id"
                             >
                                 {{ category.name }}
@@ -108,22 +106,9 @@
                             id="name"
                             type="text"
                             formControlName="price"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             placeholder="0,00"
                         />
-                    </div>
-
-                    <div class="mb-3">
-                        <p class="mb-1">Optioneel:</p>
-                        <button
-                            type="button"
-                            data-bs-target="#enable-adaptions-modal"
-                            data-bs-toggle="modal"
-                            data-bs-dismiss="modal"
-                            class="btn btn-outline-primary"
-                        >
-                            Selecteer mogelijke aanpassingen
-                        </button>
                     </div>
 
                     <div class="mb-3 ml-1">
@@ -147,7 +132,7 @@
             <div class="modal-footer">
                 <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-secondary btn-lg"
                     (click)="closeModal()"
                 >
                     Sluiten
@@ -155,7 +140,7 @@
                 <button
                     type="submit"
                     form="productCreateUpdateForm"
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-lg"
                 >
                     Opslaan
                 </button>
@@ -163,8 +148,3 @@
         </div>
     </div>
 </div>
-
-<app-enable-adaptions-modal
-    [setPossibleAdaptionIds]="this.setPossibleAdaptionIds.bind(this)"
-    [possibleAdaptionIds]="this.possibleAdaptionIds"
-></app-enable-adaptions-modal>

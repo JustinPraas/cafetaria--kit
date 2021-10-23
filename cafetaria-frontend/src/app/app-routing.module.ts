@@ -8,11 +8,12 @@ import { CreateUpdateOrderUiComponent } from './cashier-ui/create-update-order-u
 import { OrdersUiComponent } from './cashier-ui/orders-ui/orders-ui.component';
 import { CashierDashboardUiComponent } from './cashier-ui/cashier-dashboard-ui/cashier-dashboard-ui.component';
 import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
+import { PendingChangesGuard } from 'src/PendingChangesGuard';
 
 const routes: Routes = [
     { path: 'kassa', component: CashierUiComponent, children: [
-        { path: 'bestellingen/nieuw', component: CreateUpdateOrderUiComponent},
-        { path: 'bestellingen/:id', component: CreateUpdateOrderUiComponent},
+        { path: 'bestellingen/nieuw', component: CreateUpdateOrderUiComponent, canDeactivate: [PendingChangesGuard]},
+        { path: 'bestellingen/:id', component: CreateUpdateOrderUiComponent, canDeactivate: [PendingChangesGuard]},
         { path: 'bestellingen', component: OrdersUiComponent},
         { path: 'overzicht', component: CashierDashboardUiComponent}
     ] },

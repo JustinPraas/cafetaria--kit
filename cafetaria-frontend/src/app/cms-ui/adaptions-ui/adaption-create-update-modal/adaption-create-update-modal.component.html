@@ -25,15 +25,13 @@
                     [formGroup]="createUpdateFormGroup"
                     (ngSubmit)="onSubmit()"
                 >
-                    <legend>Aanpassing data</legend>
-
                     <div class="mb-3">
                         <label class="form-label">Naam:</label>
                         <input
-                            id="name"
+                            id="adaptionName"
                             type="text"
                             formControlName="name"
-                            class="form-control"
+                            class="form-control form-control-lg"
                             placeholder="Extra kaas"
                         />
                     </div>
@@ -45,7 +43,7 @@
                         id="name"
                         type="text"
                         formControlName="price"
-                        class="form-control"
+                        class="form-control form-control-lg"
                         placeholder="0,00"
                     />
                 </form>
@@ -53,7 +51,7 @@
             <div class="modal-footer">
                 <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-lg btn-secondary"
                     (click)="closeModal()"
                 >
                     Sluiten
@@ -61,7 +59,7 @@
                 <button
                     type="submit"
                     form="adaptionCreateUpdateForm"
-                    class="btn btn-primary"
+                    class="btn btn-lg btn-primary"
                 >
                     Opslaan
                 </button>
