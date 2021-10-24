@@ -35,3 +35,19 @@ export function getFriendlyLocaleString(date: Date) {
 }
 
 export const sequenceOrder: (e1: {sequenceOrder?: number}, e2: {sequenceOrder?: number}) => number = (e1, e2) => e1.sequenceOrder! - e2.sequenceOrder!;
+
+export const getNumpadPriceValue: (nonSanitizedPriceValue: string) => string = (nonSanitizedPriceValue: string) => {
+    if (nonSanitizedPriceValue == '') {
+        return "0"
+    } else {
+        return nonSanitizedPriceValue.replace(",", ".")
+    }
+}
+
+export const getNumpadQuantityValue: (nonSanitizedQuantityValue: string) => number = (nonSanitizedQuantityValue: string) => {
+    if (nonSanitizedQuantityValue == '') {
+        return 1;
+    } else {
+        return Math.floor(+nonSanitizedQuantityValue.replace(",","."))
+    }
+}

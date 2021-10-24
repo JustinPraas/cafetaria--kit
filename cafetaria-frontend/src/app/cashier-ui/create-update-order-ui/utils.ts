@@ -29,7 +29,7 @@ export function getTotalOrderPrice(productOrderCreateUpdateDtos: ProductOrderCre
     if (productOrderCreateUpdateDtos.length > 0) {
         let result: Big = new Big(0);
         for (const pocud of productOrderCreateUpdateDtos) {
-            const priceProducts = new Big(pocud.price.replace(',', '.')).times(pocud.quantity)
+            const priceProducts = pocud.price == "" ? new Big(0) : new Big(pocud.price.replace(',', '.')).times(pocud.quantity)
             let priceAdaptions = new Big(0)
             for (const aasd of pocud.appliedAdaptionShortDtos) {
                 if (aasd.price && aasd.price != "")
@@ -83,6 +83,7 @@ export function isProductOrderCreateUpdateEqual(
             p1.appliedAdaptionShortDtos.map((it) => it.id!),
             p2.appliedAdaptionShortDtos.map((it) => it.id!)
         ) &&
+        p1.quantity == p2.quantity &&
         p1.price == p2.price &&
         p1.productId == p2.productId
     );

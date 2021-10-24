@@ -2,7 +2,6 @@ package nl.praas.cafetariasolution.fp.cms.services;
 
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
 import nl.praas.cafetariasolution.api.dto.order.OrderCreateUpdateDto;
-import nl.praas.cafetariasolution.api.dto.order.OrderFullDto;
 import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.entities.order.Order;
 import nl.praas.cafetariasolution.fp.cms.entities.order.PaymentType;
@@ -89,12 +88,13 @@ public class OrderService {
                     ProductOrder po = new ProductOrder(
                             order,
                             product,
-                            adaptions, price,
+                            adaptions,
+                            price,
                             pocud.getQuantity()
                     );
 
-                    if (pocud.getId() != null) {
-                        po.setId(pocud.getId());
+                    if (pocud.getId() != null && pocud.getId().isPresent()) {
+                        po.setId(pocud.getId().get());
                     }
 
                     return po;

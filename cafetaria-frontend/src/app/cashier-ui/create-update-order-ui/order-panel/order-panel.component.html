@@ -1,0 +1,122 @@
+<!--
+
+    Display of all order data
+
+ -->
+<div class="order-wrapper text-center p-4">
+    <h2>Bestelling</h2>
+    <table class="table table-striped w-100">
+        <thead>
+            <tr>
+                <th>Aantal</th>
+                <th>Product</th>
+                <th class="fit">€ p.s.</th>
+                <th class="fit"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let productOrder of this.getProductOrders()">
+                <td>
+                    <div
+                        class="btn-group w-100"
+                        role="group"
+                        aria-label="Quantity buttons"
+                    >
+                        <button
+                            class="btn btn-lg btn-primary px-1"
+                            (click)="decreaseProductOrderQuantity(productOrder)"
+                        >
+                            <i class="bi bi-dash-circle"></i>
+                        </button>
+                        <button class="btn btn-lg btn-primary px-1" disabled>
+                            {{ productOrder.quantity }}
+                        </button>
+                        <button
+                            class="btn btn-lg btn-primary px-1"
+                            (click)="increaseProductOrderQuantity(productOrder)"
+                        >
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+                    </div>
+                </td>
+                <app-hold-div
+                    matRipple
+                    [matRippleColor]="'rgba(50,50,50,0.5)'"
+                    [ngClass]="[
+                        'text-left',
+                        'd-table-cell',
+                        'align-middle',
+                        'border-top',
+                        'border-bottom',
+                        'unselectable'
+                    ]"
+                    (onHoldEvent)="onProductNameHoldEventInvoke(productOrder)"
+                >
+                    {{ getProductName(productOrder.productId) }}
+                    <br />
+                    <span
+                        class="text-muted text-italic"
+                        *ngFor="
+                            let adaption of productOrder.appliedAdaptionShortDtos
+                        "
+                        ><i class="bi bi-arrow-return-right"></i>
+                        {{ adaption.name }} <br
+                    /></span>
+                </app-hold-div>
+                <td>
+                    {{ getPriceString(productOrder) }}<br />
+                    <span
+                        class="text-muted text-italic"
+                        *ngFor="
+                            let adaption of productOrder.appliedAdaptionShortDtos
+                        "
+                        >{{ getPriceStringAdaption(adaption) }} <br
+                    /></span>
+                </td>
+                <td>
+                    <button
+                        class="btn btn-lg btn-outline-primary"
+                        (click)="removeProductOrderAll(productOrder)"
+                    >
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--
+
+    Display of order action buttons, like cancel and confirm
+
+ -->
+<div class="order-actions-wrapper shadow border-top">
+    <h3 class="text-dark my-2 text-center">
+        Totaalprijs: €{{ getTotalOrderPrice() }}
+    </h3>
+    <div class="d-flex flex-row">
+        <div class="w-50 d-grid p-2">
+            <button
+                class="btn btn-lg btn-outline-secondary"
+                (click)="this.onCancelOrderAttempt()"
+            >
+                <i class="bi bi-slash-circle" [style.font-size]="'2em'"></i>
+            </button>
+        </div>
+        <div class="w-50 d-grid p-2">
+            <button
+                (click)="confirmOrder()"
+                class="btn btn-lg btn-outline-success"
+                [disabled]="!canConfirm()"
+            >
+                <i class="bi bi-check2-circle" [style.font-size]="'2em'"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<app-confirm-order-modal
+    [orderCreateDto]="this.getOrderCreateUpdateDto()"
+    [orderFullDtoToEdit]="this.orderToEdit"
+></app-confirm-order-modal>

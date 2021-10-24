@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'app-hold-div',
@@ -6,31 +6,34 @@ import { Component, HostListener, Input } from '@angular/core';
     styleUrls: ['./hold-div.component.scss'],
 })
 export class HoldDivComponent {
-    @HostListener('pointerdown') onPointerDown() {
-        this.holding = true;
 
-        this.timeout = setTimeout(() => {
-            this.onHoldInvoke ? this.onHoldInvoke() : null;
-            this.holding = false;
-            this.timeout = null;
-        }, 500);
-    }
-
-    @HostListener('pointerup') onPointerUp() {
-        this.holding = false;
-        if (this.timeout) {
-            this.onClickInvoke ? this.onClickInvoke() : null;
-            clearTimeout(this.timeout);
-        }
-    }
+    public static readonly HOLD_DURATION: number = 300;
 
     holding: boolean = false;
 
     timeout: ReturnType<typeof setTimeout> | null = null;
 
-    @Input()
-    onClickInvoke?: () => void;
+    @Output()
+    onHoldEvent = new EventEmitter<undefined>()
 
-    @Input()
-    onHoldInvoke?: () => void;
+    @Output()
+    onClickEvent = new EventEmitter<undefined>();
+
+    @HostListener('pointerdown') onPointerDown() {
+        this.holding = true;
+
+        this.timeout = setTimeout(() => {
+            this.onHoldEvent.emit();
+            this.holding = false;
+            this.timeout = null;
+        }, HoldDivComponent.HOLD_DURATION);
+    }
+
+    @HostListener('pointerup') onPointerUp() {
+        this.holding = false;
+        if (this.timeout) {
+            this.onClickEvent.emit();
+            clearTimeout(this.timeout);
+        }
+    }
 }

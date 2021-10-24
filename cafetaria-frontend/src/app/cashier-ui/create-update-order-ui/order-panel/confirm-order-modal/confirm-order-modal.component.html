@@ -3,10 +3,11 @@
     class="modal fade"
     id="confirm-order-modal"
     tabindex="-1"
+    data-bs-backdrop="false"
     aria-labelledby="confirmOrderModalLabel"
     aria-hidden="true"
 >
-    <div class="modal-dialog">
+    <div class="modal-dialog huge-shadow">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmOrderModalLabel">
@@ -87,7 +88,7 @@
                     Totaalprijs: €{{ getTotalOrderPrice() }}
                 </h3>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-flex flex-row justify-content-between">
                 <button
                     type="button"
                     class="btn btn-secondary py-3 fs-5 px-3"

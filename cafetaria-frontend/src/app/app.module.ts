@@ -30,22 +30,25 @@ import { ProductArchiveModalComponent } from './cms-ui/products-ui/product-archi
 import { CreateUpdateOrderUiComponent } from './cashier-ui/create-update-order-ui/create-update-order-ui.component';
 import { CashierDashboardUiComponent } from './cashier-ui/cashier-dashboard-ui/cashier-dashboard-ui.component';
 import { OrdersUiComponent } from './cashier-ui/orders-ui/orders-ui.component';
-import { SetPriceModalComponent } from './cashier-ui/create-update-order-ui/set-price-modal/set-price-modal.component';
-import { ConfirmOrderModalComponent } from './cashier-ui/create-update-order-ui/confirm-order-modal/confirm-order-modal.component';
+import { ConfirmOrderModalComponent } from './cashier-ui/create-update-order-ui/order-panel/confirm-order-modal/confirm-order-modal.component';
 import { OrderComponent } from './cashier-ui/orders-ui/order/order.component';
-import { PadButtonComponent } from './cashier-ui/create-update-order-ui/set-price-modal/pad-button/pad-button.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
 import { AdaptionCreateUpdateModalComponent } from './cms-ui/adaptions-ui/adaption-create-update-modal/adaption-create-update-modal.component';
 import { AdaptionArchiveModalComponent } from './cms-ui/adaptions-ui/adaption-archive-modal/adaption-archive-modal.component';
 import { HoldDivComponent } from './hold-div/hold-div.component';
-import { ApplyAdaptionsModalComponent } from './cashier-ui/create-update-order-ui/apply-adaptions-modal/apply-adaptions-modal.component';
 import { PayOrderModalComponent } from './cashier-ui/orders-ui/pay-order-modal/pay-order-modal.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { EnableAdaptionsModalComponent } from './cms-ui/products-ui/enable-adaptions-modal/enable-adaptions-modal.component';
 import { PendingChangesGuard } from 'src/PendingChangesGuard';
 import { ReorderModalComponent } from './cms-ui/reorder-modal/reorder-modal.component';
 import { EnableAdaptionsModalReversedComponent } from './cms-ui/adaptions-ui/enable-adaptions-modal-reversed/enable-adaptions-modal-reversed.component';
+import { OrderPanelComponent } from './cashier-ui/create-update-order-ui/order-panel/order-panel.component';
+import { ControlPanelComponent } from './cashier-ui/create-update-order-ui/control-panel/control-panel.component';
+import { CategorySelectComponent } from './cashier-ui/create-update-order-ui/control-panel/category-select/category-select.component';
+import { NumberPadComponent } from './cashier-ui/create-update-order-ui/control-panel/number-pad/number-pad.component';
+import { ProductsSelectPanelComponent } from './cashier-ui/create-update-order-ui/products-select-panel/products-select-panel.component';
+import { ButtonComponent } from './cashier-ui/create-update-order-ui/control-panel/number-pad/button/button.component';
 
 registerLocaleData(nl);
 
@@ -63,21 +66,24 @@ registerLocaleData(nl);
         CreateUpdateOrderUiComponent,
         CashierDashboardUiComponent,
         OrdersUiComponent,
-        SetPriceModalComponent,
         ConfirmOrderModalComponent,
         OrderComponent,
-        PadButtonComponent,
         NavbarComponent,
         AdaptionsUiComponent,
         AdaptionCreateUpdateModalComponent,
         AdaptionArchiveModalComponent,
-        ApplyAdaptionsModalComponent,
         EnableAdaptionsModalComponent,
         HoldDivComponent,
         PayOrderModalComponent,
         ConfirmationModalComponent,
         ReorderModalComponent,
         EnableAdaptionsModalReversedComponent,
+        OrderPanelComponent,
+        ControlPanelComponent,
+        CategorySelectComponent,
+        NumberPadComponent,
+        ProductsSelectPanelComponent,
+        ButtonComponent,
     ],
     imports: [
         BrowserModule,

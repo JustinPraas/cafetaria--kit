@@ -1,20 +1,10 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { delay, filter, retryWhen, take } from 'rxjs/operators';
-import { ConfirmationModalComponent } from 'src/app/confirmation-modal/confirmation-modal.component';
-import { CategoryService } from 'src/app/services/category.service';
 import { DataService } from 'src/app/services/data.service';
-import { OrderService } from 'src/app/services/order.service';
-import { ProductService } from 'src/app/services/product.service';
-import { getPriceString, hexToRGB, sequenceOrder } from 'src/app/utils';
-import { ApplyAdaptionsModalComponent } from './apply-adaptions-modal/apply-adaptions-modal.component';
-import {
-    createOrderCreateDtoFromOrderFullDto,
-    getTotalOrderPrice,
-    isProductOrderCreateUpdateEqual,
-} from './utils';
+import { getNumpadPriceValue, getNumpadQuantityValue } from 'src/app/utils';
+import { ControlPanelComponent } from './control-panel/control-panel.component';
+import { OrderPanelComponent } from './order-panel/order-panel.component';
+import { ProductsSelectPanelComponent } from './products-select-panel/products-select-panel.component';
 
 @Component({
     selector: 'app-create-update-order-ui',
@@ -22,331 +12,105 @@ import {
     styleUrls: ['./create-update-order-ui.component.scss'],
 })
 export class CreateUpdateOrderUiComponent implements OnInit {
-    @ViewChild(ApplyAdaptionsModalComponent) applyAdaptionsModal:
-        | ApplyAdaptionsModalComponent
-        | undefined;
-
-    @ViewChild(ConfirmationModalComponent) confirmationModal:
-        | ConfirmationModalComponent
-        | undefined;
+    @ViewChild(OrderPanelComponent) orderPanel?: OrderPanelComponent;
+    @ViewChild(ControlPanelComponent) controlPanel?: ControlPanelComponent;
+    @ViewChild(ProductsSelectPanelComponent)
+    productPanel?: ProductsSelectPanelComponent;
 
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        return !this.changes;
+        return !this.orderPanel?.changes;
     }
 
-    changes: boolean = false;
+    constructor(private dataService: DataService) {}
 
     selectedCategory: CategoryShortDto | null = null;
+    selectedProduct: ProductFullDto | null = null;
+    productOrderToEdit: ProductOrderCreateUpdateDto | null = null;
 
-    orderCreateDto: OrderCreateUpdateDto = {
-        customerName: '',
-        productOrderCreateUpdateDtos: [],
-        paymentType: 'UNKNOWN',
-    };
+    numpadValue: string = '';
 
-    orderFullDtoToEdit?: OrderFullDto;
-
-    productIdForSetPrice: number | null = null;
-
-    constructor(
-        private productService: ProductService,
-        private dataService: DataService,
-        private activatedRoute: ActivatedRoute,
-        private orderService: OrderService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) {}
-
-    ngOnInit(): void {
-        this.checkForEditOrder();
-
-        this.router.events
-            .pipe(
-                filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd)
-            )
-            .subscribe((event) => {
-                if (event.id === 1 && event.url === event.urlAfterRedirects) {
-                    console.log('attempting to refresh');
-                }
-            });
-    }
-
-    checkForEditOrder() {
-        this.activatedRoute.params.subscribe((params) => {
-            if (params.id) {
-                this.orderService
-                    .getOrderFullDtoById(params.id)
-                    .pipe(
-                        retryWhen((errors) => errors.pipe(delay(250), take(5)))
-                    )
-                    .subscribe((orderFullDto) => {
-                        if (orderFullDto) {
-                            this.orderFullDtoToEdit = orderFullDto;
-                            this.orderCreateDto =
-                                createOrderCreateDtoFromOrderFullDto(
-                                    this.orderFullDtoToEdit
-                                );
-                        }
-                    });
-            }
-        });
-    }
-
-    getColor(categoryId: number, alpha?: number) {
-        const category = this.getCategoryById(categoryId);
-        if (!category) {
-            return hexToRGB('#cccccc', alpha ? alpha : 1);
-        } else {
-            return hexToRGB(category.colorHex, alpha ? alpha : 1);
-        }
-    }
-
-    getCategoryShortDtosSorted() {
-        return this.dataService
-            .getCategoryShortDtos()
-            .filter((c) => c.active)
-            .sort(sequenceOrder);
-    }
-
-    getCategoryById(categoryId: number) {
-        return this.dataService
-            .getCategoryShortDtos()
-            .find(c => c.id == categoryId);
-    }
-
-    getProductById(productId: number) {
-        return this.dataService.getProductFullDtos().find(p => p.id == productId);
-    }
-
-    getProductName(productId: number) {
-        const product = this.getProductById(productId);
-        return product ? product.name : '???';
-    }
-
-    getProductsFromSelectedCategory() {
-        if (this.selectedCategory) {
-            return this.dataService
-                .getProductFullDtos()
-                .filter(
-                    (p) => p.categoryId == this.selectedCategory!.id && p.active
-                )
-                .sort(sequenceOrder);
-        } else {
-            const result: ProductFullDto[] = [];
-
-            this.dataService.getCategoryShortDtos().sort(sequenceOrder).forEach(c => {
-                let productsUnsorted: ProductFullDto[] = [];
-                c.productIds.forEach(pid => {
-                    const product = this.getProductById(pid);
-                    if (product)
-                        productsUnsorted.push(product)
-                })
-                result.push(...productsUnsorted.sort(sequenceOrder))
-            })
-
-            return result;
-        }
-    }
-
-    getPriceString(pocud: ProductOrderCreateUpdateDto) {
-        const product = this.getProductById(pocud.productId);
-        if (product) {
-            return getPriceString(pocud.price, product.priceType);
-        } else {
-            return '???';
-        }
-    }
-
-    getPriceStringAdaption(adaption: AdaptionShortDto) {
-        return getPriceString(adaption.price, 'FIXED');
-    }
-
-    getPriceStringProduct(product: ProductShortDto) {
-        return getPriceString(product.price, product.priceType);
-    }
-
-    getTotalOrderPrice() {
-        return getTotalOrderPrice(
-            this.orderCreateDto.productOrderCreateUpdateDtos
-        );
-    }
+    ngOnInit(): void {}
 
     setSelectedCategory(category: CategoryShortDto | null) {
         this.selectedCategory = category;
     }
 
-    openSetPriceModal(productId: number) {
-        this.productIdForSetPrice = productId;
-        //@ts-ignore
-        jQuery('#set-price-modal').modal('show');
+    setProductOrderToEdit(product: ProductOrderCreateUpdateDto) {
+        this.productOrderToEdit = product;
     }
 
-    addProductOrder(productOrder: ProductOrderCreateUpdateDto) {
-        // Find existing product order that matches this one
-        const match = this.orderCreateDto.productOrderCreateUpdateDtos.find(
-            (pocud) => isProductOrderCreateUpdateEqual(pocud, productOrder)
-        );
-        if (match) {
-            match.quantity++;
-        } else {
-            this.orderCreateDto.productOrderCreateUpdateDtos.push(productOrder);
-        }
-        this.changes = true;
+    getForProduct(): ProductFullDto | null {
+        const productInProductOrderToEdit = this.productOrderToEdit ? this.getProductById(this.productOrderToEdit.productId) : null
+        return this.productOrderToEdit ? (productInProductOrderToEdit ? productInProductOrderToEdit : null) : this.selectedProduct
     }
 
-    decreaseProductOrder(productOrder: ProductOrderCreateUpdateDto) {
-        const match = this.orderCreateDto.productOrderCreateUpdateDtos.find(
-            (pocud) => isProductOrderCreateUpdateEqual(pocud, productOrder)
-        );
-        if (match) {
-            if (--match.quantity == 0) {
-                // splice product order
-                const index =
-                    this.orderCreateDto.productOrderCreateUpdateDtos.findIndex(
-                        (pocud) =>
-                            isProductOrderCreateUpdateEqual(pocud, productOrder)
-                    );
-                this.orderCreateDto.productOrderCreateUpdateDtos.splice(
-                    index,
-                    1
-                );
-            }
-        }
-        this.changes = true;
+    getProductById(productId: number) {
+        return this.dataService
+            .getProductFullDtos()
+            .find((p) => p.id == productId);
     }
 
-    removeProductOrderAll(productOrder: ProductOrderCreateUpdateDto) {
-        this.orderCreateDto.productOrderCreateUpdateDtos =
-            this.orderCreateDto.productOrderCreateUpdateDtos.filter(
-                (pocud) => !isProductOrderCreateUpdateEqual(productOrder, pocud)
-            );
-        this.changes = true;
-    }
+    /**
+     *
+     *
+     * Product Order creation functionality
+     *
+     *
+     */
+    onProductClickedEventInvoke(product: ProductFullDto) {
+        this.productOrderToEdit = null;
 
-    confirmOrder() {
-        this.changes = false;
-        //@ts-ignore
-        jQuery('#confirm-order-modal').modal('show');
-    }
-
-    cancelOrder() {
-        this.orderCreateDto = {
-            customerName: '',
-            productOrderCreateUpdateDtos: [],
-            paymentType: 'UNKNOWN',
-        };
-    }
-
-    getOnClickInvoke(host: any, product: ProductShortDto) {
-        return product.price == ''
-            ? function () {
-                  host.openSetPriceModal(product.id);
-              }
-            : function () {
-                  host.addProductOrder({
-                      id: 0,
-                      productId: product.id,
-                      price: product.price,
-                      appliedAdaptionShortDtos: [],
-                      quantity: 1,
-                  });
-              };
-    }
-
-    addProductWithAdaption(
-        product: ProductShortDto,
-        appliedAdaptionShortDtos: AdaptionShortDto[]
-    ) {
-        this.addProductOrder({
-            id: 0,
+        const newProductOrderCreateUpdate: ProductOrderCreateUpdateDto = {
             productId: product.id,
-            price: product.price,
-            appliedAdaptionShortDtos: appliedAdaptionShortDtos,
+            price: '',
             quantity: 1,
-        });
-        this.changes = true;
+            appliedAdaptionShortDtos: [],
+        };
+
+        if (product.priceType == 'VARIABLE') {
+            const price = getNumpadPriceValue(this.numpadValue);
+            console.log('PRICE', price);
+            newProductOrderCreateUpdate.price = price;
+            console.log(newProductOrderCreateUpdate.price);
+            newProductOrderCreateUpdate.quantity = 1;
+        } else {
+            newProductOrderCreateUpdate.price = product.price.replace(',', '.');
+            newProductOrderCreateUpdate.quantity = getNumpadQuantityValue(
+                this.numpadValue
+            );
+        }
+
+        this.orderPanel!.addProductOrder(newProductOrderCreateUpdate);
+        this.selectedProduct = product;
+        this.clearNumpadValue();
     }
 
-    getOnHoldInvoke(
-        host: any,
-        product: ProductShortDto,
-        onApplyCallback: (
-            product: ProductFullDto,
-            appliedAdaptionShortDtos: AdaptionShortDto[]
-        ) => void
-    ) {
-        if (product.priceType != 'VARIABLE') {
-            return function () {
-                host.applyAdaptionsModal!.forProduct = product;
-                host.applyAdaptionsModal!.selectedAdaptionShortDtos = [];
-                host.applyAdaptionsModal!.onApplyAdaptionShortDtos =
-                    onApplyCallback;
-                //@ts-ignore
-                jQuery('#apply-adaptions-modal').modal('show');
-            };
+    onAdaptionClickedEventInvoke(event: {
+        adaption: AdaptionShortDto;
+        add: boolean;
+    }) {
+        const productOrder = this.productOrderToEdit
+            ? this.productOrderToEdit
+            : this.orderPanel!.productOrderCreateUpdates[
+                  this.orderPanel!.productOrderCreateUpdates.length - 1
+              ];
+
+        if (event.add) {
+            productOrder.appliedAdaptionShortDtos.push(event.adaption);
         } else {
-            return function () {
-                return host.toastr.info(
-                    'Voer eerst een prijs in',
-                    'Dit kan nu niet'
-                );
-            };
+            const index = productOrder.appliedAdaptionShortDtos.findIndex(asd => asd.name == event.adaption.name)
+            productOrder.appliedAdaptionShortDtos.splice(index, 1);
         }
     }
 
-    getOnHoldProductOrderInvoke(
-        host: any,
-        product: ProductFullDto,
-        productOrderCreateUpdateDto: ProductOrderCreateUpdateDto,
-        onApplyCallback: (
-            product: ProductFullDto,
-            appliedAdaptionShortDtos: AdaptionShortDto[],
-            productOrderCreateUpdateDto: ProductOrderCreateUpdateDto
-        ) => void
-    ) {
-        return function () {
-            host.applyAdaptionsModal!.forProduct = product;
-            host.applyAdaptionsModal!.selectedAdaptionShortDtos =
-                productOrderCreateUpdateDto.appliedAdaptionShortDtos;
-            host.applyAdaptionsModal!.forProductOrderCreateUpdateDto =
-                productOrderCreateUpdateDto;
-            host.applyAdaptionsModal!.onApplyAdaptionShortDtos =
-                onApplyCallback;
-
-            //@ts-ignore
-            jQuery('#apply-adaptions-modal').modal('show');
-        };
+    onNumpadValueChangedEventInvoke(value: string) {
+        this.numpadValue = value;
     }
 
-    updateProductWithAdaptionShortDtos(
-        product: ProductFullDto,
-        appliedAdaptionShortDtos: AdaptionShortDto[],
-        productOrderCreateUpdateDto: ProductOrderCreateUpdateDto
-    ) {
-        productOrderCreateUpdateDto.appliedAdaptionShortDtos =
-            appliedAdaptionShortDtos;
-        this.changes = true;
+    clearNumpadValue() {
+        if (this.controlPanel) {
+            this.controlPanel.clearNumpedValue();
+        }
     }
-
-    onCancelOrderAttempt() {
-        this.router.navigate(['../'], { relativeTo: this.route });
-    }
-
-    // showCancelOrderConfirmationModal() {
-    //     if (this.changes) {
-    //         this.confirmationModal?.setMessage(
-    //             'Weet je zeker dat je het aanmaken van de bestelling wilt annuleren?'
-    //         );
-    //         this.confirmationModal?.setOnConfirmation(() => {
-    //             this.cancelOrder.bind(this);
-    //             this.router.navigate(['../'], { relativeTo: this.route });
-    //             this.confirmationModal?.closeModal();
-    //         });
-    //         this.confirmationModal?.showModal();
-    //     } else {
-    //         this.cancelOrder.bind(this);
-    //         this.router.navigate(['../'], { relativeTo: this.route });
-    //     }
-    // }
 }

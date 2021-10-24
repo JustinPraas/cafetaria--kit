@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row gy-2 gx-2">
+        <div class="col-12 px-2">
+            <input type="text" class="form-control form-control-lg w-100 text-center" disabled [value]="this.value">
+        </div>
+        <app-button
+            char="7"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="8"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="9"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+
+        <app-button
+            char="4"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="5"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="6"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+
+        <app-button
+            char="1"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="2"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char="3"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+
+        <app-button char="CE" (onButtonPressEvent)="clearEntry()"></app-button>
+        <app-button
+            char="0"
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+        <app-button
+            char=","
+            (onButtonPressEvent)="addEntry($event)"
+        ></app-button>
+    </div>
+</div>

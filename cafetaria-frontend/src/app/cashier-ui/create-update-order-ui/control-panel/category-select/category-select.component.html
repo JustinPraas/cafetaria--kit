@@ -1,0 +1,41 @@
+<div class="row gx-0 gy-2">
+    <div class="col-4 px-1">
+        <div
+            class="
+                clickable-button
+                unselectable
+                cursor-pointer
+                text-center
+                px-1
+                py-3
+            "
+            matRipple
+            matRippleColor="rgba(50, 50, 50, 0.6)"
+            (click)="setSelectedCategory(null)"
+            [style.background]="'rgba(50, 50, 50, 0.1)'"
+            style.border-color="rgba(50, 50, 50, 1)"
+        >
+            <span class="font-weight-bold text-dark">Alles</span>
+        </div>
+    </div>
+    <div class="col-4 px-1" *ngFor="let category of getCategoryShortDtosSorted()">
+        <div
+            (click)="setSelectedCategory(category)"
+            matRipple
+            [matRippleColor]="getColor(category.id, 0.6)"
+            class="
+                clickable-button
+                unselectable
+                cursor-pointer
+                text-center
+                px-1
+                py-3
+            "
+            [style.color]="getColor(category.id, 1)"
+            [style.background]="getColor(category.id, 0.1)"
+            [style.border-color]="getColor(category.id)"
+        >
+            <span class="font-weight-bold">{{ category.name }}</span>
+        </div>
+    </div>
+</div>

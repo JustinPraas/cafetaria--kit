@@ -1,232 +1,33 @@
 <div class="content-wrapper w-100">
-    <div class="content left-panel-wrapper border-right bg-light shadow">
-        <div class="order-wrapper text-center p-4">
-            <h2>Bestelling</h2>
-            <table class="table table-striped w-100">
-                <thead>
-                    <tr>
-                        <th>Aantal</th>
-                        <th>Product</th>
-                        <th>Prijs</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        *ngFor="
-                            let productOrder of this.orderCreateDto
-                                .productOrderCreateUpdateDtos
-                        "
-                    >
-                        <td>
-                            <div
-                                class="btn-group w-100"
-                                role="group"
-                                aria-label="Quantity buttons"
-                            >
-                                <button
-                                    class="btn btn-lg btn-primary px-2"
-                                    (click)="decreaseProductOrder(productOrder)"
-                                >
-                                    <i class="bi bi-dash-circle"></i>
-                                </button>
-                                <button
-                                    class="btn btn-lg btn-primary px-1"
-                                    disabled
-                                >
-                                    {{ productOrder.quantity }}
-                                </button>
-                                <button
-                                    class="btn btn-lg btn-primary px-2"
-                                    (click)="addProductOrder(productOrder)"
-                                >
-                                    <i class="bi bi-plus-circle"></i>
-                                </button>
-                            </div>
-                        </td>
-                        <app-hold-div
-                            matRipple
-                            [matRippleColor]="'rgba(50,50,50,0.5)'"
-                            [ngClass]="[
-                                'text-left',
-                                'd-table-cell',
-                                'align-middle',
-                                'border-top',
-                                'border-bottom',
-                                'unselectable'
-                            ]"
-                            [onHoldInvoke]="
-                                getOnHoldProductOrderInvoke(
-                                    this,
-                                    this.getProductById(
-                                        productOrder.productId
-                                    )!,
-                                    productOrder,
-                                    this.updateProductWithAdaptionShortDtos.bind(
-                                        this
-                                    )
-                                )
-                            "
-                        >
-                            {{ getProductName(productOrder.productId) }}
-                            <br />
-                            <span
-                                class="text-muted text-italic"
-                                *ngFor="
-                                    let adaption of productOrder.appliedAdaptionShortDtos
-                                "
-                                ><i class="bi bi-arrow-return-right"></i>
-                                {{ adaption.name }} <br
-                            /></span>
-                        </app-hold-div>
-                        <td>
-                            {{ getPriceString(productOrder) }}<br />
-                            <span
-                                class="text-muted text-italic"
-                                *ngFor="
-                                    let adaption of productOrder.appliedAdaptionShortDtos
-                                "
-                                >{{ getPriceStringAdaption(adaption) }} <br
-                            /></span>
-                        </td>
-                        <td>
-                            <button
-                                class="btn btn-lg btn-outline-primary"
-                                (click)="removeProductOrderAll(productOrder)"
-                            >
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="order-actions-wrapper shadow border-top">
-            <h3 class="text-dark my-2 text-center">
-                Totaalprijs: €{{ getTotalOrderPrice() }}
-            </h3>
-            <div class="d-flex flex-row">
-                <div class="w-50 d-grid p-2">
-                    <button
-                        class="btn btn-lg btn-outline-secondary"
-                        (click)="this.onCancelOrderAttempt()"
-                    >
-                        <i
-                            class="bi bi-slash-circle"
-                            [style.font-size]="'2em'"
-                        ></i>
-                    </button>
-                </div>
-                <div class="w-50 d-grid p-2">
-                    <button
-                        (click)="confirmOrder()"
-                        class="btn btn-lg btn-outline-success"
-                        [disabled]="
-                            this.orderCreateDto.productOrderCreateUpdateDtos
-                                .length == 0
-                        "
-                    >
-                        <i
-                            class="bi bi-check2-circle"
-                            [style.font-size]="'2em'"
-                        ></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="content categories-wrapper p-3 px-4 bg-light shadow">
-        <div class="d-grid gap-3">
-            <div
-                class="
-                    clickable-button
-                    unselectable
-                    cursor-pointer
-                    text-center
-                    px-1
-                    py-3
-                "
-                matRipple
-                matRippleColor="rgba(50, 50, 50, 0.6)"
-                (click)="setSelectedCategory(null)"
-                [style.background]="'rgba(50, 50, 50, 0.1)'"
-                style.border-color="rgba(50, 50, 50, 1)"
-            >
-                <span class="font-weight-bold text-dark">Alles</span>
-            </div>
-            <div
-                *ngFor="let category of getCategoryShortDtosSorted()"
-                (click)="setSelectedCategory(category)"
-                matRipple
-                [matRippleColor]="getColor(category.id, 0.6)"
-                class="
-                    clickable-button
-                    unselectable
-                    cursor-pointer
-                    text-center
-                    px-1
-                    py-3
-                "
-                [style.color]="getColor(category.id, 1)"
-                [style.background]="getColor(category.id, 0.1)"
-                [style.border-color]="getColor(category.id)"
-            >
-                <span class="font-weight-bold">{{ category.name }}</span>
-            </div>
-        </div>
-    </div>
-    <div class="content products-wrapper bg-light p-3">
-        <div>
-            <div
-                *ngFor="let product of getProductsFromSelectedCategory()"
-                matRipple
-                [matRippleColor]="getColor(product.categoryId, 0.6)"
-                class="
-                    clickable-button
-                    product-button
-                    unselectable
-                    cursor-pointer
-                    text-center
-                    mr-3
-                    mb-3
-                    p-1
-                "
-                [style.color]="getColor(product.categoryId, 1)"
-                [style.background]="getColor(product.categoryId, 0.1)"
-                [style.border-color]="getColor(product.categoryId)"
-            >
-                <app-hold-div
-                    [onClickInvoke]="getOnClickInvoke(this, product)"
-                    [onHoldInvoke]="
-                        getOnHoldInvoke(
-                            this,
-                            product,
-                            this.addProductWithAdaption.bind(this)
-                        )
-                    "
-                >
-                    <div class="w-100 h-100 d-flex flex-column">
-                        <div class="font-weight-bold name-tag flex-fill">
-                            {{ product.name }}
-                        </div>
-                        <div class="flex-shrink">
-                            {{ getPriceStringProduct(product) }}
-                        </div>
-                    </div>
-                </app-hold-div>
-            </div>
-        </div>
-    </div>
+    <app-order-panel
+        (onAdaptionHoldEvent)="setProductOrderToEdit($event)"
+        [ngClass]="[
+            'content',
+            'order-panel-wrapper',
+            'bg-light',
+            'd-flex',
+            'flex-column',
+            'shadow'
+        ]"
+    ></app-order-panel>
+    <app-control-panel
+        (onNumpadValueChangedEvent)="onNumpadValueChangedEventInvoke($event)"
+        (selectedCategory)="setSelectedCategory($event)"
+        [ngClass]="[
+            'content',
+            'control-panel-wrapper',
+            'p-3',
+            'px-4',
+            'bg-light',
+            'd-flex',
+            'flex-column',
+            'shadow'
+        ]"
+    ></app-control-panel>
+    <app-products-select-panel
+        (onProductClickedEvent)="onProductClickedEventInvoke($event)"
+        (onAdaptionClickedEvent)="onAdaptionClickedEventInvoke($event)"
+        [selectedCategory]="this.selectedCategory"
+        [selectedProduct]="this.getForProduct()"
+    ></app-products-select-panel>
 </div>
-
-<app-apply-adaptions-modal></app-apply-adaptions-modal>
-
-<app-confirm-order-modal
-    [orderCreateDto]="this.orderCreateDto"
-    [orderFullDtoToEdit]="this.orderFullDtoToEdit"
-></app-confirm-order-modal>
-
-<app-set-price-modal
-    [productId]="productIdForSetPrice"
-    [addProductOrder]="addProductOrder.bind(this)"
-></app-set-price-modal>

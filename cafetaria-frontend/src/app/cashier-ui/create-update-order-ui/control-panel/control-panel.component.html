@@ -1,0 +1,9 @@
+<app-number-pad
+    (onValueChangedEvent)="onNumpadValueChangedEvent.emit($event)"
+    [ngClass]="['mb-2']"
+></app-number-pad>
+<hr />
+<app-category-select
+    (selectedCategory)="selectedCategory.emit($event)"
+    [ngClass]="['flex-fill overflow-auto container-fluid']"
+></app-category-select>

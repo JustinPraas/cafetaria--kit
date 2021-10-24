@@ -3,10 +3,11 @@ package nl.praas.cafetariasolution.api.dto.order;
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionShortDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductOrderCreateUpdateDto {
 
-    private Integer id;
+    private Optional<Integer> id;
 
     private int productId;
 
@@ -19,7 +20,7 @@ public class ProductOrderCreateUpdateDto {
     public ProductOrderCreateUpdateDto() {
     }
 
-    public Integer getId() {
+    public Optional<Integer> getId() {
         return id;
     }
 

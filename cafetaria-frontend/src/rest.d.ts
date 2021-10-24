@@ -1,5 +1,5 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2021-10-23 16:51:02.
+// Generated using typescript-generator version 2.9.456 on 2021-10-24 19:56:14.
 
 interface ReorderEntitiesDto {
     idToSequenceOrderMap: { [index: string]: number };
@@ -63,7 +63,7 @@ interface OrderFullDto {
 }
 
 interface ProductOrderCreateUpdateDto {
-    id: number;
+    id?: number;
     productId: number;
     price: string;
     appliedAdaptionShortDtos: AdaptionShortDto[];

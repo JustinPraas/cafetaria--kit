@@ -9,7 +9,7 @@ import {
     getQuantityOf,
     getTotalOrderPrice,
     getUniqueProductOrderCreateUpdateDtos,
-} from '../utils';
+} from '../../utils';
 
 @Component({
     selector: 'app-confirm-order-modal',

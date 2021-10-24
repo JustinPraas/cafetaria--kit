@@ -1,0 +1,15 @@
+.order-wrapper {
+    flex: 0 1 auto;
+    height: calc(100% - 120px);
+    overflow-y: auto;
+    z-index: 0;
+}
+
+.order-actions-wrapper {
+    flex: 0 1 120px;
+    z-index: 1;
+}
+
+table td {
+    vertical-align: middle;
+}
