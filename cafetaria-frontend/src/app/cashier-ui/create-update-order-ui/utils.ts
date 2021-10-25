@@ -38,9 +38,9 @@ export function getTotalOrderPrice(productOrderCreateUpdateDtos: ProductOrderCre
             result = result.plus(priceProducts);
             result = result.plus(priceAdaptions);
         }
-        return result.toFixed(2);
+        return result.toFixed(2).replace(".", ",");
     } else {
-        return new Big('0').toFixed(2);
+        return new Big('0').toFixed(2).replace(".", ",");
     }
 }
 

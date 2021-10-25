@@ -1,6 +1,7 @@
 nl\praas\cafetariasolution\api\dto\adaption\AdaptionShortDto.class
 nl\praas\cafetariasolution\api\dto\order\ProductOrderShortDto.class
 nl\praas\cafetariasolution\api\dto\order\PaymentType.class
+nl\praas\cafetariasolution\api\dto\adaption\AdaptionRanksDto.class
 nl\praas\cafetariasolution\api\dto\product\ProductShortDto.class
 nl\praas\cafetariasolution\api\dto\order\OrderCreateUpdateDto.class
 nl\praas\cafetariasolution\api\dto\category\CategoryCreateUpdateDto.class

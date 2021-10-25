@@ -16,26 +16,67 @@
             </div>
 
             <div class="modal-body">
-                <p>Selecteer de producten die mogelijk deze aanpassing kunnen krijgen</p>
-                <div class="px-4 py-3 border overflow-auto" [style.height]="'250px'">
+                <p>
+                    Selecteer de producten die mogelijk deze aanpassing kunnen
+                    krijgen
+                </p>
+                <div
+                    class="px-4 py-3 border overflow-auto"
+                    [style.height]="'250px'"
+                >
                     <div
-                        *ngFor="let product of getProductFullDtos()"
-                        class="form-check"
+                        class="mb-3"
+                        *ngFor="let category of getCategoryShortDtos()"
                     >
-                        <input
-                            class="form-check-input"
-                            [id]="'cb'+product.id"
-                            type="checkbox"
-                            [checked]="isSelected(product.id)"
-                            (click)="
-                                isSelected(product.id)
-                                    ? deselect(product.id)
-                                    : select(product.id)
+                        <div
+                            class="
+                                d-flex
+                                flex-row
+                                justify-content-between
+                                w-100
                             "
-                        />
-                        <label class="form-check-label" [for]="'cb'+product.id">
-                            {{ product.name }}
-                        </label>
+                        >
+                            <div>
+                                <strong>{{ category.name }}</strong>
+                            </div>
+                            <div class="px-2 flex-fill">
+                                <hr [style.margin-top]="'12px'"/>
+                            </div>
+                            <div>
+                                <a class="btn btn-outline-primary btn-sm ml-2" [ngClass]="{'active': isCategoryFullySelected(category.id)}" (click)="selectAllInCategory(category.id)"
+                                    >Alles</a
+                                >
+                                <a class="btn btn-outline-primary btn-sm ml-2" [ngClass]="{'active': isCategoryFullyUnselected(category.id)}" (click)="deselectAllInCategory(category.id)"
+                                    >Geen</a
+                                >
+                            </div>
+                        </div>
+                        <div
+                            *ngFor="
+                                let product of getProductFullDtosFromCategory(
+                                    category.id
+                                )
+                            "
+                            class="form-check"
+                        >
+                            <input
+                                class="form-check-input indeterminate"
+                                [id]="'cb' + product.id"
+                                type="checkbox"
+                                [checked]="isSelected(product.id)"
+                                (click)="
+                                    isSelected(product.id)
+                                        ? deselect(product.id)
+                                        : select(product.id)
+                                "
+                            />
+                            <label
+                                class="form-check-label"
+                                [for]="'cb' + product.id"
+                            >
+                                {{ product.name }}
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

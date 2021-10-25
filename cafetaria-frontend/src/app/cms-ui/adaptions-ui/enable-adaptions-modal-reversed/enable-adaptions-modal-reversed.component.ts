@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdaptionService } from 'src/app/services/adaption.service';
+import { DataService } from 'src/app/services/data.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -12,13 +13,19 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
 
     forAdaption: AdaptionFullDto | null = null;
 
-    constructor(private productService: ProductService, private adaptionService: AdaptionService) {}
+    constructor(
+        private productService: ProductService,
+        private adaptionService: AdaptionService,
+        private dataService: DataService
+    ) {}
 
     ngOnInit(): void {}
 
     setForAdaption(adaption: AdaptionFullDto) {
         this.forAdaption = adaption;
-        this.selectedPossibleProductIds = adaption.linkedProductShortDtos.map(p => p.id);
+        this.selectedPossibleProductIds = adaption.linkedProductShortDtos.map(
+            (p) => p.id
+        );
     }
 
     closeModal() {
@@ -26,8 +33,40 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
         jQuery('#enable-adaptions-modal-reversed').modal('hide');
     }
 
-    getProductFullDtos() {
-        return this.productService.getAllProductFullDtos();
+    getCategoryShortDtos() {
+        return this.dataService.getCategoryShortDtos();
+    }
+
+    getProductFullDtosFromCategory(categoryId: number) {
+        return this.dataService
+            .getProductFullDtos()
+            .filter((p) => p.categoryId === categoryId);
+    }
+
+    selectAllInCategory(categoryId: number) {
+        const idSet = new Set(this.selectedPossibleProductIds);
+        this.getProductFullDtosFromCategory(categoryId).forEach((p) =>
+            idSet.add(p.id)
+        );
+
+        this.selectedPossibleProductIds = [...idSet];
+    }
+
+    deselectAllInCategory(categoryId: number) {
+        const productIds = this.getProductFullDtosFromCategory(categoryId).map(p => p.id)
+        this.selectedPossibleProductIds = this.selectedPossibleProductIds.filter(id => !productIds.includes(id))
+    }
+
+    isCategoryFullySelected(categoryId: number) {
+        return this.getProductFullDtosFromCategory(categoryId).every((e) =>
+            this.selectedPossibleProductIds.includes(e.id)
+        );
+    }
+
+    isCategoryFullyUnselected(categoryId: number) {
+        return !this.getProductFullDtosFromCategory(categoryId).some((e) =>
+            this.selectedPossibleProductIds.includes(e.id)
+        );
     }
 
     isSelected(productId: number) {
@@ -48,7 +87,11 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
 
     setPossibleProductIds() {
         if (this.forAdaption) {
-            this.adaptionService.linkProductsToAdaption(this.forAdaption.id!, this.selectedPossibleProductIds, this.closeModal.bind(this))
+            this.adaptionService.linkProductsToAdaption(
+                this.forAdaption.id!,
+                this.selectedPossibleProductIds,
+                this.closeModal.bind(this)
+            );
         }
     }
 }

@@ -41,7 +41,7 @@
 
     <div
         class="border-top px-3 pb-2 pt-2 shadow"
-        *ngIf="getAdaptionsFromSelectedProduct().length > 0"
+        *ngIf="getAdaptionsFromSelectedProductSorted().length > 0"
     >
         <div class="d-flex flex-row justify-content-between w-10">
             <div>
@@ -83,10 +83,10 @@
 
         <div class="d-flex flex-row flex-wrap">
             <div
-                *ngFor="let adaption of getAdaptionsFromSelectedProduct()"
+                *ngFor="let adaption of getAdaptionsFromSelectedProductSorted()"
                 (click)="onAdaptionClick(adaption)"
                 matRipple
-                [matRippleColor]="'rgba(90, 90, 90, 0.3)'"
+                [matRippleColor]="'rgba(13, 110, 253, 0.3)'"
                 class="
                     clickable-button
                     product-button
@@ -97,9 +97,9 @@
                     mb-3
                     p-1
                 "
-                [style.color]="'rgba(40, 40, 40, 1)'"
-                [style.background]="'rgba(40, 40, 40, 0.1)'"
-                [style.border-color]="'rgba(40, 40, 40, 1)'"
+                [style.color]="'rgba(13, 110, 253, 1)'"
+                [style.background]="'rgba(13, 110, 253, 0.1)'"
+                [style.border-color]="'rgba(13, 110, 253, 1)'"
             >
                 <div class="w-100 h-100 d-flex flex-column">
                     <div class="font-weight-bold name-tag">

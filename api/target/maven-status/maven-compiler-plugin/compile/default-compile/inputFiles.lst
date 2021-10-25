@@ -6,6 +6,7 @@ C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariaso
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\ReorderEntitiesDto.java
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\product\ProductShortDto.java
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\adaption\AdaptionCreateUpdateDto.java
+C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\adaption\AdaptionRanksDto.java
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\order\ProductOrderCreateUpdateDto.java
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\category\CategoryCreateUpdateDto.java
 C:\Users\jwpra\Desktop\Cafetaria-Solution\api\src\main\java\nl\praas\cafetariasolution\api\dto\order\ProductOrderShortDto.java

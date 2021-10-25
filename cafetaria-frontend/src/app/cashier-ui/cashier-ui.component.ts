@@ -21,6 +21,7 @@ export class CashierUiComponent implements OnInit {
         this.orderService.fetchAllOrderFullDtos();
         this.categoryService.fetchCategoryShortDtos();
         this.adaptionService.fetchAdaptions();
+        this.adaptionService.fetchAdaptionRanks();
         this.productService.fetchProductFullDtos();
     }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdaptionService } from 'src/app/services/adaption.service';
+import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 import { getPriceString } from 'src/app/utils';
 import { AdaptionArchiveModalComponent } from './adaption-archive-modal/adaption-archive-modal.component';
@@ -16,9 +17,10 @@ export class AdaptionsUiComponent implements OnInit {
     @ViewChild(AdaptionArchiveModalComponent) adaptionArchiveModal: AdaptionArchiveModalComponent | undefined;
     @ViewChild(EnableAdaptionsModalReversedComponent) enableAdaptionReversedModal?: EnableAdaptionsModalReversedComponent;
 
-    constructor(private adaptionService: AdaptionService, private productService: ProductService) {}
+    constructor(private adaptionService: AdaptionService, private productService: ProductService, private categoryService: CategoryService) {}
 
     ngOnInit(): void {
+        this.categoryService.fetchCategoryShortDtos();
         this.adaptionService.fetchAdaptions();
         this.productService.fetchProductFullDtos();
     }

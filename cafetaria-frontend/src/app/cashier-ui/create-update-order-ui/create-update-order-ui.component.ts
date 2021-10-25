@@ -75,7 +75,7 @@ export class CreateUpdateOrderUiComponent implements OnInit {
             console.log(newProductOrderCreateUpdate.price);
             newProductOrderCreateUpdate.quantity = 1;
         } else {
-            newProductOrderCreateUpdate.price = product.price.replace(',', '.');
+            newProductOrderCreateUpdate.price = product.price;
             newProductOrderCreateUpdate.quantity = getNumpadQuantityValue(
                 this.numpadValue
             );

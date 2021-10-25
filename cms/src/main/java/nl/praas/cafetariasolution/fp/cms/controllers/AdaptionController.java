@@ -2,6 +2,7 @@ package nl.praas.cafetariasolution.fp.cms.controllers;
 
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionCreateUpdateDto;
 import nl.praas.cafetariasolution.api.dto.adaption.AdaptionFullDto;
+import nl.praas.cafetariasolution.api.dto.adaption.AdaptionRanksDto;
 import nl.praas.cafetariasolution.api.dto.product.ProductFullDto;
 import nl.praas.cafetariasolution.fp.cms.entities.adaption.Adaption;
 import nl.praas.cafetariasolution.fp.cms.services.AdaptionService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +27,11 @@ public class AdaptionController {
 
     @Autowired
     private AdaptionService adaptionService;
+
+    @GetMapping("/ranks")
+    public AdaptionRanksDto getAdaptionRanks() {
+        return new AdaptionRanksDto(this.adaptionService.getAdaptionRanks());
+    }
 
     @GetMapping
     public List<AdaptionFullDto> getAdaptions() {

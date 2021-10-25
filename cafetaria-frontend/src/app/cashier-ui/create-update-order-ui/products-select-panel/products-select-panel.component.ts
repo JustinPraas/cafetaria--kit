@@ -97,9 +97,10 @@ export class ProductsSelectPanelComponent implements OnInit {
         }
     }
 
-    getAdaptionsFromSelectedProduct() {
+    getAdaptionsFromSelectedProductSorted() {
+        const adaptionRanks = this.dataService.getAdaptionRanks();
         if (this.selectedProduct) {
-            return this.selectedProduct.possibleAdaptionShortDtos;
+            return this.selectedProduct.possibleAdaptionShortDtos.sort((a, b) => adaptionRanks[b.id!] - adaptionRanks[a.id!]);
         } else {
             return [];
         }

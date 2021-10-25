@@ -8,6 +8,7 @@ export class DataService {
     private categoryFullDtos: CategoryFullDto[] = [];
     private orderFullDtos: OrderFullDto[] = [];
     private adaptionFullDtos: AdaptionFullDto[] = [];
+    private adaptionRanksDto: AdaptionRanksDto = {adaptionRanks: {}}
     private productFullDtos: ProductFullDto[] = [];
 
     constructor() {}
@@ -32,6 +33,10 @@ export class DataService {
         this.adaptionFullDtos = adaptionFullDtos;
     }
 
+    setAdaptionRanksDto(ranks: AdaptionRanksDto) {
+        this.adaptionRanksDto = ranks;
+    }
+
     getCategoryShortDtos() {
         return this.categoryShortDtos;
     }
@@ -46,6 +51,10 @@ export class DataService {
 
     getAdaptionFullDtos() {
         return this.adaptionFullDtos;
+    }
+
+    getAdaptionRanks() {
+        return this.adaptionRanksDto.adaptionRanks
     }
 
     getProductFullDtos() {

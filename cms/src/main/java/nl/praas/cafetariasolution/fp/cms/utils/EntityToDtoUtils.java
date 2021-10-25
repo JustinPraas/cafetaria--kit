@@ -27,8 +27,7 @@ public final class EntityToDtoUtils {
         return new AdaptionShortDto(
                 Optional.of(adaption.getId()),
                 adaption.getName(),
-                priceToString(adaption.getPrice())
-        );
+                priceToString(adaption.getPrice()));
     }
 
     public static AdaptionFullDto convertToAdaptionFullDto(Adaption adaption) {

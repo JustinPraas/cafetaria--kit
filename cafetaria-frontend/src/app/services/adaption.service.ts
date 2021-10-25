@@ -14,6 +14,14 @@ export class AdaptionService {
         private toastr: ToastrService
     ) {}
 
+    fetchAdaptionRanks() {
+        this.httpClient
+            .get<AdaptionRanksDto>(API_ADAPTION_URL + `/ranks`)
+            .subscribe((ranks: AdaptionRanksDto) => {
+                this.dataService.setAdaptionRanksDto(ranks);
+            });
+    }
+
     fetchAdaptions() {
         this.httpClient
             .get<AdaptionFullDto[]>(API_ADAPTION_URL)

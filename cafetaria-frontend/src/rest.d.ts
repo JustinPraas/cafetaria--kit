@@ -1,5 +1,5 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2021-10-24 19:56:14.
+// Generated using typescript-generator version 2.9.456 on 2021-10-25 18:05:25.
 
 interface ReorderEntitiesDto {
     idToSequenceOrderMap: { [index: string]: number };
@@ -16,6 +16,10 @@ interface AdaptionFullDto extends AdaptionShortDto {
     modifiedOn: Date;
     registered: boolean;
     archived: boolean;
+}
+
+interface AdaptionRanksDto {
+    adaptionRanks: { [index: string]: number };
 }
 
 interface AdaptionShortDto {

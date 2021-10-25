@@ -12,9 +12,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityManager;
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Transactional
@@ -25,6 +29,9 @@ public class AdaptionService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     public List<Adaption> getAllAdaptions() {
         return adaptionRepository.findAll();
@@ -84,5 +91,22 @@ public class AdaptionService {
         product.getPossibleAdaptions().clear();
         product.getPossibleAdaptions().addAll(adaptions);
         return productRepository.save(product);
+    }
+
+    public Map<Integer, Integer> getAdaptionRanks() {
+        List<Object[]> results = entityManager.createNativeQuery("" +
+                "SELECT t.adaption_id as adaptionId, COUNT(t) AS total\n" +
+                "FROM product_order_adaption_mappings as t\n" +
+                "GROUP BY t.adaption_id").getResultList();
+
+        Map<Integer, Integer> ranks = new HashMap<>();
+
+        results.forEach(result -> {
+            int adaptionId = (int) result[0];
+            int rank = ((BigInteger) result [1]).intValue();
+            ranks.put(adaptionId, rank);
+        });
+
+        return ranks;
     }
 }
