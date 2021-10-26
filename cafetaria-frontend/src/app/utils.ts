@@ -1,3 +1,4 @@
+import Big from "big.js";
 import * as moment from "moment";
 
 moment.locale("nl")
@@ -40,7 +41,7 @@ export const getNumpadPriceValue: (nonSanitizedPriceValue: string) => string = (
     if (nonSanitizedPriceValue == '') {
         return "0"
     } else {
-        return nonSanitizedPriceValue.replace(",", ".")
+        return new Big(nonSanitizedPriceValue.replace(',','.')).toFixed(2).replace('.',',')
     }
 }
 

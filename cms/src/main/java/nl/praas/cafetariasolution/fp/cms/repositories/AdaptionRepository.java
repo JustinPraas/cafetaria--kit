@@ -10,4 +10,5 @@ public interface AdaptionRepository extends JpaRepository<Adaption, Integer> {
 
     @Query("SELECT max(category.sequenceOrder) from Category category")
     Optional<Integer> findMaxSequenceOrder();
+
 }

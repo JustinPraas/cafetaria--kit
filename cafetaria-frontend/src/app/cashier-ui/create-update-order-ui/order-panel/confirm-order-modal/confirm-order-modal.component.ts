@@ -35,7 +35,13 @@ export class ConfirmOrderModalComponent implements OnInit {
         private route: ActivatedRoute
     ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#confirm-order-modal').on('shown.bs.modal', function () {
+            //@ts-ignore
+            jQuery('#customerName').trigger('focus');
+        });
+    }
 
     onSuccess() {
         this.closeModal();

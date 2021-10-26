@@ -41,49 +41,56 @@
                 </form>
 
                 <h2>Bestelling:</h2>
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-striped mb-0">
+                    <thead class=>
                         <tr>
                             <th>Aantal</th>
                             <th>Product</th>
                             <th>Prijs per stuk</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr
-                            *ngFor="
-                                let productOrder of orderCreateDto?.productOrderCreateUpdateDtos
-                            "
-                        >
-                            <td>
-                                {{ productOrder.quantity }}
-                            </td>
-                            <td>
-                                {{ getProductName(productOrder.productId) }}
-                                <br />
-                                <span
-                                    class="text-muted text-italic"
-                                    *ngFor="
-                                        let adaption of productOrder.appliedAdaptionShortDtos
-                                    "
-                                    ><i class="bi bi-arrow-return-right"></i>
-                                    {{ adaption.name }} <br
-                                /></span>
-                            </td>
-                            <td>
-                                {{ getPriceString(productOrder) }} <br />
-                                <span
-                                    class="text-muted text-italic"
-                                    *ngFor="
-                                        let adaption of productOrder.appliedAdaptionShortDtos
-                                    "
-                                >
-                                    {{ getPriceStringAdaption(adaption) }} <br
-                                /></span>
-                            </td>
-                        </tr>
-                    </tbody>
                 </table>
+                <div class="overflow-auto" [style.max-height]="'400px'">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let productOrder of orderCreateDto?.productOrderCreateUpdateDtos
+                                "
+                            >
+                                <td>
+                                    {{ productOrder.quantity }}
+                                </td>
+                                <td>
+                                    {{ getProductName(productOrder.productId) }}
+                                    <br />
+                                    <span
+                                        class="text-muted text-italic"
+                                        *ngFor="
+                                            let adaption of productOrder.appliedAdaptionShortDtos
+                                        "
+                                        ><i
+                                            class="bi bi-arrow-return-right"
+                                        ></i>
+                                        {{ adaption.name }} <br
+                                    /></span>
+                                </td>
+                                <td>
+                                    {{ getPriceString(productOrder) }} <br />
+                                    <span
+                                        class="text-muted text-italic"
+                                        *ngFor="
+                                            let adaption of productOrder.appliedAdaptionShortDtos
+                                        "
+                                    >
+                                        {{ getPriceStringAdaption(adaption) }}
+                                        <br
+                                    /></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <h3 class="text-dark mt-2 mb-2 text-center">
                     Totaalprijs: €{{ getTotalOrderPrice() }}
                 </h3>

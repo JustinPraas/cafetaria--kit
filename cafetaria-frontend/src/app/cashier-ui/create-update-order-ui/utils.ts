@@ -83,7 +83,6 @@ export function isProductOrderCreateUpdateEqual(
             p1.appliedAdaptionShortDtos.map((it) => it.id!),
             p2.appliedAdaptionShortDtos.map((it) => it.id!)
         ) &&
-        p1.quantity == p2.quantity &&
         p1.price == p2.price &&
         p1.productId == p2.productId
     );

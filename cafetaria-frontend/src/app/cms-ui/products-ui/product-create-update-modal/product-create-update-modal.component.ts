@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CategoryService } from 'src/app/services/category.service';
 import { DataService } from 'src/app/services/data.service';
 import { ProductService } from 'src/app/services/product.service';
 import { EnableAdaptionsModalComponent } from '../enable-adaptions-modal/enable-adaptions-modal.component';
@@ -10,12 +9,12 @@ import { EnableAdaptionsModalComponent } from '../enable-adaptions-modal/enable-
     styleUrls: ['./product-create-update-modal.component.scss'],
 })
 export class ProductCreateUpdateModalComponent implements OnInit {
-
-    @ViewChild(EnableAdaptionsModalComponent) enableAdaptionsModal?: EnableAdaptionsModalComponent;
+    @ViewChild(EnableAdaptionsModalComponent)
+    enableAdaptionsModal?: EnableAdaptionsModalComponent;
 
     createUpdateFormGroup = new FormGroup({
         name: new FormControl(''),
-        categoryId: new FormControl(0),
+        categoryId: new FormControl(null),
         price: new FormControl(''),
         priceType: new FormControl('FIXED'),
         active: new FormControl(true),
@@ -25,7 +24,21 @@ export class ProductCreateUpdateModalComponent implements OnInit {
 
     productToEdit: ProductFullDto | null = null;
 
-    constructor(private productService: ProductService, private dataService: DataService) {}
+    constructor(
+        private productService: ProductService,
+        private dataService: DataService
+    ) {}
+
+    ngOnInit(): void {
+        //@ts-ignore
+        jQuery('#product-create-update-modal').on(
+            'shown.bs.modal',
+            function () {
+                //@ts-ignore
+                jQuery('#productName').trigger('focus');
+            }
+        );
+    }
 
     getCreateUpdateModalTitle() {
         if (this.productToEdit) {
@@ -48,7 +61,9 @@ export class ProductCreateUpdateModalComponent implements OnInit {
             active: new FormControl(product.active),
         });
         this.productToEdit = product;
-        this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(pasd => pasd.id!)
+        this.possibleAdaptionIds = product.possibleAdaptionShortDtos.map(
+            (pasd) => pasd.id!
+        );
     }
 
     setPossibleAdaptionIds(ids: number[]) {
@@ -56,7 +71,7 @@ export class ProductCreateUpdateModalComponent implements OnInit {
     }
 
     showPriceBox() {
-        return this.createUpdateFormGroup.controls.priceType.value == "FIXED";
+        return this.createUpdateFormGroup.controls.priceType.value == 'FIXED';
     }
 
     closeModal() {
@@ -73,21 +88,14 @@ export class ProductCreateUpdateModalComponent implements OnInit {
     resetProductToEdit() {
         this.createUpdateFormGroup = new FormGroup({
             name: new FormControl(''),
-            categoryId: new FormControl(0),
+            categoryId: new FormControl(null),
             price: new FormControl(''),
             priceType: new FormControl('FIXED'),
             active: new FormControl(true),
         });
         this.productToEdit = null;
-        this.possibleAdaptionIds = []
+        this.possibleAdaptionIds = [];
     }
-
-    ngOnInit(): void {
-        //@ts-ignore
-        jQuery('#product-create-update-modal').on('shown.bs.modal', function () {
-            //@ts-ignore
-            jQuery('#productName').trigger('focus');
-        });}
 
     onSubmit() {
         const controls = this.createUpdateFormGroup.controls;

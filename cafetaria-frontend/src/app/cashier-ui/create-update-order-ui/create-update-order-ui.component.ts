@@ -40,6 +40,10 @@ export class CreateUpdateOrderUiComponent implements OnInit {
         this.productOrderToEdit = product;
     }
 
+    clearSelectedProduct() {
+        this.selectedProduct = null;
+    }
+
     getForProduct(): ProductFullDto | null {
         const productInProductOrderToEdit = this.productOrderToEdit ? this.getProductById(this.productOrderToEdit.productId) : null
         return this.productOrderToEdit ? (productInProductOrderToEdit ? productInProductOrderToEdit : null) : this.selectedProduct
@@ -70,9 +74,7 @@ export class CreateUpdateOrderUiComponent implements OnInit {
 
         if (product.priceType == 'VARIABLE') {
             const price = getNumpadPriceValue(this.numpadValue);
-            console.log('PRICE', price);
             newProductOrderCreateUpdate.price = price;
-            console.log(newProductOrderCreateUpdate.price);
             newProductOrderCreateUpdate.quantity = 1;
         } else {
             newProductOrderCreateUpdate.price = product.price;

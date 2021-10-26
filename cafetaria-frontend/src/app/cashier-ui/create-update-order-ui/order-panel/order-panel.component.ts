@@ -33,9 +33,11 @@ export class OrderPanelComponent implements OnInit {
     @Output()
     onAdaptionHoldEvent = new EventEmitter<ProductOrderCreateUpdateDto>();
 
+    @Output()
+    onCurrentProductOrderClearEvent = new EventEmitter<undefined>();
+
     productOrderCreateUpdates: ProductOrderCreateUpdateDto[] = [];
-    lastAddedProductOrderCreateUpdate: ProductOrderCreateUpdateDto | null =
-        null;
+    currentProductOrder: ProductOrderCreateUpdateDto | null = null;
 
     orderToEdit?: OrderFullDto;
 
@@ -90,6 +92,11 @@ export class OrderPanelComponent implements OnInit {
         });
     }
 
+    clearCurrentProductOrder() {
+        this.currentProductOrder = null;
+        this.onCurrentProductOrderClearEvent.emit();
+    }
+
     /**
      *
      *
@@ -99,8 +106,19 @@ export class OrderPanelComponent implements OnInit {
      */
 
     addProductOrder(productOrder: ProductOrderCreateUpdateDto) {
-        this.productOrderCreateUpdates.push(productOrder);
-        this.lastAddedProductOrderCreateUpdate = productOrder;
+        const existingProductOrder = this.productOrderCreateUpdates.find((po) =>
+            isProductOrderCreateUpdateEqual(po, productOrder)
+        );
+
+        if (this.isProductOrderSameAsLastAdded(productOrder)) {
+            this.currentProductOrder!.quantity += productOrder.quantity;
+        } else if (existingProductOrder) {
+            existingProductOrder.quantity += productOrder.quantity;
+        } else {
+            this.productOrderCreateUpdates.push(productOrder);
+            this.currentProductOrder = productOrder;
+        }
+
         this.changes = true;
     }
 
@@ -116,6 +134,9 @@ export class OrderPanelComponent implements OnInit {
                 isProductOrderCreateUpdateEqual(pocud, productOrder)
             );
             this.productOrderCreateUpdates.splice(index, 1);
+            if (this.isProductOrderSameAsLastAdded(productOrder)) {
+                this.clearCurrentProductOrder();
+            }
         }
         this.changes = true;
     }
@@ -124,12 +145,28 @@ export class OrderPanelComponent implements OnInit {
         this.productOrderCreateUpdates = this.productOrderCreateUpdates.filter(
             (pocud) => !isProductOrderCreateUpdateEqual(productOrder, pocud)
         );
+
+        if (this.isProductOrderSameAsLastAdded(productOrder)) {
+            this.clearCurrentProductOrder();
+        }
+
         this.changes = true;
     }
 
-    onProductNameHoldEventInvoke(
+    isProductOrderSameAsLastAdded(productOrder: ProductOrderCreateUpdateDto) {
+        return (
+            this.currentProductOrder &&
+            isProductOrderCreateUpdateEqual(
+                productOrder,
+                this.currentProductOrder
+            )
+        );
+    }
+
+    onProductNameClickEventInvoke(
         productOrderCreateUpdateDto: ProductOrderCreateUpdateDto
     ) {
+        this.currentProductOrder = productOrderCreateUpdateDto;
         this.onAdaptionHoldEvent.emit(productOrderCreateUpdateDto);
     }
 

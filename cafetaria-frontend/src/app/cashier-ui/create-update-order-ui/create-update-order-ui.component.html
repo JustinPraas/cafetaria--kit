@@ -1,6 +1,7 @@
 <div class="content-wrapper w-100">
     <app-order-panel
         (onAdaptionHoldEvent)="setProductOrderToEdit($event)"
+        (onCurrentProductOrderClearEvent)="clearSelectedProduct()"
         [ngClass]="[
             'content',
             'order-panel-wrapper',

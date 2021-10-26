@@ -6,7 +6,6 @@ import { CategoriesUiComponent } from './cms-ui/categories-ui/categories-ui.comp
 import { ProductsUiComponent } from './cms-ui/products-ui/products-ui.component';
 import { CreateUpdateOrderUiComponent } from './cashier-ui/create-update-order-ui/create-update-order-ui.component';
 import { OrdersUiComponent } from './cashier-ui/orders-ui/orders-ui.component';
-import { CashierDashboardUiComponent } from './cashier-ui/cashier-dashboard-ui/cashier-dashboard-ui.component';
 import { AdaptionsUiComponent } from './cms-ui/adaptions-ui/adaptions-ui.component';
 import { PendingChangesGuard } from 'src/PendingChangesGuard';
 
@@ -15,7 +14,6 @@ const routes: Routes = [
         { path: 'bestellingen/nieuw', component: CreateUpdateOrderUiComponent, canDeactivate: [PendingChangesGuard]},
         { path: 'bestellingen/:id', component: CreateUpdateOrderUiComponent, canDeactivate: [PendingChangesGuard]},
         { path: 'bestellingen', component: OrdersUiComponent},
-        { path: 'overzicht', component: CashierDashboardUiComponent}
     ] },
     { path: 'cms', component: CmsUiComponent, children: [
         {

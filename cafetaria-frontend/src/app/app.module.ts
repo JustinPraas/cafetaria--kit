@@ -28,7 +28,6 @@ import { HttpConfigInterceptor } from './http-config.interceptor';
 import { ProductCreateUpdateModalComponent } from './cms-ui/products-ui/product-create-update-modal/product-create-update-modal.component';
 import { ProductArchiveModalComponent } from './cms-ui/products-ui/product-archive-modal/product-archive-modal.component';
 import { CreateUpdateOrderUiComponent } from './cashier-ui/create-update-order-ui/create-update-order-ui.component';
-import { CashierDashboardUiComponent } from './cashier-ui/cashier-dashboard-ui/cashier-dashboard-ui.component';
 import { OrdersUiComponent } from './cashier-ui/orders-ui/orders-ui.component';
 import { ConfirmOrderModalComponent } from './cashier-ui/create-update-order-ui/order-panel/confirm-order-modal/confirm-order-modal.component';
 import { OrderComponent } from './cashier-ui/orders-ui/order/order.component';
@@ -64,7 +63,6 @@ registerLocaleData(nl);
         ProductCreateUpdateModalComponent,
         ProductArchiveModalComponent,
         CreateUpdateOrderUiComponent,
-        CashierDashboardUiComponent,
         OrdersUiComponent,
         ConfirmOrderModalComponent,
         OrderComponent,

@@ -51,3 +51,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     height: 110px;
     width: 110px;
 }
+
+.table-fix-head {
+    overflow-y: auto;
+}
+
+.table-fix-head thead { position: sticky; top: 0; z-index: 100 }
