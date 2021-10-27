@@ -20,7 +20,10 @@
                 ></button>
             </div>
             <div class="modal-body">
-                <div class="d-grid gap-2">
+                <div class="w-100 my-4">
+                    <p class="fs-1 text-center">Te betalen: <strong>€{{getTotalOrderPrice()}}</strong></p>
+                </div>
+                <div class="d-grid gap-4 px-3">
                     <button
                         (click)="this.payOrder('CASH')"
                         class="btn btn-lg btn-success py-4 fs-2"

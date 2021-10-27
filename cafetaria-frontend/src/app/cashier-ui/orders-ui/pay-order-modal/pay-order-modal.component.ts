@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/services/order.service';
+import { getTotalOrderPrice } from '../utils';
 
 @Component({
     selector: 'app-pay-order-modal',
@@ -23,6 +24,14 @@ export class PayOrderModalComponent implements OnInit {
             this.orderService.payOrder(this.order, paymentType, this.closeModal.bind(this));
         else
             console.log("There's no order that can be paid")
+    }
+
+    getTotalOrderPrice() {
+        if (this.order) {
+            return getTotalOrderPrice(this.order.productOrderShortDtos);
+        } else {
+            return "???"
+        }
     }
 
 
