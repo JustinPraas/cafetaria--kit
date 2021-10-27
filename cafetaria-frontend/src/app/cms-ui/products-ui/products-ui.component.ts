@@ -8,6 +8,8 @@ import { ReorderModalComponent } from '../reorder-modal/reorder-modal.component'
 import { ProductService } from 'src/app/services/product.service';
 import { EnableAdaptionsModalComponent } from './enable-adaptions-modal/enable-adaptions-modal.component';
 import { AdaptionService } from 'src/app/services/adaption.service';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-products-ui',
@@ -28,16 +30,24 @@ export class ProductsUiComponent implements OnInit {
     @ViewChild(EnableAdaptionsModalComponent)
     enableAdaptionModal?: EnableAdaptionsModalComponent;
 
+    filteredProductName: string | null = null;
+    filteredProducts: ProductFullDto[] = [];
+
+    filteredCategoryId: number | null = null;
+    filteredCategories: CategoryShortDto[] = [];
+
     constructor(
         private categoryService: CategoryService,
         private adaptionService: AdaptionService,
         private dataService: DataService,
-        private productService: ProductService
+        private productService: ProductService,
+        private route: ActivatedRoute,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
-        this.productService.fetchProductFullDtos();
-        this.categoryService.fetchCategoryShortDtos();
+        this.productService.fetchProductFullDtos(this.getFilteredCategoriesAndProducts.bind(this));
+        this.categoryService.fetchCategoryShortDtos(this.getFilteredCategoriesAndProducts.bind(this));
         this.adaptionService.fetchAdaptions();
     }
 
@@ -59,6 +69,7 @@ export class ProductsUiComponent implements OnInit {
         return this.dataService
             .getProductFullDtos()
             .filter((p) => categoryId == p.categoryId)
+            .filter((p) => this.filteredProducts.map(pr => pr.id).includes(p.id))
             .sort(sequenceOrder);
     }
 
@@ -83,5 +94,65 @@ export class ProductsUiComponent implements OnInit {
             reorderEntitiesDto,
             this.closeReorderModal.bind(this)
         );
+    }
+
+    clearFilters() {
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.route,
+                queryParams: {product: null, categorie: null},
+                queryParamsHandling: "merge"
+            }
+        )
+    }
+
+    filtersActive() {
+        return this.filteredCategoryId || this.filteredProductName
+    }
+
+    setFilterCategory(categoryId: number | null) {
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.route,
+                queryParams: {categorie: categoryId},
+                queryParamsHandling: "merge"
+            }
+        )
+    }
+
+    setFilteredProductName(productName: string | null) {
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.route,
+                queryParams: {product: productName == "" ? null : productName},
+                queryParamsHandling: "merge"
+            }
+        )
+    }
+
+    getFilteredCategoriesAndProducts() {
+        this.route.queryParamMap.subscribe(params => {
+            const categoryId = params.get("categorie")
+            const productName = params.get("product")
+
+            if (categoryId) {
+                this.filteredCategoryId = +categoryId;
+                this.filteredCategories = Array.of(this.getCategoryShortDtosSorted().find(c => c.id == +categoryId)!)
+            } else {
+                this.filteredCategoryId = null;
+                this.filteredCategories = this.getCategoryShortDtosSorted();
+            }
+
+            if (productName) {
+                this.filteredProductName = productName;
+                this.filteredProducts = this.dataService.getProductFullDtos().filter(p => p.name.toLocaleLowerCase().includes(productName.toLocaleLowerCase()))
+            } else {
+                this.filteredProductName = null;
+                this.filteredProducts = this.dataService.getProductFullDtos()
+            }
+        })
     }
 }

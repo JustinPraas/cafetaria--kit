@@ -22,11 +22,12 @@ export class ProductService {
         }
     }
 
-    fetchProductFullDtos() {
+    fetchProductFullDtos(callback?: () => void) {
         this.httpClient
             .get<ProductFullDto[]>(`${API_PRODUCT_URL}/full`)
             .subscribe((psds) => {
                 this.dataService.setProductFullDtos(psds);
+                callback ? callback() : null;
             });
     }
 

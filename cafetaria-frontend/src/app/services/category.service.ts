@@ -26,11 +26,12 @@ export class CategoryService {
         return this.dataService.getCategoryFullDtos();
     }
 
-    fetchCategoryShortDtos() {
+    fetchCategoryShortDtos(callback?: () => void) {
         this.httpClient
             .get<CategoryShortDto[]>(`${API_CATEGORY_URL}/short`)
             .subscribe((csd: CategoryShortDto[]) => {
                 this.dataService.setCategoryShortDtos(csd);
+                callback ? callback() : null;
             });
     }
 

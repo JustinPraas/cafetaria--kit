@@ -22,11 +22,12 @@ export class AdaptionService {
             });
     }
 
-    fetchAdaptions() {
+    fetchAdaptions(callback?: () => void) {
         this.httpClient
             .get<AdaptionFullDto[]>(API_ADAPTION_URL)
             .subscribe((afds: AdaptionFullDto[]) => {
                 this.dataService.setAdaptionFullDtos(afds);
+                callback ? callback() : null;
             });
     }
 

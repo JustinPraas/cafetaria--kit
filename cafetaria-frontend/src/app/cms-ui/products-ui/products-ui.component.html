@@ -1,16 +1,65 @@
 <div class="px-4">
-    <div class="mb-3">
-        <h1 class="mb-3">Categorieën en producten</h1>
-        <button
-            data-bs-toggle="modal"
-            data-bs-target="#product-create-update-modal"
-            class="btn btn-primary"
-        >
-            <i class="bi bi-bookmark-plus"></i> Nieuw product toevoegen
-        </button>
+    <h1 class="mb-3">Categorieën en producten</h1>
+    <div class="d-flex flex-row justify-content-between mb-3 w-100">
+        <div class="flex-shrink-0">
+            <button
+                data-bs-toggle="modal"
+                data-bs-target="#product-create-update-modal"
+                class="btn btn-lg btn-primary"
+            >
+                <i class="bi bi-bookmark-plus"></i> Nieuw product toevoegen
+            </button>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-end">
+                <div class="col-auto px-1">
+                    <label class="form-label"><strong>Filters</strong></label
+                    ><br />
+                    <button
+                        class="btn btn-lg btn-outline-primary"
+                        [disabled]="!filtersActive()"
+                        (click)="clearFilters()"
+                    >
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+                <div class="col-3 px-1">
+                    <label class="form-label">Categorie</label>
+                    <select class="form-select form-control-lg">
+                        <option
+                            [selected]="true"
+                            [value]="null"
+                            (click)="setFilterCategory(null)"
+                        >
+                            Geen
+                        </option>
+                        <option
+                            (click)="setFilterCategory(category.id)"
+                            [selected]="category.id == this.filteredCategoryId"
+                            *ngFor="
+                                let category of getCategoryShortDtosSorted()
+                            "
+                            [value]="category.id"
+                        >
+                            {{ category.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-3 px-1">
+                    <label class="form-label">Product naam</label>
+                    <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        placeholder="Patat..."
+                        [ngModel]="this.filteredProductName"
+                        (ngModelChange)="this.setFilteredProductName($event)"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div *ngFor="let category of getCategoryShortDtosSorted()" class="mt-4">
+    <div *ngFor="let category of this.filteredCategories" class="mt-4">
         <div class="card shadow-sm">
             <h5 class="card-header">
                 <i class="bi bi-tag-fill" [style.color]="category.colorHex"></i>
@@ -33,9 +82,9 @@
                     "
                 >
                     <span class="m-3"
-                        >Er zijn geen producten in deze categorie
-                        geplaatst</span
-                    >
+                        >Er zijn geen producten in deze categorie of geen
+                        producten matchen het filter
+                    </span>
                 </div>
                 <table
                     *ngIf="
@@ -44,7 +93,7 @@
                               0
                             : false
                     "
-                    class="table table-striped mb-3"
+                    class="table table-striped mb-0"
                 >
                     <thead>
                         <tr>
@@ -63,22 +112,26 @@
                             "
                         >
                             <td>{{ product.name }}</td>
-                            <td>{{ getPriceString(product) }}</td>
-                            <td>
+                            <td class="fit">{{ getPriceString(product) }}</td>
+                            <td class="fit no-wrap">
                                 <input
                                     type="checkbox"
                                     [checked]="product.active"
                                     disabled
                                 />
                             </td>
-                            <td>
+                            <td class="fit">
                                 <button
                                     type="button"
                                     data-bs-target="#enable-adaptions-modal"
-                                    (click)="this.enableAdaptionModal!.setForProduct(product)"
+                                    (click)="
+                                        this.enableAdaptionModal!.setForProduct(
+                                            product
+                                        )
+                                    "
                                     data-bs-toggle="modal"
                                     data-bs-dismiss="modal"
-                                    class="btn btn-outline-primary mr-2"
+                                    class="btn btn-sm btn-outline-primary mr-2"
                                 >
                                     Selecteer mogelijke aanpassingen
                                 </button>
@@ -90,7 +143,7 @@
                                     "
                                     data-bs-toggle="modal"
                                     data-bs-target="#product-create-update-modal"
-                                    class="btn btn-primary mr-2"
+                                    class="btn btn-sm btn-primary mr-2"
                                 >
                                     <i class="bi bi-pencil"></i>
                                 </button>
@@ -102,7 +155,7 @@
                                     "
                                     data-bs-toggle="modal"
                                     data-bs-target="#product-archive-modal"
-                                    class="btn btn-danger"
+                                    class="btn btn-sm btn-danger"
                                 >
                                     <i class="bi bi-archive-fill"></i>
                                 </button>

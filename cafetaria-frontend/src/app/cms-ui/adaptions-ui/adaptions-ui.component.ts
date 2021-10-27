@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdaptionService } from 'src/app/services/adaption.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -17,20 +19,69 @@ export class AdaptionsUiComponent implements OnInit {
     @ViewChild(AdaptionArchiveModalComponent) adaptionArchiveModal: AdaptionArchiveModalComponent | undefined;
     @ViewChild(EnableAdaptionsModalReversedComponent) enableAdaptionReversedModal?: EnableAdaptionsModalReversedComponent;
 
-    constructor(private adaptionService: AdaptionService, private productService: ProductService, private categoryService: CategoryService) {}
+    filteredAdaptionName: string | null = null;
+    filteredAdaptions: AdaptionFullDto[] = [];
+
+    constructor(private adaptionService: AdaptionService,
+        private productService: ProductService,
+        private categoryService: CategoryService,
+        private router: Router,
+        private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.categoryService.fetchCategoryShortDtos();
-        this.adaptionService.fetchAdaptions();
+        this.adaptionService.fetchAdaptions(this.getFilteredAdaptions.bind(this));
         this.productService.fetchProductFullDtos();
     }
 
-    getAdaptions() {
-        return this.adaptionService.getAdaptions();
+    getAdaptionsSorted() {
+        return this.adaptionService.getAdaptions().sort((a, b) => a.name > b.name ? 1 : -1);
     }
 
     getPriceString(adaption: AdaptionFullDto) {
         return getPriceString(adaption.price, "FIXED");
     }
+
+    clearFilters() {
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.route,
+                queryParams: {aanpassing: null},
+                queryParamsHandling: "merge"
+            }
+        )
+    }
+
+    filtersActive() {
+        return this.filteredAdaptionName
+    }
+
+    setFilteredAdaptionName(adaptionName: string | null) {
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.route,
+                queryParams: {aanpassing: adaptionName == "" ? null : adaptionName},
+                queryParamsHandling: "merge"
+            }
+        )
+    }
+
+    getFilteredAdaptions() {
+        this.route.queryParamMap.subscribe(params => {
+            const adaptionName = params.get("aanpassing");
+
+            if (adaptionName) {
+                this.filteredAdaptionName = adaptionName
+                this.filteredAdaptions = this.getAdaptionsSorted().filter(a => a.name.toLocaleLowerCase().includes(adaptionName.toLocaleLowerCase()))
+            } else {
+                this.filteredAdaptionName = null;
+                this.filteredAdaptions = this.getAdaptionsSorted();
+            }
+        })
+    }
+
+
 
 }
