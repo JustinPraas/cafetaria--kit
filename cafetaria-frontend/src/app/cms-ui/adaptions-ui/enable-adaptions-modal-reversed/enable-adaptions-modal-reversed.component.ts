@@ -14,10 +14,11 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
     forAdaption: AdaptionFullDto | null = null;
 
     constructor(
-        private productService: ProductService,
         private adaptionService: AdaptionService,
         private dataService: DataService
     ) {}
+
+    filteredProductName: string = '';
 
     ngOnInit(): void {}
 
@@ -53,8 +54,13 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
     }
 
     deselectAllInCategory(categoryId: number) {
-        const productIds = this.getProductFullDtosFromCategory(categoryId).map(p => p.id)
-        this.selectedPossibleProductIds = this.selectedPossibleProductIds.filter(id => !productIds.includes(id))
+        const productIds = this.getProductFullDtosFromCategory(categoryId).map(
+            (p) => p.id
+        );
+        this.selectedPossibleProductIds =
+            this.selectedPossibleProductIds.filter(
+                (id) => !productIds.includes(id)
+            );
     }
 
     isCategoryFullySelected(categoryId: number) {
@@ -93,5 +99,19 @@ export class EnableAdaptionsModalReversedComponent implements OnInit {
                 this.closeModal.bind(this)
             );
         }
+    }
+
+    getProductsFiltered() {
+        return this.dataService
+            .getProductFullDtos()
+            .filter((p) =>
+                p.name
+                    .toLocaleLowerCase()
+                    .includes(this.filteredProductName.toLocaleLowerCase())
+            );
+    }
+
+    isFilterActive() {
+        return this.filteredProductName != '';
     }
 }

@@ -14,13 +14,49 @@
                     Producten aan deze aanpassing koppelen
                 </h5>
             </div>
-
             <div class="modal-body">
                 <p>
                     Selecteer de producten die mogelijk deze aanpassing kunnen
                     krijgen
                 </p>
+                <hr/>
+                <div class="w-100 mb-3">
+                    <label class="form-label">Filter op productnaam</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Patat..."
+                        [(ngModel)]="this.filteredProductName"
+                    />
+                </div>
+                <div *ngIf="isFilterActive()" class="px-4 py-3 border overflow-auto">
+                    <div
+                            *ngFor="
+                                let product of getProductsFiltered()
+                            "
+                            class="form-check"
+                        >
+                            <input
+                                class="form-check-input indeterminate"
+                                [id]="'cb' + product.id"
+                                type="checkbox"
+                                [checked]="isSelected(product.id)"
+                                (click)="
+                                    isSelected(product.id)
+                                        ? deselect(product.id)
+                                        : select(product.id)
+                                "
+                            />
+                            <label
+                                class="form-check-label"
+                                [for]="'cb' + product.id"
+                            >
+                                {{ product.name }}
+                            </label>
+                        </div>
+                </div>
                 <div
+                    *ngIf="!isFilterActive()"
                     class="px-4 py-3 border overflow-auto"
                     [style.height]="'250px'"
                 >
