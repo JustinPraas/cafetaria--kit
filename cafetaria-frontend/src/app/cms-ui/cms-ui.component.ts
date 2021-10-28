@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdaptionService } from '../services/adaption.service';
-import { CategoryService } from '../services/category.service';
-import { ProductService } from '../services/product.service';
+import { Title } from '@angular/platform-browser';
+import { ORGANIZATION } from '../constants';
 
 @Component({
     selector: 'app-cms-ui',
@@ -9,7 +8,9 @@ import { ProductService } from '../services/product.service';
     styleUrls: ['./cms-ui.component.scss'],
 })
 export class CmsUiComponent implements OnInit {
-    constructor() {}
+    constructor(private titleService: Title) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.titleService.setTitle(`${ORGANIZATION} - Content Management`)
+    }
 }

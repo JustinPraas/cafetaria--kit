@@ -1,5 +1,7 @@
 import { environment } from "src/environments/environment";
 
+export const ORGANIZATION: string = "Snackywok";
+
 export const API_CATEGORY_URL: string = environment.baseUrl + "/categories";
 
 export const API_ADAPTION_URL: string = environment.baseUrl + "/adaptions";
