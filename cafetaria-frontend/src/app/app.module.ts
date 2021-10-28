@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -9,13 +8,10 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import {MatRippleModule} from '@angular/material/core';
 import { AppComponent } from './app.component';
 import { CashierUiComponent } from './cashier-ui/cashier-ui.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { nl_NL } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import nl from '@angular/common/locales/nl';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CmsUiComponent } from './cms-ui/cms-ui.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -88,9 +84,7 @@ registerLocaleData(nl);
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        NzLayoutModule,
         AppRoutingModule,
-        NzIconModule,
         DragDropModule,
         ReactiveFormsModule,
         NgbModule,
@@ -100,7 +94,6 @@ registerLocaleData(nl);
     ],
     providers: [
         PendingChangesGuard,
-        { provide: NZ_I18N, useValue: nl_NL },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpConfigInterceptor,
