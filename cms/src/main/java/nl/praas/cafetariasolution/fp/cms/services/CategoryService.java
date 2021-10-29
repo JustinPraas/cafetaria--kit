@@ -26,6 +26,7 @@ public class CategoryService {
 
     public Category createCategory(CategoryCreateUpdateDto categoryCreateUpdateDto) {
         validateColorHex(categoryCreateUpdateDto.getColorHex());
+        validateCategoryName(categoryCreateUpdateDto.getName());
 
         Integer lastSequenceOrder = categoryRepository.findMaxSequenceOrder().orElse(0);
 
@@ -50,6 +51,7 @@ public class CategoryService {
 
     public Category updateCategory(int id, CategoryCreateUpdateDto categoryCreateUpdateDto) {
         validateExists(id);
+        validateCategoryName(categoryCreateUpdateDto.getName());
         validateColorHex(categoryCreateUpdateDto.getColorHex());
 
         Category category = categoryRepository.getById(id);
@@ -72,6 +74,12 @@ public class CategoryService {
         categoryRepository.save(category);
 
         return true;
+    }
+
+    private void validateCategoryName(String name) {
+        if (name.length() < 2) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "De categorienaam moet minstens 2 characters lang zijn");
+        }
     }
 
     private void validateExists(int id) {

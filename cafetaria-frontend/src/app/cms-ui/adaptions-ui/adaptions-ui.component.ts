@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdaptionService } from 'src/app/services/adaption.service';
 import { CategoryService } from 'src/app/services/category.service';
+import { DataService } from 'src/app/services/data.service';
 import { ProductService } from 'src/app/services/product.service';
 import { getPriceString } from 'src/app/utils';
 import { AdaptionArchiveModalComponent } from './adaption-archive-modal/adaption-archive-modal.component';
@@ -25,6 +26,7 @@ export class AdaptionsUiComponent implements OnInit {
     constructor(private adaptionService: AdaptionService,
         private productService: ProductService,
         private categoryService: CategoryService,
+        private dataService: DataService,
         private router: Router,
         private route: ActivatedRoute) {}
 
@@ -35,7 +37,7 @@ export class AdaptionsUiComponent implements OnInit {
     }
 
     getAdaptionsSorted() {
-        return this.adaptionService.getAdaptions().sort((a, b) => a.name > b.name ? 1 : -1);
+        return this.dataService.getAdaptionFullDtos().sort((a, b) => a.name > b.name ? 1 : -1);
     }
 
     getPriceString(adaption: AdaptionFullDto) {

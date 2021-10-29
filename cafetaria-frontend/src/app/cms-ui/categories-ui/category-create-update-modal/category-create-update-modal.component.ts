@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../../services/category.service';
 
 @Component({
@@ -9,13 +9,13 @@ import { CategoryService } from '../../../services/category.service';
 })
 export class CategoryCreateUpdateModalComponent implements OnInit {
     createUpdateFormGroup = new FormGroup({
-        name: new FormControl(''),
-        color: new FormControl(''),
+        name: new FormControl('', Validators.required),
+        color: new FormControl('', Validators.required),
         active: new FormControl(true),
     });
 
     categoryToEdit: CategoryShortDto | null = null;
-    selectedColor: string = '#ff33dd';
+    selectedColor: string = '#059f00';
 
     constructor(private categoryService: CategoryService) {}
 
@@ -87,5 +87,29 @@ export class CategoryCreateUpdateModalComponent implements OnInit {
                 this.onSuccess.bind(this)
             );
         }
+    }
+
+
+    /**
+     *
+     *
+     * VALIDATORS
+     *
+     */
+    isCategoryNameValid() {
+        const categoryName = this.createUpdateFormGroup.controls.name.value;
+        if (categoryName) {
+            return categoryName.length >= 2
+        } else {
+            return false;
+        }
+    }
+
+    isCategoryNameTouched() {
+        return this.createUpdateFormGroup.controls.name.touched;
+    }
+
+    isFormValid() {
+        return this.isCategoryNameValid();
     }
 }

@@ -32,8 +32,10 @@
                             type="text"
                             formControlName="name"
                             class="form-control form-control-lg"
+                            [ngClass]="{'is-valid': isAdaptionNameValid(), 'is-invalid': isAdaptionNameTouched() && !isAdaptionNameValid()}"
                             placeholder="Extra kaas"
                         />
+                        <div class="invalid-feedback">Minimum naamlengte moet <strong>2</strong> zijn</div>
                     </div>
 
                     <label for="disabledTextInput" class="form-label"
@@ -44,6 +46,7 @@
                         type="text"
                         formControlName="price"
                         class="form-control form-control-lg"
+                        [ngClass]="{'is-valid': isPriceValid(), 'is-invalid': isPriceTouched() && !isPriceValid()}"
                         placeholder="0,00"
                     />
                 </form>
@@ -60,6 +63,7 @@
                     type="submit"
                     form="adaptionCreateUpdateForm"
                     class="btn btn-lg btn-primary"
+                    [disabled]="!isFormValid()"
                 >
                     Opslaan
                 </button>

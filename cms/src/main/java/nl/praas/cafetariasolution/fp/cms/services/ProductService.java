@@ -130,6 +130,10 @@ public class ProductService {
 
     private void validateProduct(ProductCreateUpdateDto productCreateUpdateDto) {
         validateProductPriceValid(productCreateUpdateDto);
+
+        if (productCreateUpdateDto.getName().length() < 2) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "De productnaam moet minstens twee characters lang zijn");
+        }
     }
 
     private void validateProductPriceValid(ProductCreateUpdateDto productCreateUpdateDto) {

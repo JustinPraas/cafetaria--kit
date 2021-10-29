@@ -35,8 +35,14 @@
                             type="text"
                             formControlName="name"
                             class="form-control form-control-lg"
+                            [ngClass]="{
+                                'is-valid': isProductNameValid(),
+                                'is-invalid':
+                                    isProductTouched() && !isProductNameValid()
+                            }"
                             placeholder="Grote patat..."
                         />
+                        <div class="invalid-feedback">Minimum naamlengte moet <strong>2</strong> zijn</div>
                     </div>
 
                     <div class="mb-3">
@@ -47,8 +53,15 @@
                             id="categorySelect"
                             class="form-select form-control-lg"
                             formControlName="categoryId"
+                            [ngClass]="{
+                                'is-valid': isCategoryValid(),
+                                'is-invalid':
+                                    isCategoryTouched() && !isCategoryValid()
+                            }"
                         >
-                            <option [selected]="true" disabled [value]="null">Kies een categorie</option>
+                            <option [selected]="true" disabled [value]="null">
+                                Kies een categorie
+                            </option>
                             <option
                                 *ngFor="let category of getCategoryShortDtos()"
                                 [value]="category.id"
@@ -56,6 +69,7 @@
                                 {{ category.name }}
                             </option>
                         </select>
+                        <div class="invalid-feedback">Een product moet aan een categorie gekoppeld worden</div>
                     </div>
 
                     <div class="mb-3">
@@ -108,6 +122,11 @@
                             type="text"
                             formControlName="price"
                             class="form-control form-control-lg"
+                            [ngClass]="{
+                                'is-valid': isPriceValid(),
+                                'is-invalid':
+                                    isPriceTouched() && !isPriceValid()
+                            }"
                             placeholder="0,00"
                         />
                     </div>
@@ -142,6 +161,7 @@
                     type="submit"
                     form="productCreateUpdateForm"
                     class="btn btn-primary btn-lg"
+                    [disabled]="!isFormValid()"
                 >
                     Opslaan
                 </button>

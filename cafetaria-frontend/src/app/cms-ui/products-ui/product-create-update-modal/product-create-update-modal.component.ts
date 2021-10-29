@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PRICE_DECIMAL_COMMA_SEPERATED_REGEX } from 'src/app/constants';
 import { DataService } from 'src/app/services/data.service';
 import { ProductService } from 'src/app/services/product.service';
 import { EnableAdaptionsModalComponent } from '../enable-adaptions-modal/enable-adaptions-modal.component';
@@ -121,5 +122,52 @@ export class ProductCreateUpdateModalComponent implements OnInit {
                 this.onSuccess.bind(this)
             );
         }
+    }
+
+    isProductTouched() {
+        return this.createUpdateFormGroup.controls.name.touched
+    }
+
+    isProductNameValid() {
+        const productName = this.createUpdateFormGroup.controls.name.value
+        if (productName) {
+            return productName.length >= 2;
+        } else {
+            return false;
+        }
+    }
+
+    isCategoryValid() {
+        const categoryId = this.createUpdateFormGroup.controls.categoryId.value
+        return categoryId != null;
+    }
+
+    isCategoryTouched() {
+        return this.createUpdateFormGroup.controls.categoryId.touched
+    }
+
+    isPriceValid() {
+        const price = this.createUpdateFormGroup.controls.price.value
+        const priceType = this.createUpdateFormGroup.controls.priceType.value
+        if (price && priceType && priceType as PriceType == "FIXED") {
+            const match = (price as string).match(PRICE_DECIMAL_COMMA_SEPERATED_REGEX);
+            return match ? match.length > 0 : false
+        } else {
+            return false
+        }
+    }
+
+    isPriceTouched() {
+        return this.createUpdateFormGroup.controls.price.touched
+    }
+
+    allTouched() {
+        const controls = this.createUpdateFormGroup.controls;
+        const priceType = controls.priceType.value
+        return controls.name.touched && controls.categoryId.touched && (priceType == "FIXED" && controls.price.touched || priceType != "FIXED")
+    }
+
+    isFormValid() {
+        return this.isProductNameValid() && this.isPriceValid() && this.isCategoryValid()
     }
 }

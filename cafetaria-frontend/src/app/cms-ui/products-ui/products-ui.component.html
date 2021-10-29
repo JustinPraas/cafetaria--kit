@@ -99,7 +99,7 @@
                         <tr>
                             <th>Product</th>
                             <th>Prijs</th>
-                            <th>Actief en zichtbaar</th>
+                            <th class="fit">Actief en zichtbaar</th>
                             <th>Meer</th>
                         </tr>
                     </thead>
@@ -113,7 +113,7 @@
                         >
                             <td>{{ product.name }}</td>
                             <td class="fit">{{ getPriceString(product) }}</td>
-                            <td class="fit no-wrap">
+                            <td class="text-center">
                                 <input
                                     type="checkbox"
                                     [checked]="product.active"
