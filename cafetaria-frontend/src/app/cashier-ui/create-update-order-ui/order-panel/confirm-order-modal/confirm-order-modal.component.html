@@ -24,19 +24,26 @@
             </div>
             <div class="modal-body">
                 <form
+                    *ngIf="!this.orderFullDtoToEdit"
                     id="setCustomerNameForm"
                     [formGroup]="setCustomerNameFormGroup"
                     (ngSubmit)="onSubmit()"
                 >
-                    <div class="mb-3" *ngIf="!this.orderFullDtoToEdit">
+                    <div class="mb-3">
                         <label class="form-label">Klantnaam:</label>
                         <input
                             id="customerName"
                             type="text"
                             formControlName="customerName"
                             class="form-control form-control-lg"
-                            placeholder="Praas"
+                            placeholder="Naamloos"
                         />
+                    </div>
+                    <div class="alert alert-warning d-flex align-items-center" role="alert" *ngIf="this.isOrderWithSameName()">
+                        <i class="bi bi-exclamation-diamond-fill mr-2"></i>
+                        <div>
+                            <strong>Let op:</strong> Er is al een openstaande bon met deze naam
+                        </div>
                     </div>
                 </form>
 

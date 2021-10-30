@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/services/data.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductService } from 'src/app/services/product.service';
 import { getPriceString } from 'src/app/utils';
@@ -29,6 +30,7 @@ export class ConfirmOrderModalComponent implements OnInit {
 
     constructor(
         private productService: ProductService,
+        private dataService: DataService,
         private orderService: OrderService,
         private toastr: ToastrService,
         private router: Router,
@@ -130,5 +132,11 @@ export class ConfirmOrderModalComponent implements OnInit {
         } else {
             this.toastr.error('Er ging wat fout...');
         }
+    }
+
+    isOrderWithSameName() {
+        const name = this.setCustomerNameFormGroup.controls.customerName.value
+        const orderWithSameName = this.dataService.getOrderFullDtos().find(order => order.paidOn == null && order.customerName.toLocaleLowerCase() == name.toLowerCase())
+        return orderWithSameName != null
     }
 }
